@@ -25,5 +25,5 @@ export const reviveVictim: AnimationChainData[] = [
   { dictionary: 'mini@cpr@char_b@cpr_str', name: 'cpr_pumpchest', flags },
   { dictionary: 'mini@cpr@char_b@cpr_str', name: 'cpr_pumpchest', flags },
   { dictionary: 'mini@cpr@char_b@cpr_str', name: 'cpr_pumpchest', flags },
-  { dictionary: 'mini@cpr@char_b@cpr_str', name: 'cpr_success', flags, duration: 20000 },
+  { dictionary: 'mini@cpr@char_b@cpr_str', name: 'cpr_success', flags, duration: 25000 },
 ]
