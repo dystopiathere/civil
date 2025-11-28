@@ -6,7 +6,7 @@ const exports = global.exports as CitizenExports
 
 let delay = 0
 
-let pool: Set<number> = new Set()
+let pool: Set<NodeJS.Timeout> = new Set()
 
 export async function playAnimationChain (ped: number, chainName: AnimationChainName): Promise<number> {
   delay = 0
