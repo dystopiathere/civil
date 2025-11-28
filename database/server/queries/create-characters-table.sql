@@ -1,0 +1,31 @@
+CREATE TABLE IF NOT EXISTS characters
+(
+    id                      BIGSERIAL PRIMARY KEY,
+    firstname               VARCHAR(30)                 NULL,
+    lastname                VARCHAR(30)                 NULL,
+    age                     INT                         NOT NULL DEFAULT 18,
+    sex                     BOOLEAN                     NOT NULL DEFAULT true,
+    health                  INT                         NOT NULL DEFAULT 280,
+    max_health              INT                         NOT NULL DEFAULT 280,
+    armour                  INT                         NOT NULL DEFAULT 0,
+    max_armour              INT                         NOT NULL DEFAULT 100,
+    eye_color               INT                         NOT NULL DEFAULT 1,
+    hair_first_color        INT                         NOT NULL DEFAULT 1,
+    hair_second_color       INT                         NOT NULL DEFAULT 1,
+    head_blends_id          BIGINT                      NOT NULL DEFAULT 1,
+    face_features_id        BIGINT                      NOT NULL DEFAULT 1,
+    skills_id               BIGINT                      NOT NULL DEFAULT 1,
+    component_variations_id BIGINT                      NOT NULL DEFAULT 1,
+    head_overlays_id        BIGINT                      NOT NULL DEFAULT 1,
+    last_position           jsonb                       NULL,
+    model                   VARCHAR(30)                 NOT NULL DEFAULT 'mp_m_freemode_01',
+    created_at              TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
+    updated_at              TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
+    FOREIGN KEY (head_blends_id) REFERENCES head_blends (id) ON DELETE SET DEFAULT,
+    FOREIGN KEY (face_features_id) REFERENCES face_features (id) ON DELETE SET DEFAULT,
+    FOREIGN KEY (skills_id) REFERENCES skills (id) ON DELETE SET DEFAULT,
+    FOREIGN KEY (component_variations_id) REFERENCES component_variations (id) ON DELETE SET DEFAULT,
+    FOREIGN KEY (head_overlays_id) REFERENCES head_overlays (id) ON DELETE SET DEFAULT
+);
+
+TRUNCATE characters CASCADE;

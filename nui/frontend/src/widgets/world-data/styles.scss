@@ -1,0 +1,48 @@
+.world-data {
+  position: absolute;
+  bottom: 13em;
+  left: 1.5em;
+
+  display: flex;
+  align-items: center;
+  gap: 1.5em;
+
+  filter: drop-shadow(.1em .2em .1em #00000080);
+
+  &-time {
+    width: 3em;
+    position: relative;
+
+    font-size: 1.2em;
+    font-weight: 700;
+
+    &::before {
+      content: '';
+
+      position: absolute;
+      top: 0;
+      right: -.5em;
+      translate: -50% 0;
+
+      width: .1em;
+      height: 100%;
+
+      border-radius: .5em;
+      background-color: white;
+    }
+  }
+
+  &-area {
+    display: flex;
+    flex-direction: column;
+
+    &__zone {
+      font-size: .8em;
+      font-weight: 700;
+    }
+
+    &__street {
+      font-size: .5em;
+    }
+  }
+}

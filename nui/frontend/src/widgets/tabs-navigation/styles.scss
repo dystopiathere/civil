@@ -1,0 +1,18 @@
+.tabs-navigation {
+  display: flex;
+
+  &__element {
+    width: 6rem;
+    text-align: center;
+    padding: .5rem;
+
+    font-size: .8rem;
+
+    transition: .2s;
+
+    &:hover,
+    &_active {
+      background-color: #00000080;
+    }
+  }
+}
