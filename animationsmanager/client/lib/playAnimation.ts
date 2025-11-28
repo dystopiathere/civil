@@ -3,7 +3,7 @@ import { AnimationFlag } from 'civil'
 
 const exports = global.exports as CitizenExports
 
-export async function playAnimation (ped: number, animDict: string, anim: string, flags?: AnimationFlag[], duration?: number, chained?: boolean = false): Promise<number> {
+export async function playAnimation (ped: number, animDict: string, anim: string, flags?: AnimationFlag[] = [], duration?: number, chained?: boolean = false): Promise<number> {
   if (!chained) {
     ClearPedTasks(ped)
   }

@@ -45,7 +45,8 @@ declare module 'civil' {
 
   export type AnimationChainName =
     | 'reviveSavior'
-    | 'reviveVictim';
+    | 'reviveVictim'
+    | 'dance';
 
   export type AnimationChainData = {
     dictionary: string;
