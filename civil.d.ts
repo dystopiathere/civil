@@ -73,7 +73,7 @@ declare module 'civil' {
     deathCoords: [number, number, number];
   };
 
-  export type BaseEventOnPlayerDiedCallback = (killerType: PedTypes, deathCoords: [number, number, number]) => void;
+  export type BaseEventOnPlayerDiedCallback = (killerType: number, deathCoords: [number, number, number]) => void;
 
   export type BaseEventOnPlayerKilledCallback = (killerId: number, deathData: DeathData) => void;
 
