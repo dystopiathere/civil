@@ -10,25 +10,6 @@ declare module 'civil' {
     skipFade?: boolean;
   };
 
-  export enum PedTypes {
-    Michael = 0,
-    Franklin = 1,
-    Trevor = 2,
-
-    Army = 29,
-    Animal = 28,
-    SWAT = 27,
-    LSFD = 21,
-    Paramedic = 20,
-
-    Cop = 6,
-
-    Male = 4,
-    Female = 5,
-
-    Human = 26,
-  }
-
   export type AnimationFlag =
     | 'LOOPING'
     | 'HOLD_LAST_FRAME'
@@ -73,18 +54,17 @@ declare module 'civil' {
     duration?: number;
   }
 
-  export enum BaseEvents {
-    OnPlayerDied = 'baseevents:onPlayerDied',
-    OnPlayerKilled = 'baseevents:onPlayerKilled',
-    OnPlayerWasted = 'baseevents:onPlayerWasted',
-    EnteringVehicle = 'baseevents:enteringVehicle',
-    EnteringAborted = 'baseevents:enteringAborting',
-    EnteredVehicle = 'baseevents:enteredVehicle',
-    LeftVehicle = 'baseevents:leftVehicle',
-  }
+  export type BaseEvents =
+    | 'baseevents:onPlayerDied'
+    | 'baseevents:onPlayerKilled'
+    | 'baseevents:onPlayerWasted'
+    | 'baseevents:enteringVehicle'
+    | 'baseevents:enteringAborting'
+    | 'baseevents:enteredVehicle'
+    | 'baseevents:leftVehicle'
 
   export type DeathData = {
-    killerType: PedTypes;
+    killerType: number;
     weaponHash: string;
     killerInVeh: boolean;
     killerVehSeat: number;
