@@ -1,7 +1,4 @@
-// @ts-ignore
-const exports = global.exports as CitizenExports
-
-function sendPlayerUnderwater (isInWater: boolean) {
+export function sendPlayerUnderwater (isInWater: boolean) {
   SendNuiMessage(JSON.stringify({
     name: 'setPlayerUnderwater',
     data: {
@@ -10,5 +7,3 @@ function sendPlayerUnderwater (isInWater: boolean) {
     }
   }))
 }
-
-exports('sendPlayerUnderwater', sendPlayerUnderwater)

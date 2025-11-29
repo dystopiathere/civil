@@ -1,7 +1,4 @@
-// @ts-ignore
-const exports = global.exports as CitizenExports
-
-function sendPlayerStats () {
+export function sendPlayerStats () {
   const playerPed = GetPlayerPed(-1)
 
   SendNuiMessage(JSON.stringify({
@@ -14,5 +11,3 @@ function sendPlayerStats () {
     }
   }))
 }
-
-exports('sendPlayerStats', sendPlayerStats)

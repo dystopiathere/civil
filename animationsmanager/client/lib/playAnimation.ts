@@ -1,8 +1,6 @@
-import { delay } from '../utils'
 import { AnimationFlag } from 'civil'
+import { delay } from '../utils'
 import { flagsMapping } from '../config'
-
-const exports = global.exports as CitizenExports
 
 export async function playAnimation (ped: number, animDict: string, anim: string, flags?: AnimationFlag[], duration?: number, chained?: boolean): Promise<number> {
   if (!chained) {
@@ -43,5 +41,3 @@ export async function playAnimation (ped: number, animDict: string, anim: string
 
   return 0
 }
-
-exports('playAnimation', playAnimation)

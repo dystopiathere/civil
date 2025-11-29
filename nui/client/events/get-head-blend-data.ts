@@ -1,5 +1,11 @@
-RegisterNuiCallback('getHeadBlendData', (data: {}, cb: CallableFunction) => {
-  const headBlendData = GetPedHeadBlendData(GetPlayerPed(-1))
+import { FullCharacterEntity } from 'civil'
 
-  cb([{ headBlendData }, false])
+const LocalPlayer = global.LocalPlayer as {
+  state: StateBagInterface & {
+    character: FullCharacterEntity;
+  };
+}
+
+RegisterNuiCallback('getHeadBlendData', (data: {}, cb: CallableFunction) => {
+  cb([LocalPlayer.state.character.head_blends, false])
 })

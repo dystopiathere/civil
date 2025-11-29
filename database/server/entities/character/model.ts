@@ -1,18 +1,16 @@
-import { Character, ICharacter } from './types'
+import {
+  CharacterEntity, CharacterRoleEntity, ComponentVariationsEntity, FaceFeaturesEntity, HeadBlendsEntity,
+  HeadOverlaysEntity, SkillsEntity
+} from 'civil'
+import { ICharacter } from './types'
 import { BaseEntity } from '../base-entity'
-import { HeadBlends } from '../head-blends'
-import { FaceFeatures } from '../face-features'
-import { Skills } from '../skills'
-import { ComponentVariations } from '../component-variations'
-import { HeadOverlays } from '../head-overlays'
-import { CharacterRole } from '../character-role'
 
-export class CharacterModel extends BaseEntity<Character> implements ICharacter {
+export class CharacterModel extends BaseEntity<CharacterEntity> implements ICharacter {
   constructor () {
     super('characters')
   }
 
-  async getHeadBlends (id: number): Promise<HeadBlends | null> {
+  async getHeadBlends (id: number): Promise<HeadBlendsEntity | null> {
     const sql = `SELECT hb.*
                  FROM characters c
                           JOIN head_blends hb ON hb.id = c.head_blends_id
@@ -20,12 +18,12 @@ export class CharacterModel extends BaseEntity<Character> implements ICharacter 
 
     const client = await this.pool.connect()
 
-    const result = await client.query<HeadBlends>(sql, [id])
+    const result = await client.query<HeadBlendsEntity>(sql, [id])
 
     return result.rows[0] ?? null
   }
 
-  async getFaceFeatures (id: number): Promise<FaceFeatures | null> {
+  async getFaceFeatures (id: number): Promise<FaceFeaturesEntity | null> {
     const sql = `SELECT ff.*
                  FROM characters c
                           JOIN face_features ff ON ff.id = c.face_features_id
@@ -33,12 +31,12 @@ export class CharacterModel extends BaseEntity<Character> implements ICharacter 
 
     const client = await this.pool.connect()
 
-    const result = await client.query<FaceFeatures>(sql, [id])
+    const result = await client.query<FaceFeaturesEntity>(sql, [id])
 
     return result.rows[0] ?? null
   }
 
-  async getSkills (id: number): Promise<Skills | null> {
+  async getSkills (id: number): Promise<SkillsEntity | null> {
     const sql = `SELECT s.*
                  FROM characters c
                           JOIN skills s ON s.id = c.skills_id
@@ -46,12 +44,12 @@ export class CharacterModel extends BaseEntity<Character> implements ICharacter 
 
     const client = await this.pool.connect()
 
-    const result = await client.query<Skills>(sql, [id])
+    const result = await client.query<SkillsEntity>(sql, [id])
 
     return result.rows[0] ?? null
   }
 
-  async getComponentVariations (id: number): Promise<ComponentVariations | null> {
+  async getComponentVariations (id: number): Promise<ComponentVariationsEntity | null> {
     const sql = `SELECT cv.*
                  FROM characters c
                           JOIN component_variations cv ON cv.id = c.component_variations_id
@@ -59,12 +57,12 @@ export class CharacterModel extends BaseEntity<Character> implements ICharacter 
 
     const client = await this.pool.connect()
 
-    const result = await client.query<ComponentVariations>(sql, [id])
+    const result = await client.query<ComponentVariationsEntity>(sql, [id])
 
     return result.rows[0] ?? null
   }
 
-  async getHeadOverlays (id: number): Promise<HeadOverlays | null> {
+  async getHeadOverlays (id: number): Promise<HeadOverlaysEntity | null> {
     const sql = `SELECT ho.*
                  FROM characters c
                           JOIN head_overlays ho ON ho.id = c.head_overlays_id
@@ -72,12 +70,12 @@ export class CharacterModel extends BaseEntity<Character> implements ICharacter 
 
     const client = await this.pool.connect()
 
-    const result = await client.query<HeadOverlays>(sql, [id])
+    const result = await client.query<HeadOverlaysEntity>(sql, [id])
 
     return result.rows[0] ?? null
   }
 
-  async getRoles (id: number): Promise<CharacterRole[]> {
+  async getRoles (id: number): Promise<CharacterRoleEntity[]> {
     const sql = `SELECT cr.*
                  FROM characters c
                           JOIN characters_character_roles ccr ON ccr.character_id = c.id
@@ -86,7 +84,7 @@ export class CharacterModel extends BaseEntity<Character> implements ICharacter 
 
     const client = await this.pool.connect()
 
-    const result = await client.query<CharacterRole>(sql, [id])
+    const result = await client.query<CharacterRoleEntity>(sql, [id])
 
     return result.rows
   }

@@ -8,7 +8,7 @@ const LocalPlayer = global.LocalPlayer as {
   };
 }
 
-let timeoutId
+let timeoutId: NodeJS.Timeout
 
 RegisterCommand('revive', async (source: number, args: string[], raw: string) => {
   if (timeoutId) {
@@ -25,10 +25,8 @@ RegisterCommand('revive', async (source: number, args: string[], raw: string) =>
 
   const delay = await exports.animationsmanager.playAnimationChain(playerPed, 'reviveVictim')
 
-  console.log(delay)
-
   timeoutId = setTimeout(() => {
     Object.assign(character, { health: 180 })
     LocalPlayer.state.set('character', character, true)
   }, delay)
-})
+}, false)

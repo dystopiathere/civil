@@ -1,8 +1,4 @@
-
-// @ts-ignore
-const exports = global.exports as CitizenExports
-
-function navigate (page: string) {
+export function navigate (page: string) {
   SendNuiMessage(JSON.stringify({
     name: 'navigate',
     data: {
@@ -10,5 +6,3 @@ function navigate (page: string) {
     }
   }))
 }
-
-exports('navigate', navigate)

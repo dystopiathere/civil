@@ -1,26 +1,12 @@
-import { Character } from '../character'
-import { Connection } from '../connection'
+import { CharacterEntity, ConnectionEntity, PlayerEntity } from 'civil'
 import { Identifiers } from '../../types'
 
 export interface IPlayer {
-  getByIdentifiers (identifiers: Identifiers): Promise<Player | null>;
+  getByIdentifiers (identifiers: Identifiers): Promise<PlayerEntity | null>;
 
-  getCharacters (id: number): Promise<Character[]>;
+  getCharacters (id: number): Promise<CharacterEntity[]>;
 
-  getActiveCharacter (id: number): Promise<Character | null>;
+  getActiveCharacter (id: number): Promise<CharacterEntity | null>;
 
-  getConnections (id: number): Promise<Connection[]>;
-}
-
-export type Player = {
-  id: number;
-  steam: string;
-  discord: string;
-  license: string;
-  whitelisted: boolean;
-  banned: boolean;
-  ban_reason: string;
-  last_connection_at: string;
-  created_at: string;
-  updated_at: string;
+  getConnections (id: number): Promise<ConnectionEntity[]>;
 }

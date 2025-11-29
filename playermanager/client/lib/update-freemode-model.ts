@@ -1,13 +1,26 @@
 import { FullCharacterEntity } from 'civil'
 
-export function updateFreemodeModel ({
-  eye_color,
-  head_blends,
-  head_overlays,
-  face_features,
-  component_variations,
-}: Partial<FullCharacterEntity>) {
+const LocalPlayer = global.LocalPlayer as {
+  state: StateBagInterface & {
+    character: FullCharacterEntity;
+  };
+}
+
+export function updateFreemodeModel (data: Partial<FullCharacterEntity> = {}) {
   const playerPed = GetPlayerPed(-1)
+
+  const { character } = LocalPlayer.state
+
+  Object.assign(character, data)
+  LocalPlayer.state.set('character', character, true)
+
+  const {
+    eye_color,
+    head_blends,
+    head_overlays,
+    face_features,
+    component_variations,
+  } = character
 
   SetPedEyeColor(playerPed, eye_color)
 

@@ -4,11 +4,11 @@ import type {
 } from '~/entities/character'
 
 type Actions = {
-  setFaceFeatures: (faceFeatures: FaceFeatures) => void,
-  setSkills: (faceFeatures: Skills) => void,
-  setHeadOverlays: (faceFeatures: HeadOverlays) => void,
-  setComponentVariations: (faceFeatures: ComponentVariations) => void,
-  setHeadBlends: (headBlends: HeadBlends) => void,
+  setFaceFeatures: (faceFeatures: Partial<FaceFeatures>) => void,
+  setSkills: (faceFeatures: Partial<Skills>) => void,
+  setHeadOverlays: (faceFeatures: Partial<HeadOverlays>) => void,
+  setComponentVariations: (faceFeatures: Partial<ComponentVariations>) => void,
+  setHeadBlends: (headBlends: Partial<HeadBlends>) => void,
 }
 
 type CharacterState =
@@ -153,10 +153,35 @@ export const useCharacterStore: UseBoundStore<StoreApi<CharacterState>> = create
       updated_at: 'time',
     },
 
-    setFaceFeatures: (faceFeatures: FaceFeatures) => set((state) => ({ ...state, faceFeatures })),
-    setSkills: (faceFeatures: Skills) => set((state) => ({ ...state, faceFeatures })),
-    setHeadOverlays: (faceFeatures: HeadOverlays) => set((state) => ({ ...state, faceFeatures })),
-    setComponentVariations: (faceFeatures: ComponentVariations) => set((state) => ({ ...state, faceFeatures })),
-    setHeadBlends: (headBlends: HeadBlends) => set((state) => ({ ...state, headBlends })),
+    setFaceFeatures: (data: Partial<FaceFeatures>) => set((state) => {
+      const face_features = { ...state.face_features }
+      Object.assign(face_features, data)
+
+      return ({ ...state, face_features })
+    }),
+    setSkills: (data: Partial<Skills>) => set((state) => {
+      const skills = { ...state.skills }
+      Object.assign(skills, data)
+
+      return ({ ...state, skills })
+    }),
+    setHeadOverlays: (data: Partial<HeadOverlays>) => set((state) => {
+      const head_overlays = { ...state.head_overlays }
+      Object.assign(head_overlays, data)
+
+      return ({ ...state, head_overlays })
+    }),
+    setComponentVariations: (data: Partial<ComponentVariations>) => set((state) => {
+      const component_variations = { ...state.component_variations }
+      Object.assign(component_variations, data)
+
+      return ({ ...state, component_variations })
+    }),
+    setHeadBlends: (data: Partial<HeadBlends>) => set((state) => {
+      const head_blends = { ...state.head_blends }
+      Object.assign(head_blends, data)
+
+      return ({ ...state, head_blends })
+    }),
   })
 )

@@ -1,2 +1,2 @@
-import './playAnimation'
-import './playAnimationChain'
+export * from './playAnimation'
+export * from './playAnimationChain'

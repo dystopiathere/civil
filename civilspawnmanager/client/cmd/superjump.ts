@@ -1,6 +1,5 @@
 import { FullCharacterEntity } from 'civil'
 
-
 const LocalPlayer = global.LocalPlayer as {
   state: StateBagInterface & {
     character: FullCharacterEntity;

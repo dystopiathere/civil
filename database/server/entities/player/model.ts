@@ -1,15 +1,14 @@
-import { IPlayer, Player } from './types'
+import { IPlayer } from './types'
 import { BaseEntity } from '../base-entity'
-import { Character } from '../character'
-import { Connection } from '../connection'
 import { Identifiers } from '../../types'
+import { CharacterEntity, ConnectionEntity, PlayerEntity } from 'civil'
 
-export class PlayerModel extends BaseEntity<Player> implements IPlayer {
+export class PlayerModel extends BaseEntity<PlayerEntity> implements IPlayer {
   constructor () {
     super('players')
   }
 
-  async getByIdentifiers (identifiers: Identifiers): Promise<Player | null> {
+  async getByIdentifiers (identifiers: Identifiers): Promise<PlayerEntity | null> {
     const conditions = Object.keys(identifiers).map((field, key) => {
       if (key === 0) {
         return `${field} = $${key + 1}`
@@ -24,12 +23,12 @@ export class PlayerModel extends BaseEntity<Player> implements IPlayer {
 
     const client = await this.pool.connect()
 
-    const result = await client.query<Player>(sql, Object.values(identifiers))
+    const result = await client.query<PlayerEntity>(sql, Object.values(identifiers))
 
     return result.rows[0] ?? null
   }
 
-  async getCharacters (id: number): Promise<Character[]> {
+  async getCharacters (id: number): Promise<CharacterEntity[]> {
     const sql = `SELECT c.*
                  FROM players p
                           JOIN players_characters pc ON pc.player_id = p.id
@@ -38,12 +37,12 @@ export class PlayerModel extends BaseEntity<Player> implements IPlayer {
 
     const client = await this.pool.connect()
 
-    const result = await client.query<Character>(sql, [id])
+    const result = await client.query<CharacterEntity>(sql, [id])
 
     return result.rows
   }
 
-  async getActiveCharacter (id: number): Promise<Character | null> {
+  async getActiveCharacter (id: number): Promise<CharacterEntity | null> {
     const sql = `SELECT c.*
                  FROM players p
                           JOIN players_characters pc ON pc.player_id = p.id
@@ -53,19 +52,19 @@ export class PlayerModel extends BaseEntity<Player> implements IPlayer {
 
     const client = await this.pool.connect()
 
-    const result = await client.query<Character>(sql, [id])
+    const result = await client.query<CharacterEntity>(sql, [id])
 
     return result.rows[0] ?? null
   }
 
-  async getConnections (id: number): Promise<Connection[]> {
+  async getConnections (id: number): Promise<ConnectionEntity[]> {
     const sql = `SELECT *
                  FROM connections
                  WHERE player_id = $1`
 
     const client = await this.pool.connect()
 
-    const result = await client.query<Connection>(sql, [id])
+    const result = await client.query<ConnectionEntity>(sql, [id])
 
     return result.rows
   }

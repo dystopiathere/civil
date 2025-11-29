@@ -1,21 +1,21 @@
 export const pathKeys = {
   root: import.meta.env.DEV ? '/' : '/dist/index.html/',
   hud () {
-    return this.root
+    return pathKeys.root
   },
   characterCreator () {
-    return this.root.concat('characterCreator/')
+    return pathKeys.root.concat('characterCreator/')
   },
   characterCreatorGenetics () {
-    return this.characterCreator().concat('genetics/')
+    return pathKeys.characterCreator().concat('genetics/')
   },
   characterCreatorFace () {
-    return this.characterCreator().concat('face/')
+    return pathKeys.characterCreator().concat('face/')
   },
   characterCreatorBody () {
-    return this.characterCreator().concat('body/')
+    return pathKeys.characterCreator().concat('body/')
   },
   characterCreatorClothes () {
-    return this.characterCreator().concat('clothes/')
+    return pathKeys.characterCreator().concat('clothes/')
   }
 }

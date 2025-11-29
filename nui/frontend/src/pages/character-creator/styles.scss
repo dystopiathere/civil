@@ -15,33 +15,5 @@
 
   &-page {
     padding: .5rem;
-
-    &-group {
-      display: flex;
-      flex-direction: column;
-      gap: .5rem;
-
-      &__title {
-        text-align: center;
-      }
-
-      &-input {
-        display: flex;
-        justify-content: space-around;
-        gap: .5rem;
-
-        &__control {
-          cursor: pointer;
-
-          opacity: .8;
-
-          transition: .2s;
-
-          &:hover {
-            opacity: 1;
-          }
-        }
-      }
-    }
   }
 }

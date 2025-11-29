@@ -1,5 +1,4 @@
-import { delay } from '../utils'
-import { playAnimation } from '../lib/playAnimation'
+import { playAnimation } from '../lib'
 
 RegisterCommand('playAnimation', async (source: number, args: string[], raw: string) => {
   const playerPed = GetPlayerPed(-1)

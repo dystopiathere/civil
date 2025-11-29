@@ -1,6 +1,6 @@
+import { FullCharacterEntity } from 'civil'
 import { delay } from './utils'
 import './cmd'
-import { FullCharacterEntity } from 'civil'
 
 const exports = global.exports as CitizenExports
 
@@ -40,16 +40,10 @@ on('onClientGameTypeStart', async () => {
   const ped = GetPlayerPed(-1)
 
   exports.nui.navigate('characterCreator')
+  exports.nui.setFocus(true, true, false)
 })
 
 on('playerSpawned', async () => {
-  const { character } = LocalPlayer.state
-
-  exports.playermanager.setPlayerState(character)
-  exports.playermanager.updateFreemodeModel(character)
-  exports.playermanager.setPlayerSkills(character)
-  exports.nui.sendPlayerStats()
-
   const playerPed = GetPlayerPed(-1)
 
   const guns = ['WEAPON_MINIGUN', 'WEAPON_HEAVYSHOTGUN', 'WEAPON_PRECISIONRIFLE', 'WEAPON_REVOLVER_MK2', 'WEAPON_ASSAULTSMG', 'WEAPON_BAT', 'WEAPON_ASSAULTRIFLE_MK2']

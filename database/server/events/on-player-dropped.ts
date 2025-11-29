@@ -1,17 +1,16 @@
+import { FullCharacterEntity } from 'civil'
 import {
   CharacterModel,
   ComponentVariationsModel,
   FaceFeaturesModel,
-  FullCharacter,
   HeadBlendsModel,
   HeadOverlaysModel,
   SkillsModel
 } from '../entities'
 
-
 const exports = global.exports as CitizenExports
 
-async function syncData (character: FullCharacter) {
+async function syncData (character: FullCharacterEntity) {
   const characterModel = new CharacterModel()
   const headBlendsModel = new HeadBlendsModel()
   const faceFeaturesModel = new FaceFeaturesModel()
@@ -52,7 +51,7 @@ async function syncData (character: FullCharacter) {
 }
 
 on('playerDropped', async (reason: string, resourceName: string, clientDropReason: number) => {
-  const { character } = Player(global.source).state as StateBagInterface & { character: FullCharacter }
+  const { character } = Player(global.source).state as StateBagInterface & { character: FullCharacterEntity }
 
   console.log(`Character ${character.id} dropped with reason: ${reason}`)
 

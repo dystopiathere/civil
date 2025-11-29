@@ -1,15 +1,12 @@
 import { FullCharacterEntity } from 'civil'
 
-// @ts-ignore
-const exports = global.exports as CitizenExports
-
 const LocalPlayer = global.LocalPlayer as {
   state: StateBagInterface & {
     character: FullCharacterEntity;
   };
 }
 
-function sendCharacterData () {
+export function sendCharacterData () {
   const { character } = LocalPlayer.state
 
   SendNuiMessage(JSON.stringify({
@@ -19,5 +16,3 @@ function sendCharacterData () {
     }
   }))
 }
-
-exports('sendCharacterData', sendCharacterData)

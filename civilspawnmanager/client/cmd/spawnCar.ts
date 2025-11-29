@@ -8,7 +8,7 @@ RegisterCommand('car', async (source: number, args: string[], raw: string) => {
   }
 
   if (!IsModelInCdimage(model) || !IsModelAVehicle(model)) {
-    console.log(`[spawn-manager] Bad vehicle: ${model}`)
+    console.log(`Bad vehicle: ${model}`)
     return
   }
 

@@ -1,7 +1,6 @@
-import './events'
-import './lib'
 import { FullCharacterEntity } from 'civil'
-import { setPlayerState } from './lib'
+import { setPlayerModel, setPlayerRegeneration, setPlayerSkills, setPlayerState, updateFreemodeModel } from './lib'
+import { onEntityDamageHandler } from './events'
 
 const exports = global.exports as CitizenExports
 
@@ -18,3 +17,29 @@ AddStateBagChangeHandler('character', null, (bagName: string, key: string, chara
   exports.nui.sendPlayerStats()
   exports.nui.sendCharacterData()
 })
+
+on('playerSpawned', async () => {
+  setPlayerState()
+  updateFreemodeModel()
+  setPlayerSkills()
+})
+
+const eventHandlers: Record<string, (args: any[]) => void> = {
+  CEventNetworkEntityDamage: onEntityDamageHandler
+}
+
+on('gameEventTriggered', (name: string, args: any[]) => {
+  if (eventHandlers[name]) {
+    eventHandlers[name](args)
+  } else {
+    // console.log(`Game event ${name} ${args.join(', ')}`)
+  }
+})
+
+
+// EXPORT LIB
+exports('setPlayerState', setPlayerState)
+exports('setPlayerSkills', setPlayerSkills)
+exports('setPlayerRegeneration', setPlayerRegeneration)
+exports('setPlayerModel', setPlayerModel)
+exports('updateFreemodeModel', updateFreemodeModel)

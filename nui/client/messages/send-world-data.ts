@@ -1,7 +1,4 @@
-// @ts-ignore
-const exports = global.exports as CitizenExports
-
-function sendWorldData (data: { streetName: string, zoneName: string, time: string }) {
+export function sendWorldData (data: { streetName: string, zoneName: string, time: string }) {
   SendNuiMessage(JSON.stringify({
     name: 'setWorldData',
     data: {
@@ -11,5 +8,3 @@ function sendWorldData (data: { streetName: string, zoneName: string, time: stri
     }
   }))
 }
-
-exports('sendWorldData', sendWorldData)

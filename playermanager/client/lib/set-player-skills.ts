@@ -1,6 +1,17 @@
 import { FullCharacterEntity } from 'civil'
 
-export function setPlayerSkills ({ skills }: Partial<FullCharacterEntity>) {
+const LocalPlayer = global.LocalPlayer as {
+  state: StateBagInterface & {
+    character: FullCharacterEntity;
+  };
+}
+
+export function setPlayerSkills (data: Partial<FullCharacterEntity> = {}) {
+  const { character } = LocalPlayer.state
+
+  Object.assign(character, data)
+  LocalPlayer.state.set('character', character, true)
+
   const {
     stamina,
     strength,
@@ -9,7 +20,7 @@ export function setPlayerSkills ({ skills }: Partial<FullCharacterEntity>) {
     flying_ability,
     shooting_ability,
     stealth_ability
-  } = skills
+  } = character.skills
 
   StatSetInt('MP0_STAMINA', stamina, true)
   StatSetInt('MP0_STRENGTH', strength, true)

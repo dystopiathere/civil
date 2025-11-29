@@ -1,1 +1,2 @@
-export { flagsMapping } from './flagsMapping'
+export * from './flagsMapping'
+export * from './animationChains'

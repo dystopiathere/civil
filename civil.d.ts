@@ -246,6 +246,15 @@ declare module 'civil' {
      * @param page
      */
     navigate (page: string): void;
+
+    /**
+     * Set NUI focused
+     *
+     * @param focus
+     * @param cursor
+     * @param input
+     */
+    setFocus (focus: boolean, cursor: boolean, input: boolean): void;
   }
 
   interface PlayerManager {
@@ -254,14 +263,14 @@ declare module 'civil' {
      *
      * @param data
      */
-    setPlayerState (data: Partial<FullCharacterEntity>): void;
+    setPlayerState (data?: Partial<FullCharacterEntity>): void;
 
     /**
      * Set player skills level
      *
      * @param data
      */
-    setPlayerSkills (data: Partial<FullCharacterEntity>): void;
+    setPlayerSkills (data?: Partial<FullCharacterEntity>): void;
 
     /**
      * Set and enable player regeneration
@@ -277,7 +286,7 @@ declare module 'civil' {
      *
      * @param data
      */
-    updateFreemodeModel (data: Partial<FullCharacterEntity>): void
+    updateFreemodeModel (data?: Partial<FullCharacterEntity>): void
   }
 
   export type PlayerEntity = {
@@ -291,6 +300,11 @@ declare module 'civil' {
     last_connection_at: string;
     created_at: string;
     updated_at: string;
+  }
+
+  export type PlayerRoleEntity = {
+    id: number;
+    name: string;
   }
 
   export type CharacterEntity = {
@@ -317,8 +331,21 @@ declare module 'civil' {
       heading: number;
     }
     model: string;
+    active: boolean;
     created_at: string;
     updated_at: string;
+  }
+
+  export type ConnectionEntity = {
+    id: number;
+    player_id: number;
+    identifiers: Record<string, string | number>;
+    date: string;
+  }
+
+  export type CharacterRoleEntity = {
+    id: number;
+    name: string;
   }
 
   export type HeadBlendsEntity = {

@@ -1,7 +1,20 @@
 import { FullCharacterEntity } from 'civil'
 
-export function setPlayerState ({ health, max_health, armour, max_armour }: Partial<FullCharacterEntity>) {
+const LocalPlayer = global.LocalPlayer as {
+  state: StateBagInterface & {
+    character: FullCharacterEntity;
+  };
+}
+
+export function setPlayerState (data: Partial<FullCharacterEntity> = {}) {
   const playerPed = GetPlayerPed(-1)
+
+  const { character } = LocalPlayer.state
+
+  Object.assign(character, data)
+  LocalPlayer.state.set('character', character, true)
+
+  const { health, max_health, armour, max_armour } = character
 
   if (max_health && GetPedMaxHealth(playerPed) !== max_health) {
     SetPedMaxHealth(playerPed, max_health)

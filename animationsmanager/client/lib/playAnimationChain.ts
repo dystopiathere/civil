@@ -1,8 +1,6 @@
 import { AnimationChainName } from 'civil'
 import { playAnimation } from './playAnimation'
-import { animations } from '../animations'
-
-const exports = global.exports as CitizenExports
+import { animationChains } from '../config'
 
 let delay = 0
 
@@ -17,11 +15,11 @@ export async function playAnimationChain (ped: number, chainName: AnimationChain
 
   pool.clear()
 
-  const animationsData = animations[chainName]
+  const chainData = animationChains[chainName]
 
   ClearPedTasks(ped)
 
-  for (const { dictionary, name, flags, duration } of animationsData) {
+  for (const { dictionary, name, flags, duration } of chainData) {
     let timeout = duration
 
     const animDuration = GetAnimDuration(dictionary, name) * 1000
@@ -47,5 +45,3 @@ export async function playAnimationChain (ped: number, chainName: AnimationChain
 
   return delay
 }
-
-exports('playAnimationChain', playAnimationChain)

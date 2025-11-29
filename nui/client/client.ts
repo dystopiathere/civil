@@ -1,5 +1,9 @@
+import { navigate, sendCharacterData, sendPlayerStats, sendPlayerUnderwater, sendWorldData } from './messages'
+import { setFocus } from './lib'
 import './events'
-import './messages'
+
+// @ts-ignore
+const exports = global.exports as CitizenExports
 
 on('onClientGameTypeStart', async () => {
   DisplayRadar(false)
@@ -10,3 +14,17 @@ on('onClientGameTypeStart', async () => {
     })
   })
 })
+
+on('playerSpawned', async () => {
+  sendPlayerStats()
+})
+
+// EXPORT MESSAGES
+exports('sendCharacterData', sendCharacterData)
+exports('sendWorldData', sendWorldData)
+exports('navigate', navigate)
+exports('sendPlayerStats', sendPlayerStats)
+exports('sendPlayerUnderwater', sendPlayerUnderwater)
+
+// EXPORT LIB
+exports('setFocus', setFocus)
