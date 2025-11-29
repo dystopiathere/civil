@@ -1,5 +1,3 @@
-import { playAnimationChain } from './animationsmanager/client/lib/playAnimationChain'
-
 declare module 'civil' {
   export type SpawnData = {
     x: number;
