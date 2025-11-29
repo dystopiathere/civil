@@ -28,6 +28,7 @@ async function spawnPlayer () {
     z: character.last_position?.z ?? 28.651,
     heading: character.last_position?.heading ?? undefined,
     model: character.model,
+    skipFade: true,
   })
 
   SetModelAsNoLongerNeeded(character.model)
