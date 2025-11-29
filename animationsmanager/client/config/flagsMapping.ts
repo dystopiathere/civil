@@ -1,6 +1,6 @@
 import { AnimationFlag } from 'civil'
 
-const mapping: Record<AnimationFlag, number> = {
+export const flagsMapping: Record<AnimationFlag, number> = {
   LOOPING: 1,
   HOLD_LAST_FRAME: 2,
   REPOSITION_WHEN_FINISHED: 4,
@@ -33,5 +33,3 @@ const mapping: Record<AnimationFlag, number> = {
   BLENDOUT_WRT_LAST_FRAME: 536870912,
   USE_FULL_BLENDING: 1073741824,
 }
-
-export default mapping

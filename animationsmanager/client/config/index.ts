@@ -1,0 +1,1 @@
+export { flagsMapping } from './flagsMapping'

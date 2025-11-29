@@ -1,13 +1,12 @@
-import { AnimationChainData } from 'civil'
-import mapping from '../mapping'
+import { AnimationChainData, AnimationFlag } from 'civil'
 
-const flags = [
-  mapping.TAG_SYNC_IN,
-  mapping.TAG_SYNC_OUT,
-  mapping.TAG_SYNC_CONTINUOUS,
-  mapping.TURN_OFF_COLLISION,
-  mapping.NOT_INTERRUPTABLE,
-  mapping.USE_FULL_BLENDING,
+const flags: AnimationFlag[] = [
+  'TAG_SYNC_IN',
+  'TAG_SYNC_OUT',
+  'TAG_SYNC_CONTINUOUS',
+  'TURN_OFF_COLLISION',
+  'NOT_INTERRUPTABLE',
+  'USE_FULL_BLENDING',
 ]
 
 export const reviveVictim: AnimationChainData[] = [

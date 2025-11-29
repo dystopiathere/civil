@@ -1,11 +1,16 @@
 import { delay } from '../utils'
 import { AnimationFlag } from 'civil'
+import { flagsMapping } from '../config'
 
 const exports = global.exports as CitizenExports
 
-export async function playAnimation (ped: number, animDict: string, anim: string, flags?: AnimationFlag[] = [], duration?: number, chained?: boolean = false): Promise<number> {
+export async function playAnimation (ped: number, animDict: string, anim: string, flags?: AnimationFlag[], duration?: number, chained?: boolean): Promise<number> {
   if (!chained) {
     ClearPedTasks(ped)
+  }
+
+  if (!flags) {
+    flags = []
   }
 
   if (DoesAnimDictExist(animDict)) {
@@ -25,7 +30,11 @@ export async function playAnimation (ped: number, animDict: string, anim: string
       duration = animDuration + duration
     }
 
-    const calculatedFlags = flags.reduce((acc, cur) => acc + cur, 0)
+    if (flags.length && flags.includes('LOOPING')) {
+      duration = -1
+    }
+
+    const calculatedFlags = flags.reduce((acc, flag) => acc + flagsMapping[flag], 0)
 
     TaskPlayAnim(ped, animDict, anim, 1.0, 1.0, duration, calculatedFlags, 0.0, false, false, false)
 
