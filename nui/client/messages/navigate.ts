@@ -1,4 +1,5 @@
 
+// @ts-ignore
 const exports = global.exports as CitizenExports
 
 function navigate (page: string) {

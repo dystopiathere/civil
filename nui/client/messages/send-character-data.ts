@@ -1,8 +1,7 @@
 import { FullCharacterEntity } from 'civil'
 
-
+// @ts-ignore
 const exports = global.exports as CitizenExports
-
 
 const LocalPlayer = global.LocalPlayer as {
   state: StateBagInterface & {

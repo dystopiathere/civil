@@ -1,4 +1,4 @@
-
+// @ts-ignore
 const exports = global.exports as CitizenExports
 
 function sendPlayerUnderwater (isInWater: boolean) {

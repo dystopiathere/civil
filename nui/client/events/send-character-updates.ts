@@ -1,5 +1,6 @@
 import { FullCharacterEntity } from 'civil'
 
+// @ts-ignore
 const exports = global.exports as CitizenExports
 
 RegisterNuiCallback('sendCharacterUpdates', (data: Partial<FullCharacterEntity>, cb: CallableFunction) => {
