@@ -1,11 +1,4 @@
-import { FullCharacterEntity } from 'civil'
-
-
-const LocalPlayer = global.LocalPlayer as {
-  state: StateBagInterface & {
-    character: FullCharacterEntity;
-  };
-}
+import { setPlayerState } from './set-player-state'
 
 let lastInterval: CitizenTimer = null
 
@@ -20,19 +13,19 @@ export function setPlayerRegeneration (limit: number, regenRate: number, enabled
     return
   }
 
-  const { character } = LocalPlayer.state
+  const playerPed = GetPlayerPed(-1)
 
   lastInterval = setInterval(() => {
-    if (LocalPlayer.state.health >= limit) {
-      Object.assign(character, { health: limit })
+    const playerHealth = GetEntityHealth(playerPed)
+
+    if (playerHealth >= limit) {
+      setPlayerState({ health: limit })
 
       emit('playermanager:regeneration', false)
 
       clearInterval(lastInterval)
     } else {
-      Object.assign(character, { health: character.health + regenRate })
+      setPlayerState({ health: playerHealth + regenRate })
     }
-
-    LocalPlayer.state.set('character', character, true)
   }, 1000)
 }

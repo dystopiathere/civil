@@ -2,6 +2,7 @@ import { FullCharacterEntity } from 'civil'
 import { setPlayerModel, setPlayerRegeneration, setPlayerSkills, setPlayerState, updateFreemodeModel } from './lib'
 import { onEntityDamageHandler } from './events'
 
+// @ts-ignore
 const exports = global.exports as CitizenExports
 
 setTick(() => {
@@ -13,7 +14,6 @@ setTick(() => {
 })
 
 AddStateBagChangeHandler('character', null, (bagName: string, key: string, character: FullCharacterEntity) => {
-  setPlayerState(character)
   exports.nui.sendPlayerStats()
   exports.nui.sendCharacterData()
 })
@@ -35,7 +35,6 @@ on('gameEventTriggered', (name: string, args: any[]) => {
     // console.log(`Game event ${name} ${args.join(', ')}`)
   }
 })
-
 
 // EXPORT LIB
 exports('setPlayerState', setPlayerState)
