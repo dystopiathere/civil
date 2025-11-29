@@ -2,6 +2,7 @@ import { FullCharacterEntity } from 'civil'
 import { disableAmbientSounds, disableEntityDensity } from './lib'
 import { zonesMapping } from './config'
 
+// @ts-ignore
 const exports = global.exports as CitizenExports
 
 const LocalPlayer = global.LocalPlayer as {

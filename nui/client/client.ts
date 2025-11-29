@@ -1,6 +1,7 @@
 import { navigate, sendCharacterData, sendPlayerStats, sendPlayerUnderwater, sendWorldData } from './messages'
-import { setFocus } from './lib'
+import { setFocus, openPage } from './lib'
 import './events'
+import './keys'
 
 // @ts-ignore
 const exports = global.exports as CitizenExports
@@ -28,3 +29,4 @@ exports('sendPlayerUnderwater', sendPlayerUnderwater)
 
 // EXPORT LIB
 exports('setFocus', setFocus)
+exports('openPage', openPage)

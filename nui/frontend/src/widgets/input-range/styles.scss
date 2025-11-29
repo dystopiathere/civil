@@ -1,11 +1,11 @@
-.input-arrows {
+.input-range {
   user-select: none;
 
   display: flex;
   flex-direction: column;
   gap: .5rem;
 
-  padding: .25rem .5rem;
+  padding: .25rem .5rem .5rem .5rem;
   margin-bottom: .5rem;
 
   background-color: #00000000;
@@ -15,6 +15,12 @@
 
   &:hover {
     background-color: #00000080;
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
   }
 
   &__label {
@@ -28,16 +34,27 @@
   }
 
   &__value {
-    min-width: 3rem;
-    text-align: center;
+    padding: .25rem .75rem;
+
+    border-radius: .25rem;
+
+    background-color: #00000080;
+
+    font-size: .8rem;
   }
 
   &__control {
-    cursor: pointer;
+    height: 1rem;
 
     opacity: .8;
 
     transition: .2s;
+
+    accent-color: #ffffff;
+
+    cursor: pointer;
+
+    outline: none;
 
     &:hover {
       opacity: 1;

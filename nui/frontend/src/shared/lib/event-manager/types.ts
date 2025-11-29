@@ -4,7 +4,8 @@ export type Event =
   | 'getDrawablesCount'
   | 'getTexturesCount'
   | 'getHeadBlendData'
-  | 'sendCharacterUpdates';
+  | 'sendCharacterUpdates'
+  | 'closeComponent';
 
 export type EventSend<D extends object, R extends object> = (data?: D) => Promise<NUIResponse<R> | false>;
 

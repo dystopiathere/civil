@@ -245,7 +245,7 @@ declare module 'civil' {
      *
      * @param page
      */
-    navigate (page: string): void;
+    navigate (page: NuiPage): void;
 
     /**
      * Set NUI focused
@@ -255,6 +255,13 @@ declare module 'civil' {
      * @param input
      */
     setFocus (focus: boolean, cursor: boolean, input: boolean): void;
+
+    /**
+     * Open NUI page with default settings
+     *
+     * @param page
+     */
+    openPage (page: NuiPage): void;
   }
 
   interface PlayerManager {
@@ -289,6 +296,32 @@ declare module 'civil' {
     updateFreemodeModel (data?: Partial<FullCharacterEntity>): void
   }
 
+  export type NuiPage =
+    | 'hud'
+    | 'characterCreator'
+    | 'characterCreatorGenetics'
+    | 'characterCreatorFace'
+    | 'characterCreatorBody'
+    | 'characterCreatorClothes';
+
+  export type CameraSetupData = {
+    posX: number;
+    posY: number;
+    posZ: number;
+    rotX: number;
+    rotY: number;
+    rotZ: number;
+    fov: number;
+    rotationOrder: number;
+  }
+
+  export type NuiPageData = {
+    focus: boolean;
+    cursor: boolean;
+    input: boolean;
+    setupCamera?: () => number;
+  }
+
   export type PlayerEntity = {
     id: number;
     steam: string;
@@ -301,6 +334,66 @@ declare module 'civil' {
     created_at: string;
     updated_at: string;
   }
+
+  type KeyboardKeys =
+    | 'LBUTTON'
+    | 'RBUTTON'
+    | 'MBUTTON'
+    | 'XBUTTON1'
+    | 'XBUTTON2'
+    | 'TAB'
+    | 'RETURN'
+    | 'SHIFT'
+    | 'CONTROL'
+    | 'MENU'
+    | 'SPACE'
+    | 'PRIOR'
+    | 'NEXT'
+    | 'HOME'
+    | 'END'
+    | 'LEFT'
+    | 'UP'
+    | 'RIGHT'
+    | 'DOWN'
+    | 'INSERT'
+    | 'DELETE'
+    | '0'
+    | '1'
+    | '2'
+    | '3'
+    | '4'
+    | '5'
+    | '6'
+    | '7'
+    | '8'
+    | '9'
+    | 'E'
+    | 'F'
+    | 'G'
+    | 'H'
+    | 'I'
+    | 'J'
+    | 'K'
+    | 'L'
+    | 'N'
+    | 'M'
+    | 'P'
+    | 'U'
+    | 'X'
+    | 'Y'
+    | 'Z'
+    | 'F1'
+    | 'F2'
+    | 'F3'
+    | 'F4'
+    | 'F5'
+    | 'F6'
+    | 'F7'
+    | 'F8'
+    | 'F9'
+    | 'F10'
+    | 'F11'
+    | 'F12'
 
   export type PlayerRoleEntity = {
     id: number;

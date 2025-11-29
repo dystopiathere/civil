@@ -1,7 +1,7 @@
 import { ArrowIcon } from '~/shared/ui/arrow-icon'
 import './styles.scss'
 
-type Primitive = string | number | boolean;
+type Primitive = string | number;
 
 type InputArrowsProps<T extends Primitive> = {
   label: string;

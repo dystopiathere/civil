@@ -13,7 +13,7 @@ server_script 'dist/server.js'
 
 dependencies {
     'database',
-    'spawnmanager',
     'nui',
+    'spawnmanager',
     'playermanager',
 }

@@ -2,6 +2,7 @@ import { FullCharacterEntity } from 'civil'
 import { delay } from './utils'
 import './cmd'
 
+// @ts-ignore
 const exports = global.exports as CitizenExports
 
 const LocalPlayer = global.LocalPlayer as {
@@ -36,11 +37,6 @@ async function spawnPlayer () {
 
 on('onClientGameTypeStart', async () => {
   await spawnPlayer()
-
-  const ped = GetPlayerPed(-1)
-
-  exports.nui.navigate('characterCreator')
-  exports.nui.setFocus(true, true, false)
 })
 
 on('playerSpawned', async () => {
