@@ -1,7 +1,6 @@
 const { build } = require('esbuild')
 const { copy } = require('esbuild-plugin-copy')
 const fs = require('node:fs')
-const path = require('path')
 
 const production = process.argv.findIndex(argItem => argItem === '--mode=production') >= 0
 
