@@ -1,0 +1,14 @@
+{
+  "name": "civil-sources",
+  "version": "1.0.0",
+  "author": "Kirill Kuznetsov",
+  "license": "MIT",
+  "scripts": {
+    "build": "node build.js --mode=production",
+    "watch": "node build.js"
+  },
+  "devDependencies": {
+    "esbuild": "^0.14.10",
+    "esbuild-plugin-copy": "^2.1.1"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "civil-skills",
+  "version": "1.0.0",
+  "author": "Kirill Kuznetsov",
+  "license": "MIT",
+  "devDependencies": {
+    "@citizenfx/client": "latest",
+    "@citizenfx/server": "latest",
+    "@types/node": "^16.3.1"
+  }
+}
