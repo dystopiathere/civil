@@ -5,14 +5,13 @@ export class BaseEntity<T extends object> implements IBaseEntity<T> {
   protected readonly pool: Pool
 
   constructor (private readonly tableName: string) {
-    console.log(process.env.POSTGRES_HOST)
 
     this.pool = new Pool({
-      host: '127.0.0.1',
-      port: 5432,
-      user: 'civil',
-      password: 'civil',
-      database: 'civil'
+      host: GetConvar('db_host', '127.0.0.1'),
+      port: GetConvarInt('db_port', 5432),
+      user: GetConvar('db_user', ''),
+      password: GetConvar('db_password', ''),
+      database: GetConvar('db_name', '')
     })
   }
 
