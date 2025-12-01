@@ -1,3 +1,5 @@
+import { ComponentVariations, HeadOverlays } from './civil-nui/frontend/src/entities/character'
+
 declare module 'civil' {
   export type SpawnData = {
     x: number;
@@ -84,6 +86,15 @@ declare module 'civil' {
   export type BaseEventEnteredVehicleCallback = (currentVehicle: number, currentSeat: number, vehicleDisplayName: string) => void;
 
   export type BaseEventLeftVehicleCallback = (currentVehicle: number, currentSeat: number, vehicleDisplayName: string, vehicleNetId: number) => void;
+
+  interface CivilHelpers {
+    /**
+     * Await for delay
+     *
+     * @param ms
+     */
+    delay (ms: number): Promise<unknown>;
+  }
 
   interface AnimationsManager {
     /**
@@ -264,36 +275,18 @@ declare module 'civil' {
     openPage (page: NuiPage): void;
   }
 
-  interface PlayerManager {
-    /**
-     * Change player state
-     *
-     * @param data
-     */
-    setPlayerState (data?: Partial<FullCharacterEntity>): void;
+  interface CivilModels {
+    setModel (player: number, model: string): void;
 
-    /**
-     * Set player skills level
-     *
-     * @param data
-     */
-    setPlayerSkills (data?: Partial<FullCharacterEntity>): void;
+    setPedComponentVariationData (ped: number, data: Partial<ComponentVariations>): void;
 
-    /**
-     * Set and enable player regeneration
-     *
-     * @param limit
-     * @param regenRate
-     * @param enabled
-     */
-    setPlayerRegeneration (limit: number, regenRate: number, enabled: boolean): void;
+    setPedFaceFeatureData (ped: number, data: Partial<FaceFeatures>): void;
 
-    /**
-     * Update ped components
-     *
-     * @param data
-     */
-    updateFreemodeModel (data?: Partial<FullCharacterEntity>): void
+    setPedHeadBlendData (ped: number, data: Partial<HeadBlends>): void;
+
+    setPedHeadOverlayData (ped: number, data: Partial<HeadOverlays>): void;
+
+    updateFreemodeModel (ped: number, data: Partial<FullCharacterEntity>): void;
   }
 
   export type NuiPage =
@@ -320,19 +313,6 @@ declare module 'civil' {
     cursor: boolean;
     input: boolean;
     setupCamera?: () => number;
-  }
-
-  export type PlayerEntity = {
-    id: number;
-    steam: string;
-    discord: string;
-    license: string;
-    whitelisted: boolean;
-    banned: boolean;
-    ban_reason: string;
-    last_connection_at: string;
-    created_at: string;
-    updated_at: string;
   }
 
   type KeyboardKeys =
@@ -395,6 +375,19 @@ declare module 'civil' {
     | 'F11'
     | 'F12'
 
+  export type PlayerEntity = {
+    id: number;
+    steam: string;
+    discord: string;
+    license: string;
+    whitelisted: boolean;
+    banned: boolean;
+    ban_reason: string;
+    last_connection_at: string;
+    created_at: string;
+    updated_at: string;
+  }
+
   export type PlayerRoleEntity = {
     id: number;
     name: string;
@@ -429,6 +422,14 @@ declare module 'civil' {
     updated_at: string;
   }
 
+  export type FullCharacterEntity = CharacterEntity & {
+    head_blends: HeadBlendsEntity;
+    face_features: FaceFeaturesEntity;
+    skills: SkillsEntity;
+    head_overlays: HeadOverlaysEntity;
+    component_variations: ComponentVariationsEntity;
+  }
+
   export type ConnectionEntity = {
     id: number;
     player_id: number;
@@ -456,6 +457,8 @@ declare module 'civil' {
     updated_at: string;
   }
 
+  export type HeadBlends = Omit<HeadBlendsEntity, 'id' | 'created_at' | 'updated_at'>;
+
   export type FaceFeaturesEntity = {
     id: number;
     nose_width: number;
@@ -482,6 +485,8 @@ declare module 'civil' {
     updated_at: string;
   }
 
+  export type FaceFeatures = Omit<FaceFeaturesEntity, 'id' | 'created_at' | 'updated_at'>;
+
   export type SkillsEntity = {
     id: number;
     stamina: number;
@@ -492,6 +497,8 @@ declare module 'civil' {
     shooting_ability: number;
     stealth_ability: number;
   }
+
+  export type Skills = Omit<SkillsEntity, 'id'>;
 
   export type HeadOverlaysEntity = {
     id: number;
@@ -539,6 +546,8 @@ declare module 'civil' {
     updated_at: string;
   }
 
+  export type HeadOverlays = Omit<HeadOverlaysEntity, 'id' | 'created_at' | 'updated_at'>;
+
   export type ComponentVariationsEntity = {
     id: number;
     face_drawable: number;
@@ -581,11 +590,5 @@ declare module 'civil' {
     updated_at: string;
   }
 
-  export type FullCharacterEntity = CharacterEntity & {
-    head_blends: HeadBlendsEntity;
-    face_features: FaceFeaturesEntity;
-    skills: SkillsEntity;
-    head_overlays: HeadOverlaysEntity;
-    component_variations: ComponentVariationsEntity;
-  }
+  export type ComponentVariations = Omit<ComponentVariationsEntity, 'id' | 'created_at' | 'updated_at'>;
 }

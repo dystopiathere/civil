@@ -5,7 +5,6 @@ export class BaseEntity<T extends object> implements IBaseEntity<T> {
   protected readonly pool: Pool
 
   constructor (private readonly tableName: string) {
-
     this.pool = new Pool({
       host: GetConvar('db_host', '127.0.0.1'),
       port: GetConvarInt('db_port', 5432),

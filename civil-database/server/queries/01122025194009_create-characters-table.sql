@@ -27,5 +27,3 @@ CREATE TABLE IF NOT EXISTS characters
     FOREIGN KEY (component_variations_id) REFERENCES component_variations (id) ON DELETE SET DEFAULT,
     FOREIGN KEY (head_overlays_id) REFERENCES head_overlays (id) ON DELETE SET DEFAULT
 );
-
-TRUNCATE characters CASCADE;

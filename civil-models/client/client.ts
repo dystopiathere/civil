@@ -1,44 +1,56 @@
-import { FullCharacterEntity } from 'civil'
-import { setPlayerModel, setPlayerRegeneration, setPlayerSkills, setPlayerState, updateFreemodeModel } from './lib'
-import { onEntityDamageHandler } from './events'
+import {
+  HeadBlends,
+  FaceFeatures,
+  ComponentVariations,
+  HeadOverlays
+} from 'civil'
+import {
+  setModel,
+  setPedHeadBlendData,
+  setPedHeadOverlayData,
+  setPedComponentVariationData,
+  setPedFaceFeatureData,
+  updateFreemodeModel
+} from './lib'
 
-// @ts-ignore
-const exports = global.exports as CitizenExports
+AddStateBagChangeHandler('eye_color', null, (bagName: string, key: string, value: number) => {
+  const ped = GetEntityFromStateBagName(bagName)
 
-setTick(() => {
-  if (IsPedSwimmingUnderWater(GetPlayerPed(-1))) {
-    exports.nui.sendPlayerUnderwater(true)
-  } else {
-    exports.nui.sendPlayerUnderwater(false)
-  }
+  SetPedEyeColor(ped, value)
 })
 
-AddStateBagChangeHandler('character', null, (bagName: string, key: string, character: FullCharacterEntity) => {
-  exports.nui.sendPlayerStats()
-  exports.nui.sendCharacterData()
+AddStateBagChangeHandler('head_blends', null, (bagName: string, key: string, value: HeadBlends) => {
+  const ped = GetEntityFromStateBagName(bagName)
+
+  setPedHeadBlendData(ped, value)
+})
+
+AddStateBagChangeHandler('face_features', null, (bagName: string, key: string, value: FaceFeatures) => {
+  const ped = GetEntityFromStateBagName(bagName)
+
+  setPedFaceFeatureData(ped, value)
+})
+
+AddStateBagChangeHandler('component_variations', null, (bagName: string, key: string, value: ComponentVariations) => {
+  const ped = GetEntityFromStateBagName(bagName)
+
+  setPedComponentVariationData(ped, value)
+})
+
+AddStateBagChangeHandler('head_overlays', null, (bagName: string, key: string, value: HeadOverlays) => {
+  const ped = GetEntityFromStateBagName(bagName)
+
+  setPedHeadOverlayData(ped, value)
 })
 
 on('playerSpawned', async () => {
-  setPlayerState()
-  updateFreemodeModel()
-  setPlayerSkills()
-})
-
-const eventHandlers: Record<string, (args: any[]) => void> = {
-  CEventNetworkEntityDamage: onEntityDamageHandler
-}
-
-on('gameEventTriggered', (name: string, args: any[]) => {
-  if (eventHandlers[name]) {
-    eventHandlers[name](args)
-  } else {
-    // console.log(`Game event ${name} ${args.join(', ')}`)
-  }
+  updateFreemodeModel(GetPlayerPed(-1))
 })
 
 // EXPORT LIB
-exports('setPlayerState', setPlayerState)
-exports('setPlayerSkills', setPlayerSkills)
-exports('setPlayerRegeneration', setPlayerRegeneration)
-exports('setPlayerModel', setPlayerModel)
-exports('updateFreemodeModel', updateFreemodeModel)
+global.exports('setModel', setModel)
+global.exports('setPedHeadBlendData', setPedHeadBlendData)
+global.exports('setPedHeadOverlayData', setPedHeadOverlayData)
+global.exports('setPedComponentVariationData', setPedComponentVariationData)
+global.exports('setPedFaceFeatureData', setPedFaceFeatureData)
+global.exports('updateFreemodeModel', updateFreemodeModel)
