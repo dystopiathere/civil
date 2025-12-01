@@ -1,1 +1,0 @@
-console.log('[spawn-manager] Server Resource Started')

@@ -9,7 +9,6 @@ node_version '22'
 resource_type 'gametype' { name = 'Base gametype' }
 
 client_script 'dist/client.js'
-server_script 'dist/server.js'
 
 dependencies {
     'spawnmanager',

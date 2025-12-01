@@ -5,6 +5,8 @@ export class BaseEntity<T extends object> implements IBaseEntity<T> {
   protected readonly pool: Pool
 
   constructor (private readonly tableName: string) {
+    console.log(process.env.POSTGRES_HOST)
+
     this.pool = new Pool({
       host: '127.0.0.1',
       port: 5432,

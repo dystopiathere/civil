@@ -1,1 +1,0 @@
-console.log('[animations-manager] Server Resource Started')
