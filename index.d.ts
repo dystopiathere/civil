@@ -8,7 +8,7 @@ import {
   ComponentVariations,
   HeadOverlays,
   Skills,
-  CivilHelpers
+  CivilHelpers, CivilModels
 } from 'civil'
 
 declare global {
@@ -27,7 +27,7 @@ declare global {
     civil_helpers: CivilHelpers;
     civil_injuries: any;
     civil_medicine: any;
-    civil_models: any;
+    civil_models: CivilModels;
     civil_nui: NuiManager;
     civil_skills: any
     civil_spawn_manager: any

@@ -1,5 +1,4 @@
 import { AnimationFlag } from 'civil'
-import { delay } from '../utils'
 import { flagsMapping } from '../config'
 
 export async function playAnimation (ped: number, animDict: string, anim: string, flags?: AnimationFlag[], duration?: number, chained?: boolean): Promise<number> {
@@ -15,7 +14,7 @@ export async function playAnimation (ped: number, animDict: string, anim: string
     RequestAnimDict(animDict)
 
     while (!HasAnimDictLoaded(animDict)) {
-      await delay(500)
+      await exports.civil_helpers.delay(500)
     }
 
     const animDuration = GetAnimDuration(animDict, anim) * 1000

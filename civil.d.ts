@@ -1,5 +1,3 @@
-import { ComponentVariations, HeadOverlays } from './civil-nui/frontend/src/entities/character'
-
 declare module 'civil' {
   export type SpawnData = {
     x: number;
@@ -94,28 +92,6 @@ declare module 'civil' {
      * @param ms
      */
     delay (ms: number): Promise<unknown>;
-  }
-
-  interface AnimationsManager {
-    /**
-     * Play solo animation from chosen dictionary
-     *
-     * @param ped
-     * @param animDict
-     * @param anim
-     * @param flags
-     * @param duration
-     * @param chained
-     */
-    playAnimation (ped: number, animDict: string, anim: string, flags?: AnimationFlag[], duration?: number, chained?: boolean): Promise<number>;
-
-    /**
-     * Play pre-configured animations chain
-     *
-     * @param ped
-     * @param chainName
-     */
-    playAnimationChain (ped: number, chainName: AnimationChainName): Promise<number>;
   }
 
   interface SpawnManager {
@@ -227,6 +203,28 @@ declare module 'civil' {
     roundEnded (): void;
   }
 
+  interface AnimationsManager {
+    /**
+     * Play solo animation from chosen dictionary
+     *
+     * @param ped
+     * @param animDict
+     * @param anim
+     * @param flags
+     * @param duration
+     * @param chained
+     */
+    playAnimation (ped: number, animDict: string, anim: string, flags?: AnimationFlag[], duration?: number, chained?: boolean): Promise<number>;
+
+    /**
+     * Play pre-configured animations chain
+     *
+     * @param ped
+     * @param chainName
+     */
+    playAnimationChain (ped: number, chainName: AnimationChainName): Promise<number>;
+  }
+
   interface NuiManager {
     /**
      * Send update player state NUI event
@@ -276,7 +274,7 @@ declare module 'civil' {
   }
 
   interface CivilModels {
-    setModel (player: number, model: string): void;
+    setModel (player: number, model: string): Promise<void>;
 
     setPedComponentVariationData (ped: number, data: Partial<ComponentVariations>): void;
 

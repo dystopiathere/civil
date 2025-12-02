@@ -1,10 +1,15 @@
-import { navigate, sendCharacterData, sendPlayerStats, sendPlayerUnderwater, sendWorldData } from './messages'
+import {
+  navigate,
+  sendPlayerArmour,
+  sendPlayerHealth,
+  sendPlayerMaxArmour,
+  sendPlayerMaxHealth,
+  sendPlayerUnderwater,
+  sendWorldData
+} from './messages'
 import { setFocus, openPage } from './lib'
 import './events'
 import './keys'
-
-// @ts-ignore
-const exports = global.exports as CitizenExports
 
 on('onClientGameTypeStart', async () => {
   DisplayRadar(false)
@@ -16,17 +21,27 @@ on('onClientGameTypeStart', async () => {
   })
 })
 
-on('playerSpawned', async () => {
-  sendPlayerStats()
-  sendCharacterData()
+on('playerSpawned', () => {
+  sendPlayerHealth(global.LocalPlayer.state.health)
+  sendPlayerMaxHealth(global.LocalPlayer.state.max_health)
+  sendPlayerArmour(global.LocalPlayer.state.armour)
+  sendPlayerMaxArmour(global.LocalPlayer.state.max_armour)
 })
 
+RegisterCommand('characterCreator', () => {
+  openPage('characterCreatorGenetics')
+}, false)
+
+RegisterKeyMapping('characterCreator', 'Open character creator', 'keyboard', 'g')
+
 // EXPORT MESSAGES
-exports('sendCharacterData', sendCharacterData)
+exports('sendPlayerHealth', sendPlayerHealth)
+exports('sendPlayerMaxHealth', sendPlayerMaxHealth)
+exports('sendPlayerArmour', sendPlayerArmour)
+exports('sendPlayerMaxArmour', sendPlayerMaxArmour)
 exports('sendWorldData', sendWorldData)
-exports('navigate', navigate)
-exports('sendPlayerStats', sendPlayerStats)
 exports('sendPlayerUnderwater', sendPlayerUnderwater)
+exports('navigate', navigate)
 
 // EXPORT LIB
 exports('setFocus', setFocus)

@@ -43,6 +43,12 @@ AddStateBagChangeHandler('head_overlays', null, (bagName: string, key: string, v
   setPedHeadOverlayData(ped, value)
 })
 
+AddStateBagChangeHandler('model', null, (bagName: string, key: string, value: string) => {
+  const ped = GetEntityFromStateBagName(bagName)
+
+  setModel(ped, value)
+})
+
 on('playerSpawned', async () => {
   updateFreemodeModel(GetPlayerPed(-1))
 })
