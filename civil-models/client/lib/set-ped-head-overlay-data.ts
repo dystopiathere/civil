@@ -1,17 +1,17 @@
-import { HeadOverlays } from 'civil'
+import { HeadOverlays } from "civil";
 
 type HeadOverlayElement = {
-  value: number,
-  opacity: number,
-  colorType?: number,
-  color1?: number,
-  color2?: number
-}
+  value: number;
+  opacity: number;
+  colorType?: number;
+  color1?: number;
+  color2?: number;
+};
 
-export function setPedHeadOverlayData (ped: number, data: Partial<HeadOverlays> = {}) {
-  const localData = { ...global.LocalPlayer.state.head_overlays }
+export function setPedHeadOverlayData(ped: number, data: Partial<HeadOverlays> = {}) {
+  const localData = { ...global.LocalPlayer.state.head_overlays };
 
-  Object.assign(localData, data)
+  Object.assign(localData, data);
 
   const headOverlay: HeadOverlayElement[] = [
     {
@@ -87,13 +87,13 @@ export function setPedHeadOverlayData (ped: number, data: Partial<HeadOverlays> 
       value: localData.add_body_blemishes,
       opacity: localData.add_body_blemishes_opacity,
     },
-  ]
+  ];
 
   headOverlay.forEach(({ value, opacity, colorType, color1, color2 }, key) => {
-    SetPedHeadOverlay(ped, key, value, opacity)
+    SetPedHeadOverlay(ped, key, value, opacity);
 
     if (colorType) {
-      SetPedHeadOverlayColor(ped, key, colorType, color1 ?? 0, color2 ?? 0)
+      SetPedHeadOverlayColor(ped, key, colorType, color1 ?? 0, color2 ?? 0);
     }
-  })
+  });
 }

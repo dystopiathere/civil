@@ -1,1 +1,1 @@
-export * from './on-entity-damage'
+export * from "./on-entity-damage";

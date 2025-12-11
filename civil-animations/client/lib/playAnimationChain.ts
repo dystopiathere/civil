@@ -1,47 +1,47 @@
-import { AnimationChainName } from 'civil'
-import { playAnimation } from './playAnimation'
-import { animationChains } from '../config'
+import { AnimationChainName } from "civil";
+import { playAnimation } from "./playAnimation";
+import { animationChains } from "../config";
 
-let delay = 0
+let delay = 0;
 
-let pool: Set<NodeJS.Timeout> = new Set()
+let pool: Set<NodeJS.Timeout> = new Set();
 
-export async function playAnimationChain (ped: number, chainName: AnimationChainName): Promise<number> {
-  delay = 0
+export async function playAnimationChain(ped: number, chainName: AnimationChainName): Promise<number> {
+  delay = 0;
 
   pool.forEach((id) => {
-    clearTimeout(id)
-  })
+    clearTimeout(id);
+  });
 
-  pool.clear()
+  pool.clear();
 
-  const chainData = animationChains[chainName]
+  const chainData = animationChains[chainName];
 
-  ClearPedTasks(ped)
+  ClearPedTasks(ped);
 
   for (const { dictionary, name, flags, duration } of chainData) {
-    let timeout = duration
+    let timeout = duration;
 
-    const animDuration = GetAnimDuration(dictionary, name) * 1000
+    const animDuration = GetAnimDuration(dictionary, name) * 1000;
 
     if (!timeout) {
-      timeout = animDuration
+      timeout = animDuration;
     }
 
     if (timeout < 0) {
-      timeout = animDuration + timeout
+      timeout = animDuration + timeout;
     }
 
     const id = setTimeout(() => {
-      playAnimation(ped, dictionary, name, flags, duration, true)
+      playAnimation(ped, dictionary, name, flags, duration, true);
 
-      pool.delete(id)
-    }, delay)
+      pool.delete(id);
+    }, delay);
 
-    pool.add(id)
+    pool.add(id);
 
-    delay += timeout
+    delay += timeout;
   }
 
-  return delay
+  return delay;
 }

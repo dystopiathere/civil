@@ -10,6 +10,4 @@ ui_page 'dist/index.html'
 
 client_script 'dist/client.js'
 
-files {
-    'dist/**/*'
-}
+files {'dist/**/*'}

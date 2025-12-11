@@ -1,9 +1,9 @@
-import { ComponentVariationsEntity } from 'civil'
-import { IComponentVariations } from './types'
-import { BaseEntity } from '../base-entity'
+import { ComponentVariationsEntity } from "civil";
+import { IComponentVariations } from "./types";
+import { BaseEntity } from "../base-entity";
 
 export class ComponentVariationsModel extends BaseEntity<ComponentVariationsEntity> implements IComponentVariations {
-  constructor () {
-    super('component_variations')
+  constructor() {
+    super("component_variations");
   }
 }

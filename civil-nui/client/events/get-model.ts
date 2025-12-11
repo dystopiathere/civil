@@ -1,3 +1,3 @@
-RegisterNuiCallback('getModel', (data: {}, cb: CallableFunction) => {
-  cb([LocalPlayer.state.model, false])
-})
+RegisterNuiCallback("getModel", (data: {}, cb: CallableFunction) => {
+  cb([global.LocalPlayer.state.model, false]);
+});

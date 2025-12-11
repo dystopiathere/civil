@@ -1,7 +1,7 @@
-import { ComponentVariations } from 'civil'
+import { ComponentVariations } from "civil";
 
-RegisterNuiCallback('setComponentVariation', (data: ComponentVariations, cb: CallableFunction) => {
-  global.LocalPlayer.state.set('component_variations', data, true)
+RegisterNuiCallback("setComponentVariation", (data: ComponentVariations, cb: CallableFunction) => {
+  global.LocalPlayer.state.set("component_variations", data, true);
 
-  cb([{ status: true }, false])
-})
+  cb([{ status: true }, false]);
+});

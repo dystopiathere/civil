@@ -1,3 +1,1 @@
-export interface IFaceFeatures {
-
-}
+export interface IFaceFeatures {}

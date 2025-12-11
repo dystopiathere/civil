@@ -1,3 +1,1 @@
-export interface IHeadOverlays {
-
-}
+export interface IHeadOverlays {}

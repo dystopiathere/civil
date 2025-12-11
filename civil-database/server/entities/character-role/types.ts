@@ -1,3 +1,1 @@
-export interface ICharacterRole {
-
-}
+export interface ICharacterRole {}

@@ -1,44 +1,51 @@
-import { FullCharacterEntity } from 'civil'
-import { setPlayerModel, setPlayerRegeneration, setPlayerSkills, setPlayerState, updateFreemodeModel } from './lib'
-import { onEntityDamageHandler } from './events'
+AddStateBagChangeHandler("stamina", null, (bagName: string, key: string, value: number) => {
+  const skill = "MP0_" + key.toUpperCase();
 
-// @ts-ignore
-const exports = global.exports as CitizenExports
+  StatSetInt(skill, value, true);
+});
 
-setTick(() => {
-  if (IsPedSwimmingUnderWater(GetPlayerPed(-1))) {
-    exports.nui.sendPlayerUnderwater(true)
-  } else {
-    exports.nui.sendPlayerUnderwater(false)
-  }
-})
+AddStateBagChangeHandler("strength", null, (bagName: string, key: string, value: number) => {
+  const skill = "MP0_" + key.toUpperCase();
 
-AddStateBagChangeHandler('character', null, (bagName: string, key: string, character: FullCharacterEntity) => {
-  exports.nui.sendPlayerStats()
-  exports.nui.sendCharacterData()
-})
+  StatSetInt(skill, value, true);
+});
 
-on('playerSpawned', async () => {
-  setPlayerState()
-  updateFreemodeModel()
-  setPlayerSkills()
-})
+AddStateBagChangeHandler("lung_capacity", null, (bagName: string, key: string, value: number) => {
+  const skill = "MP0_" + key.toUpperCase();
 
-const eventHandlers: Record<string, (args: any[]) => void> = {
-  CEventNetworkEntityDamage: onEntityDamageHandler
-}
+  StatSetInt(skill, value, true);
+});
 
-on('gameEventTriggered', (name: string, args: any[]) => {
-  if (eventHandlers[name]) {
-    eventHandlers[name](args)
-  } else {
-    // console.log(`Game event ${name} ${args.join(', ')}`)
-  }
-})
+AddStateBagChangeHandler("wheelie_ability", null, (bagName: string, key: string, value: number) => {
+  const skill = "MP0_" + key.toUpperCase();
 
-// EXPORT LIB
-exports('setPlayerState', setPlayerState)
-exports('setPlayerSkills', setPlayerSkills)
-exports('setPlayerRegeneration', setPlayerRegeneration)
-exports('setPlayerModel', setPlayerModel)
-exports('updateFreemodeModel', updateFreemodeModel)
+  StatSetInt(skill, value, true);
+});
+
+AddStateBagChangeHandler("flying_ability", null, (bagName: string, key: string, value: number) => {
+  const skill = "MP0_" + key.toUpperCase();
+
+  StatSetInt(skill, value, true);
+});
+
+AddStateBagChangeHandler("shooting_ability", null, (bagName: string, key: string, value: number) => {
+  const skill = "MP0_" + key.toUpperCase();
+
+  StatSetInt(skill, value, true);
+});
+
+AddStateBagChangeHandler("stealth_ability", null, (bagName: string, key: string, value: number) => {
+  const skill = "MP0_" + key.toUpperCase();
+
+  StatSetInt(skill, value, true);
+});
+
+on("playerSpawned", async () => {
+  StatSetInt("MP0_STAMINA", global.LocalPlayer.state.stamina, true);
+  StatSetInt("MP0_STRENGTH", global.LocalPlayer.state.strength, true);
+  StatSetInt("MP0_LUNG_CAPACITY", global.LocalPlayer.state.lung_capacity, true);
+  StatSetInt("MP0_WHEELIE_ABILITY", global.LocalPlayer.state.wheelie_ability, true);
+  StatSetInt("MP0_FLYING_ABILITY", global.LocalPlayer.state.flying_ability, true);
+  StatSetInt("MP0_SHOOTING_ABILITY", global.LocalPlayer.state.shooting_ability, true);
+  StatSetInt("MP0_STEALTH_ABILITY", global.LocalPlayer.state.stealth_ability, true);
+});

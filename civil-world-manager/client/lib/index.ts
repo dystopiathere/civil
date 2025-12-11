@@ -1,2 +1,2 @@
-export * from './disableAmbientSounds'
-export * from './disableEntityDensity'
+export * from "./disableAmbientSounds";
+export * from "./disableEntityDensity";

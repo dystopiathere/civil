@@ -1,9 +1,9 @@
-import { HeadOverlaysEntity } from 'civil'
-import { IHeadOverlays } from './types'
-import { BaseEntity } from '../base-entity'
+import { HeadOverlaysEntity } from "civil";
+import { IHeadOverlays } from "./types";
+import { BaseEntity } from "../base-entity";
 
 export class HeadOverlaysModel extends BaseEntity<HeadOverlaysEntity> implements IHeadOverlays {
-  constructor () {
-    super('head_overlays')
+  constructor() {
+    super("head_overlays");
   }
 }

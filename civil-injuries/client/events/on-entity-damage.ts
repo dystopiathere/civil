@@ -1,10 +1,10 @@
-export function onEntityDamageHandler (args: any[]) {
-  const [pedId] = args
+export function onEntityDamageHandler(args: any[]) {
+  const [pedId] = args;
 
-  const playerPed = GetPlayerPed(-1)
+  const playerPed = GetPlayerPed(-1);
 
   if (pedId === playerPed) {
-    LocalPlayer.state.set('health', GetEntityHealth(playerPed), true)
-    LocalPlayer.state.set('armour', GetPedArmour(playerPed), true)
+    global.LocalPlayer.state.set("health", GetEntityHealth(playerPed), true);
+    global.LocalPlayer.state.set("armour", GetPedArmour(playerPed), true);
   }
 }

@@ -1,42 +1,52 @@
-import { AnimationFlag } from 'civil'
-import { flagsMapping } from '../config'
+import { AnimationFlag } from "civil";
+import { flagsMapping } from "../config";
 
-export async function playAnimation (ped: number, animDict: string, anim: string, flags?: AnimationFlag[], duration?: number, chained?: boolean): Promise<number> {
+// @ts-ignore
+const exports = global.exports as CivilExports;
+
+export async function playAnimation(
+  ped: number,
+  animDict: string,
+  anim: string,
+  flags?: AnimationFlag[],
+  duration?: number,
+  chained?: boolean
+): Promise<number> {
   if (!chained) {
-    ClearPedTasks(ped)
+    ClearPedTasks(ped);
   }
 
   if (!flags) {
-    flags = []
+    flags = [];
   }
 
   if (DoesAnimDictExist(animDict)) {
-    RequestAnimDict(animDict)
+    RequestAnimDict(animDict);
 
     while (!HasAnimDictLoaded(animDict)) {
-      await exports.civil_helpers.delay(500)
+      await exports.civil_helpers.delay(500);
     }
 
-    const animDuration = GetAnimDuration(animDict, anim) * 1000
+    const animDuration = GetAnimDuration(animDict, anim) * 1000;
 
     if (!duration) {
-      duration = animDuration
+      duration = animDuration;
     }
 
     if (duration < 0) {
-      duration = animDuration + duration
+      duration = animDuration + duration;
     }
 
-    if (flags.length && flags.includes('LOOPING')) {
-      duration = -1
+    if (flags.length && flags.includes("LOOPING")) {
+      duration = -1;
     }
 
-    const calculatedFlags = flags.reduce((acc, flag) => acc + flagsMapping[flag], 0)
+    const calculatedFlags = flags.reduce((acc, flag) => acc + flagsMapping[flag], 0);
 
-    TaskPlayAnim(ped, animDict, anim, 1.0, 1.0, duration, calculatedFlags, 0.0, false, false, false)
+    TaskPlayAnim(ped, animDict, anim, 1.0, 1.0, duration, calculatedFlags, 0.0, false, false, false);
 
-    return duration
+    return duration;
   }
 
-  return 0
+  return 0;
 }

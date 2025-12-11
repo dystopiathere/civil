@@ -1,3 +1,1 @@
-export interface IHeadBlends {
-
-}
+export interface IHeadBlends {}

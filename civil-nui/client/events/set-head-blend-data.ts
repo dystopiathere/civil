@@ -1,7 +1,7 @@
-import { HeadBlends } from 'civil'
+import { HeadBlends } from "civil";
 
-RegisterNuiCallback('setHeadBlendData', (data: HeadBlends, cb: CallableFunction) => {
-  global.LocalPlayer.state.set('head_blends', data, true)
+RegisterNuiCallback("setHeadBlendData", (data: HeadBlends, cb: CallableFunction) => {
+  global.LocalPlayer.state.set("head_blends", data, true);
 
-  cb([{ status: true }, false])
-})
+  cb([{ status: true }, false]);
+});

@@ -1,36 +1,41 @@
-import { delay } from '../utils'
+// @ts-ignore
+const exports = global.exports as CivilExports;
 
-RegisterCommand('car', async (source: number, args: string[], raw: string) => {
-  let model = 'bati'
+RegisterCommand(
+  "car",
+  async (source: number, args: string[], raw: string) => {
+    let model = "bati";
 
-  if (args.length > 0) {
-    model = args[0].toString()
-  }
+    if (args.length > 0) {
+      model = args[0].toString();
+    }
 
-  if (!IsModelInCdimage(model) || !IsModelAVehicle(model)) {
-    console.log(`Bad vehicle: ${model}`)
-    return
-  }
+    if (!IsModelInCdimage(model) || !IsModelAVehicle(model)) {
+      console.log(`Bad vehicle: ${model}`);
+      return;
+    }
 
-  RequestModel(model)
-  while (!HasModelLoaded(model)) {
-    await delay(500)
-  }
+    RequestModel(model);
+    while (!HasModelLoaded(model)) {
+      await exports.civil_helpers.delay(500);
+    }
 
-  const ped = GetPlayerPed(-1)
-  const coords = GetEntityCoords(ped, true)
-  const vehicle = CreateVehicle(model, coords[0], coords[1], coords[2], GetEntityHeading(ped), true, false)
+    const ped = GetPlayerPed(-1);
+    const coords = GetEntityCoords(ped, true);
+    const vehicle = CreateVehicle(model, coords[0], coords[1], coords[2], GetEntityHeading(ped), true, false);
 
-  SetPedIntoVehicle(ped, vehicle, -1)
+    SetPedIntoVehicle(ped, vehicle, -1);
 
-  const oldVeh = Entity(ped).state.currentVeh
+    const oldVeh = Entity(ped).state.currentVeh;
 
-  if (oldVeh) {
-    DeleteVehicle(oldVeh)
-    SetEntityAsNoLongerNeeded(oldVeh)
-  }
+    if (oldVeh) {
+      DeleteVehicle(oldVeh);
+      SetEntityAsNoLongerNeeded(oldVeh);
+    }
 
-  Entity(ped).state.set('currentVeh', vehicle, false)
+    Entity(ped).state.set("currentVeh", vehicle, false);
 
-  SetModelAsNoLongerNeeded(model)
-}, false)
+    SetModelAsNoLongerNeeded(model);
+  },
+  false
+);

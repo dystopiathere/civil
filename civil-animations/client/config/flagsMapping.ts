@@ -1,4 +1,4 @@
-import { AnimationFlag } from 'civil'
+import { AnimationFlag } from "civil";
 
 export const flagsMapping: Record<AnimationFlag, number> = {
   LOOPING: 1,
@@ -32,4 +32,4 @@ export const flagsMapping: Record<AnimationFlag, number> = {
   USE_ALTERNATIVE_FP_ANIM: 268435456,
   BLENDOUT_WRT_LAST_FRAME: 536870912,
   USE_FULL_BLENDING: 1073741824,
-}
+};

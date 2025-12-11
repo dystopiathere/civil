@@ -1,7 +1,7 @@
-import { onEntityDamageHandler } from './events'
+import { onEntityDamageHandler } from "./events";
 
-on('gameEventTriggered', (name: string, args: any[]) => {
-  if (name === 'CEventNetworkEntityDamage') {
-    onEntityDamageHandler(args)
+on("gameEventTriggered", (name: string, args: any[]) => {
+  if (name === "CEventNetworkEntityDamage") {
+    onEntityDamageHandler(args);
   }
-})
+});

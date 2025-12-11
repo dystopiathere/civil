@@ -1,30 +1,30 @@
-import { NuiPage } from 'civil'
-import { pages } from '../config'
-import { setFocus } from './setFocus'
-import { navigate } from '../messages'
+import { NuiPage } from "civil";
+import { pages } from "../config";
+import { setFocus } from "./setFocus";
+import { navigate } from "../messages";
 
-let pageCamera: number
+let pageCamera: number;
 
-export function openPage (page: NuiPage) {
+export function openPage(page: NuiPage) {
   if (pageCamera) {
     if (DoesCamExist(pageCamera)) {
-      DestroyCam(pageCamera, true)
+      DestroyCam(pageCamera, true);
     }
 
-    RenderScriptCams(false, true, 500, true, true)
+    RenderScriptCams(false, true, 500, true, true);
 
-    pageCamera = null
+    pageCamera = null;
   }
 
-  const { focus, cursor, input, setupCamera } = pages[page]
+  const { focus, cursor, input, setupCamera } = pages[page];
 
-  navigate(page)
-  setFocus(focus, cursor, input)
+  navigate(page);
+  setFocus(focus, cursor, input);
 
   if (!setupCamera) {
-    return
+    return;
   }
 
-  pageCamera = setupCamera()
-  RenderScriptCams(true, true, 500, true, true)
+  pageCamera = setupCamera();
+  RenderScriptCams(true, true, 500, true, true);
 }

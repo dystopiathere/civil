@@ -1,5 +1,8 @@
 // @ts-ignore
-import { delay } from './lib'
+import { delay } from "./lib";
+
+// @ts-ignore
+const exports = global.exports as CivilExports;
 
 // EXPORT LIB
-global.exports('delay', delay)
+exports("delay", delay);

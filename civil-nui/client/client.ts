@@ -5,44 +5,43 @@ import {
   sendPlayerMaxArmour,
   sendPlayerMaxHealth,
   sendPlayerUnderwater,
-  sendWorldData
-} from './messages'
-import { setFocus, openPage } from './lib'
-import './events'
-import './keys'
+  sendWorldData,
+} from "./messages";
+import { setFocus, openPage } from "./lib";
+import "./events";
 
-on('onClientGameTypeStart', async () => {
-  DisplayRadar(false)
+// @ts-ignore
+const exports = global.exports as CivilExports;
+
+on("onClientGameTypeStart", async () => {
+  DisplayRadar(false);
 
   setTick(() => {
     [1, 2, 3, 4, 6, 7, 8, 9, 13, 20].forEach((el) => {
-      HideHudComponentThisFrame(el)
-    })
-  })
-})
+      HideHudComponentThisFrame(el);
+    });
+  });
+});
 
-on('playerSpawned', () => {
-  sendPlayerHealth(global.LocalPlayer.state.health)
-  sendPlayerMaxHealth(global.LocalPlayer.state.max_health)
-  sendPlayerArmour(global.LocalPlayer.state.armour)
-  sendPlayerMaxArmour(global.LocalPlayer.state.max_armour)
-})
+RegisterCommand(
+  "characterCreator",
+  () => {
+    openPage("characterCreatorGenetics");
+  },
+  false
+);
 
-RegisterCommand('characterCreator', () => {
-  openPage('characterCreatorGenetics')
-}, false)
-
-RegisterKeyMapping('characterCreator', 'Open character creator', 'keyboard', 'g')
+RegisterKeyMapping("characterCreator", "Open character creator", "keyboard", "g");
 
 // EXPORT MESSAGES
-exports('sendPlayerHealth', sendPlayerHealth)
-exports('sendPlayerMaxHealth', sendPlayerMaxHealth)
-exports('sendPlayerArmour', sendPlayerArmour)
-exports('sendPlayerMaxArmour', sendPlayerMaxArmour)
-exports('sendWorldData', sendWorldData)
-exports('sendPlayerUnderwater', sendPlayerUnderwater)
-exports('navigate', navigate)
+exports("sendPlayerHealth", sendPlayerHealth);
+exports("sendPlayerMaxHealth", sendPlayerMaxHealth);
+exports("sendPlayerArmour", sendPlayerArmour);
+exports("sendPlayerMaxArmour", sendPlayerMaxArmour);
+exports("sendWorldData", sendWorldData);
+exports("sendPlayerUnderwater", sendPlayerUnderwater);
+exports("navigate", navigate);
 
 // EXPORT LIB
-exports('setFocus', setFocus)
-exports('openPage', openPage)
+exports("setFocus", setFocus);
+exports("openPage", openPage);

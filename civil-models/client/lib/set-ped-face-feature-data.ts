@@ -1,9 +1,9 @@
-import { FaceFeatures } from 'civil'
+import { FaceFeatures } from "civil";
 
-export function setPedFaceFeatureData (ped: number, data: Partial<FaceFeatures> = {}) {
-  const localData = { ...global.LocalPlayer.state.face_features }
+export function setPedFaceFeatureData(ped: number, data: Partial<FaceFeatures> = {}) {
+  const localData = { ...global.LocalPlayer.state.face_features };
 
-  Object.assign(localData, data)
+  Object.assign(localData, data);
 
   const faceFeatures = [
     localData.nose_width,
@@ -26,9 +26,9 @@ export function setPedFaceFeatureData (ped: number, data: Partial<FaceFeatures> 
     localData.chin_bone_shape,
     localData.chin_hole,
     localData.neck_thickness,
-  ]
+  ];
 
   faceFeatures.forEach((value, key) => {
-    SetPedFaceFeature(ped, key, value)
-  })
+    SetPedFaceFeature(ped, key, value);
+  });
 }

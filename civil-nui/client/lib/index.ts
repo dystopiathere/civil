@@ -1,2 +1,2 @@
-export * from './setFocus'
-export * from './openPage'
+export * from "./setFocus";
+export * from "./openPage";

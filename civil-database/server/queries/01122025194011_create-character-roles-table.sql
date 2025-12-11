@@ -1,5 +1,5 @@
-CREATE TABLE IF NOT EXISTS character_roles
-(
-    id   BIGSERIAL PRIMARY KEY,
-    name VARCHAR(30) NOT NULL
-)
+CREATE TABLE
+    IF NOT EXISTS character_roles (
+        id BIGSERIAL PRIMARY KEY,
+        name VARCHAR(30) NOT NULL
+    )

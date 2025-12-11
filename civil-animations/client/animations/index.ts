@@ -1,3 +1,3 @@
-export * from './reviveSavior'
-export * from './reviveVictim'
-export * from './dance'
+export * from "./reviveSavior";
+export * from "./reviveVictim";
+export * from "./dance";

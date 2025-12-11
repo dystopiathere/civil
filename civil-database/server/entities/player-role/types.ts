@@ -1,3 +1,1 @@
-export interface IPlayerRole {
-
-}
+export interface IPlayerRole {}

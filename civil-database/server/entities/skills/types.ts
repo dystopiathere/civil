@@ -1,3 +1,1 @@
-export interface ISkills {
-
-}
+export interface ISkills {}

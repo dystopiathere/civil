@@ -1,21 +1,24 @@
-export async function setModel (player: number, model: string) {
+// @ts-ignore
+const exports = global.exports as CivilExports;
+
+export async function setModel(player: number, model: string) {
   if (!IsModelInCdimage(model) || !IsModelAPed(model)) {
-    console.log(`Bad model: ${model}`)
+    console.log(`Bad model: ${model}`);
   }
 
-  const currentModel = GetEntityArchetypeName(GetPlayerPed(player))
+  const currentModel = GetEntityArchetypeName(GetPlayerPed(player));
 
   if (currentModel === model) {
-    return
+    return;
   }
 
-  RequestModel(model)
+  RequestModel(model);
 
   while (!HasModelLoaded(model)) {
-    await global.exports.civil_helpers.delay(500)
+    await exports.civil_helpers.delay(500);
   }
 
-  SetPlayerModel(player, model)
+  SetPlayerModel(player, model);
 
-  SetModelAsNoLongerNeeded(model)
+  SetModelAsNoLongerNeeded(model);
 }

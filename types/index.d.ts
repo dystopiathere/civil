@@ -1,18 +1,19 @@
 import {
   AnimationsManager,
   MapManager,
-  NuiManager,
+  CivilNuiManager,
   SpawnManager,
   FaceFeatures,
   HeadBlends,
   ComponentVariations,
   HeadOverlays,
   Skills,
-  CivilHelpers, CivilModels
-} from 'civil'
+  CivilHelpers,
+  CivilModels,
+} from "civil";
 
 declare global {
-  interface CitizenExports {
+  interface CivilExports {
     (exportKey: string | number, exportFunction: Function): void;
 
     // Base resources
@@ -23,20 +24,20 @@ declare global {
     // Main resources
     civil_animations: AnimationsManager;
     civil_character_manager: any;
-    civil_character_creator: any;
     civil_helpers: CivilHelpers;
     civil_injuries: any;
     civil_medicine: any;
     civil_models: CivilModels;
-    civil_nui: NuiManager;
-    civil_skills: any
-    civil_spawn_manager: any
-    civil_world_manager: any
+    civil_nui: CivilNuiManager;
+    civil_skills: any;
+    civil_spawn_manager: any;
+    civil_world_manager: any;
   }
 
   interface StateBagInterface {
-    set (key: keyof StateBagInterface, value: any, replicated: boolean): void
+    set(key: keyof StateBagInterface, value: any, replicated: boolean): void;
 
+    // character
     firstname: string;
     lastname: string;
     age: number;
@@ -57,8 +58,17 @@ declare global {
       y: number;
       z: number;
       heading: number;
-    }
+    };
     model: string;
+
+    // skills
+    stamina: number;
+    strength: number;
+    lung_capacity: number;
+    wheelie_ability: number;
+    flying_ability: number;
+    shooting_ability: number;
+    stealth_ability: number;
   }
 
   interface EntityInterface {
@@ -66,8 +76,6 @@ declare global {
   }
 
   namespace globalThis {
-    var LocalPlayer: EntityInterface
-    // @ts-ignore
-    var exports: CitizenExports
+    var LocalPlayer: EntityInterface;
   }
 }

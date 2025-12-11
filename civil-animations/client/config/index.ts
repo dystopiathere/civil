@@ -1,2 +1,2 @@
-export * from './flagsMapping'
-export * from './animationChains'
+export * from "./flagsMapping";
+export * from "./animationChains";

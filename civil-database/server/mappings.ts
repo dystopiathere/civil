@@ -1,1 +1,1 @@
-export const tempIdsMapping: Record<string, number> = {}
+export const tempIdsMapping: Record<string, number> = {};

@@ -1,19 +1,13 @@
 {
   "compilerOptions": {
     "rootDir": ".",
-    "baseUrl": ".",
     "noImplicitAny": true,
     "module": "commonjs",
     "target": "es2021",
-    "lib": [
-      "es2021"
-    ],
-    "moduleResolution": "node",
+    "lib": ["es2021"],
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "noEmit": true
   },
-  "include": [
-    "./"
-  ]
+  "include": ["./"]
 }

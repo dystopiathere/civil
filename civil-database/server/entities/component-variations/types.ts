@@ -1,3 +1,1 @@
-export interface IComponentVariations {
-
-}
+export interface IComponentVariations {}

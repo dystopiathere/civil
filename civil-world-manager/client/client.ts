@@ -1,48 +1,41 @@
-import { FullCharacterEntity } from 'civil'
-import { disableAmbientSounds, disableEntityDensity } from './lib'
-import { zonesMapping } from './config'
+import { disableAmbientSounds, disableEntityDensity } from "./lib";
+import { zonesMapping } from "./config";
 
 // @ts-ignore
-const exports = global.exports as CitizenExports
+const exports = global.exports as CivilExports;
 
-const LocalPlayer = global.LocalPlayer as {
-  state: StateBagInterface & {
-    character: FullCharacterEntity;
-  };
-}
+let interval: NodeJS.Timer;
 
-let interval: NodeJS.Timer
+on("onClientGameTypeStart", () => {
+  disableEntityDensity();
+  disableAmbientSounds();
+});
 
-on('onClientGameTypeStart', () => {
-  disableEntityDensity()
-  disableAmbientSounds()
-})
-
-on('playerSpawned', async () => {
+on("playerSpawned", () => {
   if (interval) {
-    clearInterval(interval)
+    clearInterval(interval);
   }
 
   interval = setInterval(() => {
-    const playerPed = GetPlayerPed(-1)
-    const [x, y, z] = GetEntityCoords(playerPed, false)
-    const heading = GetEntityHeading(playerPed)
+    const playerPed = GetPlayerPed(-1);
+    const [x, y, z] = GetEntityCoords(playerPed, false);
+    const heading = GetEntityHeading(playerPed);
 
-    const [streetNameHash] = GetStreetNameAtCoord(x, y, z)
-    const streetName = GetStreetNameFromHashKey(streetNameHash)
-    const zoneName = GetNameOfZone(x, y, z)
+    const [streetNameHash] = GetStreetNameAtCoord(x, y, z);
+    const streetName = GetStreetNameFromHashKey(streetNameHash);
+    const zoneName = GetNameOfZone(x, y, z);
 
-    const { character } = LocalPlayer.state
+    global.LocalPlayer.state.set("last_position", { x, y, z, heading }, true);
 
-    Object.assign(character, { last_position: { x, y, z, heading } })
+    const hours = GetClockHours().toString().padStart(2, "0");
+    const minutes = GetClockMinutes().toString().padStart(2, "0");
 
-    LocalPlayer.state.set('character', character, true)
+    const time = `${hours}:${minutes}`;
 
-    const hours = GetClockHours().toString().padStart(2, '0')
-    const minutes = GetClockMinutes().toString().padStart(2, '0')
-
-    const time = `${hours}:${minutes}`
-
-    exports.nui.sendWorldData({ streetName, zoneName: zonesMapping[zoneName] ?? zoneName, time })
-  }, 100)
-})
+    exports.civil_nui.sendWorldData({
+      streetName,
+      zoneName: zonesMapping[zoneName] ?? zoneName,
+      time,
+    });
+  }, 100);
+});

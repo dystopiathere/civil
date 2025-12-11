@@ -1,2 +1,2 @@
-import './playAnimation'
-import './playAnimationChain'
+import "./playAnimation";
+import "./playAnimationChain";
