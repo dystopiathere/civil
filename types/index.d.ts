@@ -34,8 +34,11 @@ declare global {
     civil_world_manager: any;
   }
 
-  interface StateBagInterface {
-    set(key: keyof StateBagInterface, value: any, replicated: boolean): void;
+  interface LocalPlayerStateBagInterface {
+    set(key: keyof LocalPlayerStateBagInterface, value: any, replicated: boolean): void;
+
+    player_id: number;
+    character_id: number;
 
     // character
     firstname: string;
@@ -71,11 +74,11 @@ declare global {
     stealth_ability: number;
   }
 
-  interface EntityInterface {
-    state: StateBagInterface;
+  interface LocalPlayerInterface {
+    state: LocalPlayerStateBagInterface;
   }
 
   namespace globalThis {
-    var LocalPlayer: EntityInterface;
+    var LocalPlayer: LocalPlayerInterface;
   }
 }

@@ -27,14 +27,48 @@ on("playerJoining", async (oldId: string) => {
     }
   }
 
-  Object.entries({
+  const characterId = character.id;
+
+  delete character.id;
+  delete character.created_at;
+  delete character.updated_at;
+
+  const headBlends = await characterModel.getHeadBlends(characterId);
+  const faceFeatures = await characterModel.getFaceFeatures(characterId);
+  const skills = await characterModel.getSkills(characterId);
+  const componentVariations = await characterModel.getComponentVariations(characterId);
+  const headOverlays = await characterModel.getHeadOverlays(characterId);
+
+  delete headBlends.id;
+  delete headBlends.created_at;
+  delete headBlends.updated_at;
+
+  delete faceFeatures.id;
+  delete faceFeatures.created_at;
+  delete faceFeatures.updated_at;
+
+  delete skills.id;
+
+  delete componentVariations.id;
+  delete componentVariations.created_at;
+  delete componentVariations.updated_at;
+
+  delete headOverlays.id;
+  delete headOverlays.created_at;
+  delete headOverlays.updated_at;
+
+  const data = {
+    player_id: playerId,
+    character_id: characterId,
     ...character,
-    ...(await characterModel.getHeadBlends(character.id)),
-    ...(await characterModel.getFaceFeatures(character.id)),
-    ...(await characterModel.getSkills(character.id)),
-    ...(await characterModel.getComponentVariations(character.id)),
-    ...(await characterModel.getHeadOverlays(character.id)),
-  }).forEach(([key, value]) => {
+    ...headBlends,
+    ...faceFeatures,
+    ...skills,
+    ...componentVariations,
+    ...headOverlays,
+  };
+
+  Object.entries(data).forEach(([key, value]) => {
     Player(playerSource).state.set(key, value, true);
   });
 });

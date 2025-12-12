@@ -1,43 +1,25 @@
-AddStateBagChangeHandler("stamina", null, (bagName: string, key: string, value: number) => {
-  const skill = "MP0_" + key.toUpperCase();
+const skills: (keyof LocalPlayerStateBagInterface)[] = [
+  "stamina",
+  "strength",
+  "lung_capacity",
+  "wheelie_ability",
+  "flying_ability",
+  "shooting_ability",
+  "stealth_ability",
+];
 
-  StatSetInt(skill, value, true);
-});
+on("onClientGameTypeStart", async () => {
+  AddStateBagChangeHandler(
+    null,
+    `player:${GetPlayerServerId(PlayerId())}`,
+    (bagName: string, key: keyof LocalPlayerStateBagInterface, value: any) => {
+      if (skills.includes(key)) {
+        const skill = "MP0_" + key.toUpperCase();
 
-AddStateBagChangeHandler("strength", null, (bagName: string, key: string, value: number) => {
-  const skill = "MP0_" + key.toUpperCase();
-
-  StatSetInt(skill, value, true);
-});
-
-AddStateBagChangeHandler("lung_capacity", null, (bagName: string, key: string, value: number) => {
-  const skill = "MP0_" + key.toUpperCase();
-
-  StatSetInt(skill, value, true);
-});
-
-AddStateBagChangeHandler("wheelie_ability", null, (bagName: string, key: string, value: number) => {
-  const skill = "MP0_" + key.toUpperCase();
-
-  StatSetInt(skill, value, true);
-});
-
-AddStateBagChangeHandler("flying_ability", null, (bagName: string, key: string, value: number) => {
-  const skill = "MP0_" + key.toUpperCase();
-
-  StatSetInt(skill, value, true);
-});
-
-AddStateBagChangeHandler("shooting_ability", null, (bagName: string, key: string, value: number) => {
-  const skill = "MP0_" + key.toUpperCase();
-
-  StatSetInt(skill, value, true);
-});
-
-AddStateBagChangeHandler("stealth_ability", null, (bagName: string, key: string, value: number) => {
-  const skill = "MP0_" + key.toUpperCase();
-
-  StatSetInt(skill, value, true);
+        StatSetInt(skill, value, true);
+      }
+    }
+  );
 });
 
 on("playerSpawned", async () => {

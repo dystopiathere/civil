@@ -6,10 +6,10 @@ version '1.0.0'
 
 node_version '22'
 
-resource_type 'gametype' { name = 'Base gametype' }
+resource_type 'gametype' {
+    name = 'Base gametype'
+}
 
 client_script 'dist/client.js'
 
-dependencies {
-    'spawnmanager',
-}
+dependencies {'spawnmanager', 'civil_nui'}

@@ -51,7 +51,7 @@ Object.entries(resources).forEach(([resourceName, { clientExists, serverExists, 
     contexts.push('server')
   }
 
-  const targetResourceName = resourceName.replace('-', '_')
+  const targetResourceName = resourceName.replaceAll('-', '_')
 
   const resourcePath = `./${resourceName}`
   const targetPath = `../resources/[main]/${targetResourceName}`

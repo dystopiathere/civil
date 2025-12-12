@@ -1,4 +1,5 @@
-import { FullCharacterEntity } from "civil";
+import dayjs from "dayjs";
+import { CharacterEntity } from "civil";
 import {
   CharacterModel,
   ComponentVariationsModel,
@@ -11,7 +12,9 @@ import {
 // @ts-ignore
 const exports = global.exports as CivilExports;
 
-async function syncData(character: FullCharacterEntity) {
+async function syncData(state: LocalPlayerStateBagInterface) {
+  const now = dayjs().toISOString();
+
   const characterModel = new CharacterModel();
   const headBlendsModel = new HeadBlendsModel();
   const faceFeaturesModel = new FaceFeaturesModel();
@@ -19,46 +22,45 @@ async function syncData(character: FullCharacterEntity) {
   const componentVariationsModel = new ComponentVariationsModel();
   const headOverlaysModel = new HeadOverlaysModel();
 
-  const headBlends = character.head_blends;
-  const faceFeatures = character.face_features;
-  const skills = character.skills;
-  const componentVariations = character.component_variations;
-  const headOverlays = character.head_overlays;
+  const headBlends = await characterModel.getHeadBlends(state.character_id);
+  const faceFeatures = await characterModel.getFaceFeatures(state.character_id);
+  const skills = await characterModel.getSkills(state.character_id);
+  const componentVariations = await characterModel.getComponentVariations(state.character_id);
+  const headOverlays = await characterModel.getHeadOverlays(state.character_id);
 
-  delete headBlends.created_at;
-  delete headBlends.updated_at;
-  delete faceFeatures.created_at;
-  delete faceFeatures.updated_at;
-  delete componentVariations.created_at;
-  delete componentVariations.updated_at;
-  delete headOverlays.created_at;
-  delete headOverlays.updated_at;
+  console.log(headBlends.id, faceFeatures.id, skills.id, componentVariations.id, headOverlays.id);
 
-  await headBlendsModel.update(headBlends.id, headBlends);
-  await faceFeaturesModel.update(faceFeatures.id, faceFeatures);
-  await skillsModel.update(skills.id, skills);
-  await componentVariationsModel.update(componentVariations.id, componentVariations);
-  await headOverlaysModel.update(headOverlays.id, headOverlays);
+  await headBlendsModel.update(headBlends.id, { ...state.head_blends, updated_at: now });
+  await faceFeaturesModel.update(faceFeatures.id, { ...state.face_features, updated_at: now });
+  await skillsModel.update(skills.id, { ...state.skills, updated_at: now });
+  await componentVariationsModel.update(componentVariations.id, { ...state.component_variations, updated_at: now });
+  await headOverlaysModel.update(headOverlays.id, { ...state.head_overlays, updated_at: now });
 
-  delete character.head_blends;
-  delete character.face_features;
-  delete character.skills;
-  delete character.component_variations;
-  delete character.head_overlays;
-  delete character.created_at;
-  delete character.updated_at;
+  const character: Partial<CharacterEntity> = {
+    firstname: state.firstname,
+    lastname: state.lastname,
+    age: state.age,
+    sex: state.sex,
+    health: state.health,
+    max_health: state.max_health,
+    armour: state.armour,
+    max_armour: state.max_armour,
+    eye_color: state.eye_color,
+    hair_first_color: state.hair_first_color,
+    last_position: state.last_position,
+    model: state.model,
+    updated_at: now,
+  };
 
-  await characterModel.update(character.id, character);
+  await characterModel.update(state.character_id, character);
 }
 
 on("playerDropped", async (reason: string, resourceName: string, clientDropReason: number) => {
-  const { character } = Player(global.source).state as StateBagInterface & {
-    character: FullCharacterEntity;
-  };
+  const { state } = Player(global.source) as LocalPlayerInterface;
 
-  console.log(`Character ${character.id} dropped with reason: ${reason}`);
+  console.log(`Player ${state.player_id} dropped with reason: ${reason} (Code ${clientDropReason})`);
 
-  await syncData(character);
+  await syncData(state);
 });
 
 exports("syncData", syncData);

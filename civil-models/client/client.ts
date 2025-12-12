@@ -1,4 +1,3 @@
-import { HeadBlends, FaceFeatures, ComponentVariations, HeadOverlays } from "civil";
 import {
   setModel,
   setPedHeadBlendData,
@@ -11,40 +10,38 @@ import {
 // @ts-ignore
 const exports = global.exports as CivilExports;
 
-AddStateBagChangeHandler("eye_color", null, (bagName: string, key: string, value: number) => {
-  const ped = GetEntityFromStateBagName(bagName);
+on("onClientGameTypeStart", async () => {
+  AddStateBagChangeHandler(
+    null,
+    `player:${GetPlayerServerId(PlayerId())}`,
+    (bagName: string, key: keyof LocalPlayerStateBagInterface, value: any) => {
+      const ped = GetEntityFromStateBagName(bagName);
 
-  SetPedEyeColor(ped, value);
-});
+      if (key === "eye_color") {
+        SetPedEyeColor(ped, value);
+      }
 
-AddStateBagChangeHandler("head_blends", null, (bagName: string, key: string, value: HeadBlends) => {
-  const ped = GetEntityFromStateBagName(bagName);
+      if (key === "head_blends") {
+        setPedHeadBlendData(ped, value);
+      }
 
-  setPedHeadBlendData(ped, value);
-});
+      if (key === "face_features") {
+        setPedFaceFeatureData(ped, value);
+      }
 
-AddStateBagChangeHandler("face_features", null, (bagName: string, key: string, value: FaceFeatures) => {
-  const ped = GetEntityFromStateBagName(bagName);
+      if (key === "component_variations") {
+        setPedComponentVariationData(ped, value);
+      }
 
-  setPedFaceFeatureData(ped, value);
-});
+      if (key === "head_overlays") {
+        setPedHeadOverlayData(ped, value);
+      }
 
-AddStateBagChangeHandler("component_variations", null, (bagName: string, key: string, value: ComponentVariations) => {
-  const ped = GetEntityFromStateBagName(bagName);
-
-  setPedComponentVariationData(ped, value);
-});
-
-AddStateBagChangeHandler("head_overlays", null, (bagName: string, key: string, value: HeadOverlays) => {
-  const ped = GetEntityFromStateBagName(bagName);
-
-  setPedHeadOverlayData(ped, value);
-});
-
-AddStateBagChangeHandler("model", null, (bagName: string, key: string, value: string) => {
-  const ped = GetEntityFromStateBagName(bagName);
-
-  setModel(ped, value);
+      if (key === "model") {
+        setModel(ped, value);
+      }
+    }
+  );
 });
 
 on("playerSpawned", async () => {

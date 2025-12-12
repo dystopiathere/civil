@@ -1,40 +1,45 @@
 // @ts-ignore
 const exports = global.exports as CivilExports;
 
-setTick(() => {
-  if (IsPedSwimmingUnderWater(GetPlayerPed(-1))) {
-    exports.civil_nui.sendPlayerUnderwater(true);
-  } else {
-    exports.civil_nui.sendPlayerUnderwater(false);
-  }
-});
+on("onClientGameTypeStart", async () => {
+  DisplayRadar(false);
 
-AddStateBagChangeHandler("health", null, (bagName: string, key: string, value: number) => {
-  const ped = GetEntityFromStateBagName(bagName);
+  setTick(() => {
+    if (IsPedSwimmingUnderWater(GetPlayerPed(-1))) {
+      exports.civil_nui.sendPlayerUnderwater(true);
+    } else {
+      exports.civil_nui.sendPlayerUnderwater(false);
+    }
+  });
 
-  SetEntityHealth(ped, value);
-  exports.civil_nui.sendPlayerHealth(value);
-});
+  AddStateBagChangeHandler(
+    null,
+    `player:${GetPlayerServerId(PlayerId())}`,
+    (bagName: string, key: keyof LocalPlayerStateBagInterface, value: number) => {
+      const ped = GetEntityFromStateBagName(bagName);
+      const player = GetPlayerFromStateBagName(bagName);
 
-AddStateBagChangeHandler("max_health", null, (bagName: string, key: string, value: number) => {
-  const ped = GetEntityFromStateBagName(bagName);
+      if (key === "health") {
+        SetEntityHealth(ped, value);
+        exports.civil_nui.sendPlayerHealth(value);
+      }
 
-  SetEntityMaxHealth(ped, value);
-  exports.civil_nui.sendPlayerMaxHealth(value);
-});
+      if (key === "max_health") {
+        SetEntityMaxHealth(ped, value);
+        exports.civil_nui.sendPlayerMaxHealth(value);
+      }
 
-AddStateBagChangeHandler("armour", null, (bagName: string, key: string, value: number) => {
-  const ped = GetEntityFromStateBagName(bagName);
+      if (key === "armour") {
+        SetPedArmour(ped, value);
+        exports.civil_nui.sendPlayerArmour(value);
+      }
 
-  SetPedArmour(ped, value);
-  exports.civil_nui.sendPlayerArmour(value);
-});
-
-AddStateBagChangeHandler("max_armour", null, (bagName: string, key: string, value: number) => {
-  const player = GetPlayerFromStateBagName(bagName);
-
-  SetPlayerMaxArmour(player, value);
-  exports.civil_nui.sendPlayerMaxArmour(value);
+      if (key === "max_armour") {
+        SetPlayerMaxArmour(player, value);
+        exports.civil_nui.sendPlayerMaxArmour(value);
+      }
+    }
+  );
 });
 
 on("playerSpawned", () => {
@@ -42,4 +47,8 @@ on("playerSpawned", () => {
   exports.civil_nui.sendPlayerHealth(global.LocalPlayer.state.health);
   exports.civil_nui.sendPlayerMaxArmour(global.LocalPlayer.state.max_armour);
   exports.civil_nui.sendPlayerArmour(global.LocalPlayer.state.armour);
+
+  setTimeout(() => {
+    global.LocalPlayer.state.set("health", 180, true);
+  }, 5000);
 });
