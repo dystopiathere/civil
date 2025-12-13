@@ -47,8 +47,4 @@ on("playerSpawned", () => {
   exports.civil_nui.sendPlayerHealth(global.LocalPlayer.state.health);
   exports.civil_nui.sendPlayerMaxArmour(global.LocalPlayer.state.max_armour);
   exports.civil_nui.sendPlayerArmour(global.LocalPlayer.state.armour);
-
-  setTimeout(() => {
-    global.LocalPlayer.state.set("health", 180, true);
-  }, 5000);
 });

@@ -30,6 +30,11 @@ on("playerJoining", async (oldId: string) => {
   const characterId = character.id;
 
   delete character.id;
+  delete character.head_blends_id;
+  delete character.face_features_id;
+  delete character.skills_id;
+  delete character.component_variations_id;
+  delete character.head_overlays_id;
   delete character.created_at;
   delete character.updated_at;
 
@@ -61,11 +66,11 @@ on("playerJoining", async (oldId: string) => {
     player_id: playerId,
     character_id: characterId,
     ...character,
-    ...headBlends,
-    ...faceFeatures,
-    ...skills,
-    ...componentVariations,
-    ...headOverlays,
+    head_blends: headBlends,
+    face_features: faceFeatures,
+    skills: skills,
+    component_variations: componentVariations,
+    head_overlays: headOverlays,
   };
 
   Object.entries(data).forEach(([key, value]) => {
