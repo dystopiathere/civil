@@ -1,21 +1,21 @@
 export const pathKeys = {
-  root: import.meta.env.DEV ? '/' : '/dist/index.html/',
-  hud () {
-    return pathKeys.root
+  root: import.meta.env.DEV ? "/" : "/dist/index.html/",
+  hud() {
+    return pathKeys.root;
   },
-  characterCreator () {
-    return pathKeys.root.concat('characterCreator/')
+  characterCreator() {
+    return pathKeys.root.concat("characterCreator/");
   },
-  characterCreatorGenetics () {
-    return pathKeys.characterCreator().concat('genetics/')
+  characterCreatorGenetics() {
+    return pathKeys.characterCreator().concat("genetics/");
   },
-  characterCreatorFace () {
-    return pathKeys.characterCreator().concat('face/')
+  characterCreatorFace() {
+    return pathKeys.characterCreator().concat("face/");
   },
-  characterCreatorBody () {
-    return pathKeys.characterCreator().concat('body/')
+  characterCreatorBody() {
+    return pathKeys.characterCreator().concat("body/");
   },
-  characterCreatorClothes () {
-    return pathKeys.characterCreator().concat('clothes/')
-  }
-}
+  characterCreatorClothes() {
+    return pathKeys.characterCreator().concat("clothes/");
+  },
+};

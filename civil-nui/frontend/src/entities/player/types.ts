@@ -5,4 +5,4 @@ export type Player = {
   maxArmour: number;
   breath: number;
   isInWater: boolean;
-}
+};

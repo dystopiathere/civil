@@ -1,11 +1,11 @@
-import { type EventSend, invoke } from '~/shared/lib/event-manager'
-import type { FaceFeatures } from '~/entities/character'
+import { type EventSend, invoke } from "~/shared/lib/event-manager";
+import type { FaceFeatures } from "~/entities/character";
 
 type EventRequestData = {
-  nodata: null
-}
+  nodata: null;
+};
 
-type EventResponseData = Omit<FaceFeatures, 'id' | 'created_at' | 'updated_at'>
+type EventResponseData = Omit<FaceFeatures, "id" | "created_at" | "updated_at">;
 
 const mockResponseData: EventResponseData = {
   nose_width: 1,
@@ -28,14 +28,14 @@ const mockResponseData: EventResponseData = {
   chin_bone_shape: 1,
   chin_hole: 1,
   neck_thickness: 1,
-}
+};
 
 export const getFaceFeature: EventSend<EventRequestData, EventResponseData> = (data) => {
   if (import.meta.env.DEV) {
     return new Promise((resolve) => {
-      resolve([mockResponseData, false])
-    })
+      resolve([mockResponseData, false]);
+    });
   }
 
-  return invoke<EventRequestData, EventResponseData>('getFaceFeature', data)
-}
+  return invoke<EventRequestData, EventResponseData>("getFaceFeature", data);
+};

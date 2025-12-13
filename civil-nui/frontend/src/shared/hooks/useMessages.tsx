@@ -1,11 +1,11 @@
-import { useEffect } from 'react'
-import { type MessageEventData } from '~/shared/lib/event-manager'
-import { type Player, usePlayerStore } from '~/entities/player'
-import { useWorldStore, type World } from '~/entities/world'
-import { pathKeys } from '~/shared/lib/react-router'
-import { useNavigate } from 'react-router-dom'
+import { useEffect } from "react";
+import { type MessageEventData } from "~/shared/lib/event-manager";
+import { type Player, usePlayerStore } from "~/entities/player";
+import { useWorldStore, type World } from "~/entities/world";
+import { pathKeys } from "~/shared/lib/react-router";
+import { useNavigate } from "react-router-dom";
 
-export function useMessages () {
+export function useMessages() {
   const {
     setPlayerHealth,
     setPlayerMaxHealth,
@@ -13,72 +13,79 @@ export function useMessages () {
     setPlayerMaxArmour,
     setPlayerBreath,
     setPlayerInWater,
-  } = usePlayerStore()
+  } = usePlayerStore();
 
-  const {
-    setStreetName,
-    setZoneName,
-    setTime
-  } = useWorldStore()
+  const { setStreetName, setZoneName, setTime } = useWorldStore();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     window.onmessage = (event: MessageEvent<MessageEventData>) => {
-      const { name, data } = event.data
+      const { name, data } = event.data;
 
-      if (name === 'setPlayerHealth') {
-        const { health } = data as Pick<Player, 'health'>
+      if (name === "setPlayerHealth") {
+        const { health } = data as Pick<Player, "health">;
 
-        setPlayerHealth(health > 0 ? health : 0)
+        setPlayerHealth(health > 0 ? health : 0);
       }
 
-      if (name === 'setPlayerArmour') {
-        const { armour } = data as Pick<Player, 'armour'>
+      if (name === "setPlayerArmour") {
+        const { armour } = data as Pick<Player, "armour">;
 
-        setPlayerArmour(armour)
+        setPlayerArmour(armour);
       }
 
-      if (name === 'setPlayerMaxHealth') {
-        const { maxHealth } = data as Pick<Player, 'maxHealth'>
+      if (name === "setPlayerMaxHealth") {
+        const { maxHealth } = data as Pick<Player, "maxHealth">;
 
-        setPlayerMaxHealth(maxHealth)
+        setPlayerMaxHealth(maxHealth);
       }
 
-      if (name === 'setPlayerMaxArmour') {
-        const { maxArmour } = data as Pick<Player, 'maxArmour'>
+      if (name === "setPlayerMaxArmour") {
+        const { maxArmour } = data as Pick<Player, "maxArmour">;
 
-        setPlayerMaxArmour(maxArmour)
+        setPlayerMaxArmour(maxArmour);
       }
 
-      if (event.data.name === 'setPlayerUnderwater') {
-        const { breath, isInWater } = data as Pick<Player, 'breath' | 'isInWater'>
+      if (event.data.name === "setPlayerUnderwater") {
+        const { breath, isInWater } = data as Pick<Player, "breath" | "isInWater">;
 
-        setPlayerBreath(breath > 0 ? breath : 0)
-        setPlayerInWater(isInWater)
+        setPlayerBreath(breath > 0 ? breath : 0);
+        setPlayerInWater(isInWater);
       }
 
-      if (name === 'setWorldData') {
-        const { streetName, zoneName, time } = data as World
+      if (name === "setWorldData") {
+        const { streetName, zoneName, time } = data as World;
 
-        setStreetName(streetName)
-        setZoneName(zoneName)
-        setTime(time)
+        setStreetName(streetName);
+        setZoneName(zoneName);
+        setTime(time);
       }
 
-      if (name === 'navigate') {
-        const { page } = data as { page: keyof object }
+      if (name === "navigate") {
+        const { page } = data as { page: keyof object };
 
-        const getPath = pathKeys[page] as CallableFunction
+        const getPath = pathKeys[page] as CallableFunction;
 
         if (getPath) {
-          navigate(getPath())
+          navigate(getPath());
         }
       }
-    }
+    };
 
     return () => {
-      window.onmessage = null
-    }
-  }, [navigate, setPlayerArmour, setPlayerBreath, setPlayerHealth, setPlayerInWater, setPlayerMaxArmour, setPlayerMaxHealth, setStreetName, setTime, setZoneName])
+      window.onmessage = null;
+    };
+  }, [
+    navigate,
+    setPlayerArmour,
+    setPlayerBreath,
+    setPlayerHealth,
+    setPlayerInWater,
+    setPlayerMaxArmour,
+    setPlayerMaxHealth,
+    setStreetName,
+    setTime,
+    setZoneName,
+  ]);
 }

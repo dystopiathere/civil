@@ -1,12 +1,13 @@
-import type { RouteObject } from 'react-router-dom'
-import { pathKeys } from '~/shared/lib/react-router'
-import { createElement } from 'react'
-import { CharacterCreator } from './ui'
+import type { RouteObject } from "react-router-dom";
+import { pathKeys } from "~/shared/lib/react-router";
+import { createElement } from "react";
+import { CharacterCreator } from "./ui";
 import {
-  characterCreatorBodyRoute, characterCreatorClothesRoute,
+  characterCreatorBodyRoute,
+  characterCreatorClothesRoute,
   characterCreatorFaceRoute,
-  characterCreatorGeneticsRoute
-} from '~/pages/character-creator/pages'
+  characterCreatorGeneticsRoute,
+} from "~/pages/character-creator/pages";
 
 export const characterCreatorRoute: RouteObject = {
   path: pathKeys.characterCreator(),
@@ -16,5 +17,5 @@ export const characterCreatorRoute: RouteObject = {
     characterCreatorBodyRoute,
     characterCreatorFaceRoute,
     characterCreatorClothesRoute,
-  ]
-}
+  ],
+};

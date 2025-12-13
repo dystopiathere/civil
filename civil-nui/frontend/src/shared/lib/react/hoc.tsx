@@ -1,11 +1,16 @@
-import { type FC, Suspense, type SuspenseProps } from 'react'
+import { type FC, Suspense, type SuspenseProps } from "react";
 
-export function withSuspense<WrappedProps extends object> (WrappedComponent: FC<WrappedProps>, suspenseProps: SuspenseProps): FC<WrappedProps> {
-  function WrapperComponent (props: WrappedProps) {
-    return <Suspense {...suspenseProps}>
-      <WrappedComponent {...props} />
-    </Suspense>
+export function withSuspense<WrappedProps extends object>(
+  WrappedComponent: FC<WrappedProps>,
+  suspenseProps: SuspenseProps
+): FC<WrappedProps> {
+  function WrapperComponent(props: WrappedProps) {
+    return (
+      <Suspense {...suspenseProps}>
+        <WrappedComponent {...props} />
+      </Suspense>
+    );
   }
 
-  return WrapperComponent
+  return WrapperComponent;
 }

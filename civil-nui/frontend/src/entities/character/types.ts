@@ -11,7 +11,7 @@ export type HeadBlends = {
   third_mix: number;
   created_at: string;
   updated_at: string;
-}
+};
 
 export type FaceFeatures = {
   id: number;
@@ -37,7 +37,7 @@ export type FaceFeatures = {
   neck_thickness: number;
   created_at: string;
   updated_at: string;
-}
+};
 
 export type Skills = {
   id: number;
@@ -48,7 +48,7 @@ export type Skills = {
   flying_ability: number;
   shooting_ability: number;
   stealth_ability: number;
-}
+};
 
 export type HeadOverlays = {
   id: number;
@@ -94,7 +94,7 @@ export type HeadOverlays = {
   add_body_blemishes_opacity: number;
   created_at: string;
   updated_at: string;
-}
+};
 
 export type ComponentVariations = {
   id: number;
@@ -136,7 +136,7 @@ export type ComponentVariations = {
   torso_second_palette: number;
   created_at: string;
   updated_at: string;
-}
+};
 
 export type Character = {
   id: number;
@@ -160,7 +160,7 @@ export type Character = {
     y: number;
     z: number;
     heading: number;
-  }
+  };
   model: string;
   created_at: string;
   updated_at: string;
@@ -169,4 +169,4 @@ export type Character = {
   skills: Skills;
   head_overlays: HeadOverlays;
   component_variations: ComponentVariations;
-}
+};

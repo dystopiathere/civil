@@ -1,11 +1,11 @@
-import { type EventSend, invoke } from '~/shared/lib/event-manager'
-import type { HeadOverlays } from '~/entities/character'
+import { type EventSend, invoke } from "~/shared/lib/event-manager";
+import type { HeadOverlays } from "~/entities/character";
 
 type EventRequestData = {
-  nodata: null
-}
+  nodata: null;
+};
 
-type EventResponseData = Omit<HeadOverlays, 'id' | 'created_at' | 'updated_at'>
+type EventResponseData = Omit<HeadOverlays, "id" | "created_at" | "updated_at">;
 
 const mockResponseData: EventResponseData = {
   blemishes: 1,
@@ -48,14 +48,14 @@ const mockResponseData: EventResponseData = {
   body_blemishes_opacity: 1,
   add_body_blemishes: 1,
   add_body_blemishes_opacity: 1,
-}
+};
 
 export const getHeadOverlay: EventSend<EventRequestData, EventResponseData> = (data) => {
   if (import.meta.env.DEV) {
     return new Promise((resolve) => {
-      resolve([mockResponseData, false])
-    })
+      resolve([mockResponseData, false]);
+    });
   }
 
-  return invoke<EventRequestData, EventResponseData>('getHeadOverlay', data)
-}
+  return invoke<EventRequestData, EventResponseData>("getHeadOverlay", data);
+};

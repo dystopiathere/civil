@@ -1,22 +1,22 @@
-import { type EventSend, invoke } from '~/shared/lib/event-manager'
-import type { Character } from '~/entities/character'
+import { type EventSend, invoke } from "~/shared/lib/event-manager";
+import type { Character } from "~/entities/character";
 
 type EventRequestData = {
-  nodata: null
-}
+  nodata: null;
+};
 
-type EventResponseData = Pick<Character, 'model'>
+type EventResponseData = Pick<Character, "model">;
 
 const mockResponseData: EventResponseData = {
-  model: 'mockModel',
-}
+  model: "mockModel",
+};
 
 export const getModel: EventSend<EventRequestData, EventResponseData> = (data) => {
   if (import.meta.env.DEV) {
     return new Promise((resolve) => {
-      resolve([mockResponseData, false])
-    })
+      resolve([mockResponseData, false]);
+    });
   }
 
-  return invoke<EventRequestData, EventResponseData>('getModel', data)
-}
+  return invoke<EventRequestData, EventResponseData>("getModel", data);
+};

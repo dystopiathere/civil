@@ -1,11 +1,11 @@
-import { type EventSend, invoke } from '~/shared/lib/event-manager'
-import type { ComponentVariations } from '~/entities/character'
+import { type EventSend, invoke } from "~/shared/lib/event-manager";
+import type { ComponentVariations } from "~/entities/character";
 
 type EventRequestData = {
-  nodata: null
-}
+  nodata: null;
+};
 
-type EventResponseData = Omit<ComponentVariations, 'id' | 'created_at' | 'updated_at'>
+type EventResponseData = Omit<ComponentVariations, "id" | "created_at" | "updated_at">;
 
 const mockResponseData: EventResponseData = {
   face_drawable: 1,
@@ -44,14 +44,14 @@ const mockResponseData: EventResponseData = {
   torso_second_drawable: 1,
   torso_second_texture: 1,
   torso_second_palette: 1,
-}
+};
 
 export const getComponentVariation: EventSend<EventRequestData, EventResponseData> = (data) => {
   if (import.meta.env.DEV) {
     return new Promise((resolve) => {
-      resolve([mockResponseData, false])
-    })
+      resolve([mockResponseData, false]);
+    });
   }
 
-  return invoke<EventRequestData, EventResponseData>('getComponentVariation', data)
-}
+  return invoke<EventRequestData, EventResponseData>("getComponentVariation", data);
+};

@@ -3,15 +3,15 @@
 
   display: flex;
   flex-direction: column;
-  gap: .5rem;
+  gap: 0.5rem;
 
-  padding: .25rem .5rem;
-  margin-bottom: .5rem;
+  padding: 0.25rem 0.5rem;
+  margin-bottom: 0.5rem;
 
   background-color: #00000000;
-  border-radius: .25rem;
+  border-radius: 0.25rem;
 
-  transition: background-color .2s;
+  transition: background-color 0.2s;
 
   &:hover {
     background-color: #00000080;
@@ -24,7 +24,7 @@
   &__group {
     display: flex;
     justify-content: space-between;
-    gap: .5rem;
+    gap: 0.5rem;
   }
 
   &__value {
@@ -35,9 +35,9 @@
   &__control {
     cursor: pointer;
 
-    opacity: .8;
+    opacity: 0.8;
 
-    transition: .2s;
+    transition: 0.2s;
 
     &:hover {
       opacity: 1;
