@@ -31,7 +31,7 @@ on("onClientGameTypeStart", async () => {
   await spawnPlayer();
 });
 
-on("playerSpawned", async () => {
+on("playerSpawned", () => {
   const playerPed = GetPlayerPed(-1);
 
   const guns = [

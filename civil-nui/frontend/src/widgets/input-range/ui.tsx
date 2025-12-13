@@ -24,8 +24,8 @@ export function InputRange({ label, value, min, max, step, onChange }: InputRang
         max={max}
         step={step}
         value={value}
-        onChange={(event) => {
-          const value = Number(event.target.value);
+        onInput={(event) => {
+          const value = Number(event.currentTarget.value);
 
           onChange(value);
         }}

@@ -1,4 +1,4 @@
-const skills: (keyof LocalPlayerStateBagInterface)[] = [
+const keys: (keyof LocalPlayerStateBagInterface)[] = [
   "stamina",
   "strength",
   "lung_capacity",
@@ -8,21 +8,23 @@ const skills: (keyof LocalPlayerStateBagInterface)[] = [
   "stealth_ability",
 ];
 
-on("onClientGameTypeStart", async () => {
+on("onClientGameTypeStart", () => {
   AddStateBagChangeHandler(
     null,
     `player:${GetPlayerServerId(PlayerId())}`,
     (bagName: string, key: keyof LocalPlayerStateBagInterface, value: any) => {
-      if (skills.includes(key)) {
-        const skill = "MP0_" + key.toUpperCase();
-
-        StatSetInt(skill, value, true);
+      if (!keys.includes(key)) {
+        return;
       }
+
+      const skill = "MP0_" + key.toUpperCase();
+
+      StatSetInt(skill, value, true);
     }
   );
 });
 
-on("playerSpawned", async () => {
+on("playerSpawned", () => {
   StatSetInt("MP0_STAMINA", global.LocalPlayer.state.stamina, true);
   StatSetInt("MP0_STRENGTH", global.LocalPlayer.state.strength, true);
   StatSetInt("MP0_LUNG_CAPACITY", global.LocalPlayer.state.lung_capacity, true);
@@ -31,3 +33,5 @@ on("playerSpawned", async () => {
   StatSetInt("MP0_SHOOTING_ABILITY", global.LocalPlayer.state.shooting_ability, true);
   StatSetInt("MP0_STEALTH_ABILITY", global.LocalPlayer.state.stealth_ability, true);
 });
+
+export {};

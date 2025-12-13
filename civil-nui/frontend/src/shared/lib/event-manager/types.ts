@@ -5,7 +5,7 @@ export type Event =
   | "getTexturesCount"
   | "getModel"
   | "setModel"
-  | "getHeadBlendData"
+  | "getHeadBlend"
   | "setHeadBlend"
   | "getComponentVariation"
   | "setComponentVariation"

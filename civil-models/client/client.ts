@@ -10,41 +10,37 @@ import {
 // @ts-ignore
 const exports = global.exports as CivilExports;
 
-on("onClientGameTypeStart", async () => {
+const keys: (keyof LocalPlayerStateBagInterface)[] = [
+  "eye_color",
+  "head_blends",
+  "face_features",
+  "component_variations",
+  "head_overlays",
+  "model",
+];
+
+on("onClientGameTypeStart", () => {
   AddStateBagChangeHandler(
     null,
     `player:${GetPlayerServerId(PlayerId())}`,
     (bagName: string, key: keyof LocalPlayerStateBagInterface, value: any) => {
-      const ped = GetEntityFromStateBagName(bagName);
-
-      if (key === "eye_color") {
-        SetPedEyeColor(ped, value);
+      if (!keys.includes(key)) {
+        return;
       }
 
-      if (key === "head_blends") {
-        setPedHeadBlendData(ped, value);
-      }
-
-      if (key === "face_features") {
-        setPedFaceFeatureData(ped, value);
-      }
-
-      if (key === "component_variations") {
-        setPedComponentVariationData(ped, value);
-      }
-
-      if (key === "head_overlays") {
-        setPedHeadOverlayData(ped, value);
-      }
+      const player = GetPlayerFromStateBagName(bagName);
+      const ped = GetPlayerPed(player);
 
       if (key === "model") {
         setModel(ped, value);
       }
+
+      updateFreemodeModel(ped);
     }
   );
 });
 
-on("playerSpawned", async () => {
+on("playerSpawned", () => {
   updateFreemodeModel(GetPlayerPed(-1));
 });
 

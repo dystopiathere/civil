@@ -1,7 +1,7 @@
 import { type EventSend, invoke } from "~/shared/lib/event-manager";
 import type { FaceFeatures } from "~/entities/character";
 
-type EventRequestData = Omit<FaceFeatures, "id" | "created_at" | "updated_at">;
+type EventRequestData = Partial<Omit<FaceFeatures, "id" | "created_at" | "updated_at">>;
 
 type EventResponseData = {
   status: boolean;

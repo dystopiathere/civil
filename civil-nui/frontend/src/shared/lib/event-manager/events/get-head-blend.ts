@@ -26,5 +26,5 @@ export const getHeadBlendData: EventSend<EventRequestData, EventResponseData> = 
     });
   }
 
-  return invoke<EventRequestData, EventResponseData>("getHeadBlendData");
+  return invoke<EventRequestData, EventResponseData>("getHeadBlend");
 };

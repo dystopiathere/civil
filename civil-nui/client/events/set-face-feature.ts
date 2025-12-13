@@ -1,7 +1,11 @@
 import { FaceFeatures } from "civil";
 
-RegisterNuiCallback("setFaceFeature", (data: FaceFeatures, cb: CallableFunction) => {
-  global.LocalPlayer.state.set("face_features", data, true);
+RegisterNuiCallback("setFaceFeature", (data: Partial<FaceFeatures>, cb: CallableFunction) => {
+  const faceFeatures = global.LocalPlayer.state.face_features;
+
+  Object.assign(faceFeatures, data);
+
+  global.LocalPlayer.state.set("face_features", faceFeatures, true);
 
   cb([{ status: true }, false]);
 });

@@ -2,7 +2,7 @@ export * from "./get-drawables-count";
 export * from "./get-textures-count";
 export * from "./get-component-variation";
 export * from "./set-component-variation";
-export * from "./get-head-blend-data";
+export * from "./get-head-blend";
 export * from "./set-head-blend";
 export * from "./get-face-feature";
 export * from "./set-face-feature";

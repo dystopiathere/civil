@@ -1,7 +1,9 @@
 // @ts-ignore
 const exports = global.exports as CivilExports;
 
-on("onClientGameTypeStart", async () => {
+const keys: (keyof LocalPlayerStateBagInterface)[] = ["health", "max_health", "armour", "max_armour"];
+
+on("onClientGameTypeStart", () => {
   DisplayRadar(false);
 
   setTick(() => {
@@ -16,8 +18,12 @@ on("onClientGameTypeStart", async () => {
     null,
     `player:${GetPlayerServerId(PlayerId())}`,
     (bagName: string, key: keyof LocalPlayerStateBagInterface, value: number) => {
-      const ped = GetEntityFromStateBagName(bagName);
+      if (!keys.includes(key)) {
+        return;
+      }
+
       const player = GetPlayerFromStateBagName(bagName);
+      const ped = GetPlayerPed(player);
 
       if (key === "health") {
         SetEntityHealth(ped, value);
@@ -48,3 +54,5 @@ on("playerSpawned", () => {
   exports.civil_nui.sendPlayerMaxArmour(global.LocalPlayer.state.max_armour);
   exports.civil_nui.sendPlayerArmour(global.LocalPlayer.state.armour);
 });
+
+export {};

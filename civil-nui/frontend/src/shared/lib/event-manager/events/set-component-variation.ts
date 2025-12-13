@@ -1,7 +1,7 @@
 import { type EventSend, invoke } from "~/shared/lib/event-manager";
 import type { ComponentVariations } from "~/entities/character";
 
-type EventRequestData = Omit<ComponentVariations, "id" | "created_at" | "updated_at">;
+type EventRequestData = Partial<Omit<ComponentVariations, "id" | "created_at" | "updated_at">>;
 
 type EventResponseData = {
   status: boolean;

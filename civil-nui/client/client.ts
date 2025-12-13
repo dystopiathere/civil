@@ -13,7 +13,7 @@ import "./events";
 // @ts-ignore
 const exports = global.exports as CivilExports;
 
-on("onClientGameTypeStart", async () => {
+on("onClientGameTypeStart", () => {
   DisplayRadar(false);
 
   setTick(() => {
