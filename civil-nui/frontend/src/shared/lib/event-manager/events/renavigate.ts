@@ -1,24 +1,23 @@
 import { type EventSend, invoke } from "~/shared/lib/event-manager";
 
 type EventRequestData = {
-  componentId: number;
-  drawableId: number;
+  page: string;
 };
 
 type EventResponseData = {
-  count: number;
+  status: boolean;
 };
 
 const mockResponseData: EventResponseData = {
-  count: 100,
+  status: true,
 };
 
-export const getTexturesCount: EventSend<EventRequestData, EventResponseData> = (data) => {
+export const renavigate: EventSend<EventRequestData, EventResponseData> = (data) => {
   if (import.meta.env.DEV) {
     return new Promise((resolve) => {
       resolve([mockResponseData, false]);
     });
   }
 
-  return invoke<EventRequestData, EventResponseData>("getTexturesCount", data);
+  return invoke<EventRequestData, EventResponseData>("renavigate", data);
 };

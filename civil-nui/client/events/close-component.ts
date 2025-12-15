@@ -1,7 +1,6 @@
-import { FullCharacterEntity } from "civil";
 import { openPage } from "../lib";
 
-RegisterNuiCallback("closeComponent", (data: Partial<FullCharacterEntity>, cb: CallableFunction) => {
+RegisterNuiCallback("closeComponent", (data: {}, cb: CallableFunction) => {
   openPage("hud");
 
   cb([{ status: true }, false]);

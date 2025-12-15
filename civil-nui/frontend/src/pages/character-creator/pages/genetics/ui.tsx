@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from "react";
 import { useCharacterStore, type HeadBlends } from "~/entities/character";
-import { getHeadBlendData, setHeadBlend as eventSetHeadBlends } from "~/shared/lib/event-manager";
+import { getHeadBlendData, setHeadBlend as eventSetHeadBlends, renavigate } from "~/shared/lib/event-manager";
 import { InputArrows } from "~/widgets/input-arrows";
 import { InputRange } from "~/widgets/input-range";
 import { ancestors, fathers, mothers } from "./config";
@@ -9,6 +9,8 @@ export function CharacterCreatorGenetics() {
   const { head_blends, setHeadBlends: stateSetHeadBlends } = useCharacterStore();
 
   useEffect(() => {
+    renavigate({ page: "characterCreatorGenetics" });
+
     getHeadBlendData().then((data) => {
       if (!data) {
         return;

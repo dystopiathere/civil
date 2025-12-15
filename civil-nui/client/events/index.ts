@@ -1,5 +1,5 @@
-import "./get-drawables-count";
-import "./get-textures-count";
+import "./get-drawables-list";
+import "./get-textures-list";
 import "./get-component-variation";
 import "./set-component-variation";
 import "./get-head-blend";
@@ -11,3 +11,4 @@ import "./set-head-overlay";
 import "./get-model";
 import "./set-model";
 import "./close-component";
+import "./renavigate";

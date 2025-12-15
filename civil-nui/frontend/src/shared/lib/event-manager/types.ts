@@ -1,8 +1,8 @@
 export type NUIResponse<R extends object> = [R | null, string | false];
 
 export type Event =
-  | "getDrawablesCount"
-  | "getTexturesCount"
+  | "getDrawablesList"
+  | "getTexturesList"
   | "getModel"
   | "setModel"
   | "getHeadBlend"
@@ -13,6 +13,9 @@ export type Event =
   | "setFaceFeature"
   | "getHeadOverlay"
   | "setHeadOverlay"
+  | "getEyeColor"
+  | "setEyeColor"
+  | "renavigate"
   | "closeComponent";
 
 export type EventSend<D extends object, R extends object> = (data?: D) => Promise<NUIResponse<R> | false>;

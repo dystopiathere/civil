@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { ArrowIcon } from "~/shared/ui/arrow-icon";
 import "./styles.scss";
 
@@ -6,11 +7,23 @@ type Primitive = string | number;
 type InputArrowsProps<T extends Primitive> = {
   label: string;
   value: T;
-  range: T[];
+  range: T[] | Promise<T[]>;
   onChange: (newValue: T) => void;
 };
 
-export function InputArrows<T extends Primitive>({ label, value, range, onChange }: InputArrowsProps<T>) {
+export function InputArrows<T extends Primitive>({ label, value, range: r, onChange }: InputArrowsProps<T>) {
+  const [range, setRange] = useState<T[]>([]);
+
+  useEffect(() => {
+    if (r instanceof Promise) {
+      r.then((data) => {
+        setRange(data);
+      });
+    } else {
+      setRange(r);
+    }
+  }, [r]);
+
   return (
     <div className="input-arrows">
       {label && <div className="input-arrows__label">{label}</div>}

@@ -5,19 +5,19 @@ type EventRequestData = {
 };
 
 type EventResponseData = {
-  count: number;
+  list: number[];
 };
 
 const mockResponseData: EventResponseData = {
-  count: 100,
+  list: [0, 1],
 };
 
-export const getDrawablesCount: EventSend<EventRequestData, EventResponseData> = (data) => {
+export const getDrawablesList: EventSend<EventRequestData, EventResponseData> = (data) => {
   if (import.meta.env.DEV) {
     return new Promise((resolve) => {
       resolve([mockResponseData, false]);
     });
   }
 
-  return invoke<EventRequestData, EventResponseData>("getDrawablesCount", data);
+  return invoke<EventRequestData, EventResponseData>("getDrawablesList", data);
 };

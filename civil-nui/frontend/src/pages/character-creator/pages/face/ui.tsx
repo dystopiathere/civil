@@ -1,12 +1,14 @@
 import { useCallback, useEffect } from "react";
 import { useCharacterStore, type FaceFeatures } from "~/entities/character";
-import { getFaceFeature, setFaceFeature as eventSetFaceFeature } from "~/shared/lib/event-manager";
+import { getFaceFeature, setFaceFeature as eventSetFaceFeature, renavigate } from "~/shared/lib/event-manager";
 import { InputRange } from "~/widgets/input-range";
 
 export function CharacterCreatorFace() {
   const { face_features, setFaceFeatures: stateSetFaceFeatures } = useCharacterStore();
 
   useEffect(() => {
+    renavigate({ page: "characterCreatorFace" });
+
     getFaceFeature().then((data) => {
       if (!data) {
         return;

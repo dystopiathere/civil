@@ -1,5 +1,5 @@
-export * from "./get-drawables-count";
-export * from "./get-textures-count";
+export * from "./get-drawables-list";
+export * from "./get-textures-list";
 export * from "./get-component-variation";
 export * from "./set-component-variation";
 export * from "./get-head-blend";
@@ -10,4 +10,7 @@ export * from "./get-head-overlay";
 export * from "./set-head-overlay";
 export * from "./get-model";
 export * from "./set-model";
+export * from "./get-eye-color";
+export * from "./set-eye-color";
 export * from "./close-component";
+export * from "./renavigate";
