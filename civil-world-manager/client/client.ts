@@ -6,7 +6,7 @@ const exports = global.exports as CitizenExports;
 let interval: NodeJS.Timer;
 let densityTick: number;
 
-on("onResourceStart", () => {
+on("onClientGameTypeStart", () => {
   if (densityTick) {
     clearTick(densityTick);
   }
@@ -16,7 +16,7 @@ on("onResourceStart", () => {
   SetArtificialLightsState(true);
 });
 
-on("onResourceStop", () => {
+on("onClientGameTypeStop", () => {
   if (interval) {
     clearInterval(interval);
     interval = undefined;
@@ -29,7 +29,6 @@ on("onResourceStop", () => {
 
   toggleEntityDensity(true);
   toggleAmbientSounds(true);
-  SetArtificialLightsState(false);
 });
 
 on("playerSpawned", () => {

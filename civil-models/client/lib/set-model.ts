@@ -3,7 +3,7 @@ const exports = global.exports as CitizenExports;
 
 export async function setModel(player: number, model: string) {
   if (!IsModelInCdimage(model) || !IsModelAPed(model)) {
-    console.log(`Bad model: ${model}`);
+    console.error(`Bad model: ${model}`);
   }
 
   const currentModel = GetEntityArchetypeName(GetPlayerPed(player));

@@ -1,4 +1,13 @@
-const keys: (keyof LocalPlayerStateBagInterface)[] = [
+type Keys =
+  | "stamina"
+  | "strength"
+  | "lung_capacity"
+  | "wheelie_ability"
+  | "flying_ability"
+  | "shooting_ability"
+  | "stealth_ability";
+
+const keys: Keys[] = [
   "stamina",
   "strength",
   "lung_capacity",
@@ -11,7 +20,7 @@ const keys: (keyof LocalPlayerStateBagInterface)[] = [
 let stateBagHandler: number;
 let superJumpTick: number;
 
-on("onResourceStart", () => {
+on("onClientGameTypeStart", () => {
   if (stateBagHandler) {
     RemoveStateBagChangeHandler(stateBagHandler);
   }
@@ -27,7 +36,7 @@ on("onResourceStart", () => {
   stateBagHandler = AddStateBagChangeHandler(
     null,
     `player:${GetPlayerServerId(PlayerId())}`,
-    (bagName: string, key: keyof LocalPlayerStateBagInterface, value: any) => {
+    (bagName: string, key: Keys, value: LocalPlayerStateBagInterface[Keys]) => {
       if (!keys.includes(key)) {
         return;
       }
@@ -39,7 +48,7 @@ on("onResourceStart", () => {
   );
 });
 
-on("onResourceStop", () => {
+on("onClientGameTypeStop", () => {
   if (stateBagHandler) {
     RemoveStateBagChangeHandler(stateBagHandler);
     stateBagHandler = undefined;

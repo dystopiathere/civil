@@ -15,14 +15,14 @@ on("playerJoining", async (oldId: string) => {
     const newCharacter = await characterModel.create();
 
     if (!newCharacter) {
-      console.log("Can't create character");
+      console.error("Can't create character");
       return;
     }
 
     const assigned = await characterModel.assignToPlayer(newCharacter.id, playerId);
 
     if (!assigned) {
-      console.log("Can't assign character to player");
+      console.error("Can't assign character to player");
       return;
     }
   }

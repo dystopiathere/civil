@@ -17,6 +17,10 @@ export function toggleEntityDensity(state: boolean): number {
     return 0;
   }
 
+  if (state) {
+    return 0;
+  }
+
   tick = setTick(() => {
     SetPedDensityMultiplierThisFrame(0);
     SetScenarioPedDensityMultiplierThisFrame(0, 0);

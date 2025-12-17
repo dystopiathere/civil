@@ -10,7 +10,7 @@ RegisterCommand(
     }
 
     if (!IsModelInCdimage(model) || !IsModelAVehicle(model)) {
-      console.log(`Bad vehicle: ${model}`);
+      console.error(`Bad vehicle: ${model}`);
       return;
     }
 

@@ -28,11 +28,11 @@ async function spawnPlayer() {
   SetModelAsNoLongerNeeded(model);
 }
 
-on("onResourceStart", async () => {
+on("onClientGameTypeStart", async () => {
   await spawnPlayer();
 });
 
-on("onResourceStop", () => {});
+on("onClientGameTypeStop", () => {});
 
 on("playerSpawned", () => {
   const playerPed = GetPlayerPed(-1);

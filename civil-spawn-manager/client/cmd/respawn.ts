@@ -1,14 +1,16 @@
 RegisterCommand(
   "respawn",
   async (source: number, args: string[], raw: string) => {
-    const playerPed = GetPlayerPed(-1);
+    const player = global.LocalPlayer as LocalPlayerInterface;
 
-    const [x, y, z] = GetEntityCoords(playerPed, true);
+    const ped = GetPlayerPed(-1);
 
-    NetworkResurrectLocalPlayer(x, y, z, GetEntityHeading(playerPed), 0, true);
-    ClearPedBloodDamage(playerPed);
+    const [x, y, z] = GetEntityCoords(ped, true);
 
-    global.LocalPlayer.state.set("health", 280, true);
+    NetworkResurrectLocalPlayer(x, y, z, GetEntityHeading(ped), 0, true);
+    ClearPedBloodDamage(ped);
+
+    player.state.set("health", player.state.max_health, true);
   },
   false
 );

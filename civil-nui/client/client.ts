@@ -14,7 +14,7 @@ const exports = global.exports as CitizenExports;
 
 let hideComponentsTick: number;
 
-on("onResourceStart", () => {
+on("onClientGameTypeStart", () => {
   if (hideComponentsTick) {
     clearTick(hideComponentsTick);
   }
@@ -28,7 +28,7 @@ on("onResourceStart", () => {
   });
 });
 
-on("onResourceStop", () => {
+on("onClientGameTypeStop", () => {
   if (hideComponentsTick) {
     clearTick(hideComponentsTick);
     hideComponentsTick = undefined;
