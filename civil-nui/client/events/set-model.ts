@@ -3,3 +3,5 @@ RegisterNuiCallback("setModel", (data: string, cb: CallableFunction) => {
 
   cb([{ status: true }, false]);
 });
+
+export {};

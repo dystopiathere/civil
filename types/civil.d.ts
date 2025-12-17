@@ -441,6 +441,7 @@ declare module "civil" {
       heading: number;
     };
     model: string;
+    knockdown: boolean;
     active: boolean;
     created_at: string;
     updated_at: string;

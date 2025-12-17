@@ -12,3 +12,5 @@ RegisterCommand(
   },
   false
 );
+
+export {};

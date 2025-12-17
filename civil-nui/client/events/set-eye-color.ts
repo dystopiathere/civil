@@ -3,3 +3,5 @@ RegisterNuiCallback("setEyeColor", (data: string, cb: CallableFunction) => {
 
   cb([{ status: true }, false]);
 });
+
+export {};

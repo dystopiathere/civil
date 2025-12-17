@@ -7,8 +7,7 @@ import {
   updateFreemodeModel,
 } from "./lib";
 
-// @ts-ignore
-const exports = global.exports as CivilExports;
+const exports = global.exports as CitizenExports;
 
 const keys: (keyof LocalPlayerStateBagInterface)[] = [
   "eye_color",
@@ -19,8 +18,14 @@ const keys: (keyof LocalPlayerStateBagInterface)[] = [
   "model",
 ];
 
-on("onClientGameTypeStart", () => {
-  AddStateBagChangeHandler(
+let stateBagHandler: number;
+
+on("onResourceStart", () => {
+  if (stateBagHandler) {
+    RemoveStateBagChangeHandler(stateBagHandler);
+  }
+
+  stateBagHandler = AddStateBagChangeHandler(
     null,
     `player:${GetPlayerServerId(PlayerId())}`,
     (bagName: string, key: keyof LocalPlayerStateBagInterface, value: any) => {
@@ -38,6 +43,13 @@ on("onClientGameTypeStart", () => {
       updateFreemodeModel(ped);
     }
   );
+});
+
+on("onResourceStop", () => {
+  if (stateBagHandler) {
+    RemoveStateBagChangeHandler(stateBagHandler);
+    stateBagHandler = undefined;
+  }
 });
 
 on("playerSpawned", () => {

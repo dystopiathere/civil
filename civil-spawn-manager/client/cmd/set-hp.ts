@@ -5,3 +5,5 @@ RegisterCommand(
   },
   false
 );
+
+export {};

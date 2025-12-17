@@ -164,34 +164,34 @@ export const useCharacterStore: UseBoundStore<StoreApi<CharacterState>> = create
       const face_features = { ...state.face_features };
       Object.assign(face_features, data);
 
-      return { ...state, face_features };
+      return { face_features };
     }),
   setSkills: (data: Partial<Skills>) =>
     set((state) => {
       const skills = { ...state.skills };
       Object.assign(skills, data);
 
-      return { ...state, skills };
+      return { skills };
     }),
   setHeadOverlays: (data: Partial<HeadOverlays>) =>
     set((state) => {
       const head_overlays = { ...state.head_overlays };
       Object.assign(head_overlays, data);
 
-      return { ...state, head_overlays };
+      return { head_overlays };
     }),
   setComponentVariations: (data: Partial<ComponentVariations>) =>
     set((state) => {
       const component_variations = { ...state.component_variations };
       Object.assign(component_variations, data);
 
-      return { ...state, component_variations };
+      return { component_variations };
     }),
   setHeadBlends: (data: Partial<HeadBlends>) =>
     set((state) => {
       const head_blends = { ...state.head_blends };
       Object.assign(head_blends, data);
 
-      return { ...state, head_blends };
+      return { head_blends };
     }),
 }));

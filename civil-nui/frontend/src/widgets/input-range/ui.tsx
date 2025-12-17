@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import "./styles.scss";
 
 type InputRangeProps = {
@@ -14,8 +14,6 @@ type InputRangeProps = {
 export function InputRange({ label, value, min, max, step, onChange, onFocus }: InputRangeProps) {
   const [maxValue, setMaxValue] = useState<number | number[]>(1);
 
-  const changeDelay = useRef<NodeJS.Timeout>(null);
-
   useEffect(() => {
     if (max instanceof Promise) {
       max.then((value) => {
@@ -24,12 +22,6 @@ export function InputRange({ label, value, min, max, step, onChange, onFocus }: 
     } else {
       setMaxValue(max);
     }
-
-    return () => {
-      if (changeDelay.current) {
-        clearTimeout(changeDelay.current);
-      }
-    };
   }, [max]);
 
   return (
@@ -46,7 +38,7 @@ export function InputRange({ label, value, min, max, step, onChange, onFocus }: 
         max={Array.isArray(maxValue) ? maxValue[maxValue.length - 1] : maxValue}
         step={step}
         value={value}
-        onInput={(event) => {
+        onChange={(event) => {
           let newValue = Number(event.currentTarget.value);
           if (Array.isArray(maxValue) && !maxValue.includes(newValue)) {
             while (!maxValue.includes(newValue)) {
@@ -58,13 +50,7 @@ export function InputRange({ label, value, min, max, step, onChange, onFocus }: 
             }
           }
 
-          if (changeDelay.current) {
-            clearTimeout(changeDelay.current);
-          }
-
-          changeDelay.current = setTimeout(() => {
-            onChange(newValue);
-          }, 150);
+          onChange(newValue);
         }}
         onFocus={onFocus}
       />

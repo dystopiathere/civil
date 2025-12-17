@@ -10,7 +10,7 @@ import {
 } from "../entities";
 
 // @ts-ignore
-const exports = global.exports as CivilExports;
+const exports = global.exports as CitizenExports;
 
 async function syncData(state: Omit<LocalPlayerStateBagInterface, "set">) {
   const now = dayjs().toISOString();
@@ -47,6 +47,7 @@ async function syncData(state: Omit<LocalPlayerStateBagInterface, "set">) {
     hair_first_color: state.hair_first_color,
     last_position: state.last_position,
     model: state.model,
+    knockdown: state.knockdown,
     updated_at: now,
   };
 
@@ -78,6 +79,7 @@ on("playerDropped", async (reason: string, resourceName: string, clientDropReaso
     head_overlays: localPlayer.state.head_overlays,
     last_position: localPlayer.state.last_position,
     model: localPlayer.state.model,
+    knockdown: localPlayer.state.knockdown,
     stamina: localPlayer.state.stamina,
     strength: localPlayer.state.strength,
     lung_capacity: localPlayer.state.lung_capacity,

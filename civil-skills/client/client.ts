@@ -8,8 +8,23 @@ const keys: (keyof LocalPlayerStateBagInterface)[] = [
   "stealth_ability",
 ];
 
-on("onClientGameTypeStart", () => {
-  AddStateBagChangeHandler(
+let stateBagHandler: number;
+let superJumpTick: number;
+
+on("onResourceStart", () => {
+  if (stateBagHandler) {
+    RemoveStateBagChangeHandler(stateBagHandler);
+  }
+
+  if (superJumpTick) {
+    clearTick(superJumpTick);
+  }
+
+  superJumpTick = setTick(() => {
+    SetSuperJumpThisFrame(PlayerId());
+  });
+
+  stateBagHandler = AddStateBagChangeHandler(
     null,
     `player:${GetPlayerServerId(PlayerId())}`,
     (bagName: string, key: keyof LocalPlayerStateBagInterface, value: any) => {
@@ -22,6 +37,18 @@ on("onClientGameTypeStart", () => {
       StatSetInt(skill, value, true);
     }
   );
+});
+
+on("onResourceStop", () => {
+  if (stateBagHandler) {
+    RemoveStateBagChangeHandler(stateBagHandler);
+    stateBagHandler = undefined;
+  }
+
+  if (superJumpTick) {
+    clearTick(superJumpTick);
+    superJumpTick = undefined;
+  }
 });
 
 on("playerSpawned", () => {

@@ -1,13 +1,14 @@
 import "./cmd";
 
-// @ts-ignore
-const exports = global.exports as CivilExports;
+const exports = global.exports as CitizenExports;
 
 async function spawnPlayer() {
-  const { model, last_position } = global.LocalPlayer.state;
+  const player = global.LocalPlayer as LocalPlayerInterface;
+
+  const { model, last_position } = player.state;
 
   if (!IsModelInCdimage(model) || !IsModelAPed(model)) {
-    console.log(`Bad model: ${model}`);
+    console.error(`Bad model: ${model}`);
   }
 
   RequestModel(model);
@@ -16,9 +17,9 @@ async function spawnPlayer() {
   }
 
   exports.spawnmanager.spawnPlayer({
-    x: last_position?.x ?? 410.213,
-    y: last_position?.y ?? -963.708,
-    z: last_position?.z ?? 28.651,
+    x: last_position.x ?? 410.213,
+    y: last_position.y ?? -963.708,
+    z: last_position.z ?? 28.651,
     heading: last_position?.heading ?? undefined,
     model: model,
     skipFade: true,
@@ -27,9 +28,11 @@ async function spawnPlayer() {
   SetModelAsNoLongerNeeded(model);
 }
 
-on("onClientGameTypeStart", async () => {
+on("onResourceStart", async () => {
   await spawnPlayer();
 });
+
+on("onResourceStop", () => {});
 
 on("playerSpawned", () => {
   const playerPed = GetPlayerPed(-1);

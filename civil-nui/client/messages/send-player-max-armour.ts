@@ -3,7 +3,7 @@ export function sendPlayerMaxArmour(value: number) {
     JSON.stringify({
       name: "setPlayerMaxArmour",
       data: {
-        armour: value,
+        maxArmour: value,
       },
     })
   );

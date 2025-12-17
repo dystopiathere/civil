@@ -1,2 +1,2 @@
-export * from "./disableAmbientSounds";
-export * from "./disableEntityDensity";
+export * from "./toggle-ambient-sounds";
+export * from "./toggle-entity-density";

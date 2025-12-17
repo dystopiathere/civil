@@ -1,5 +1,5 @@
 // @ts-ignore
-const exports = global.exports as CivilExports;
+const exports = global.exports as CitizenExports;
 
 export async function setModel(player: number, model: string) {
   if (!IsModelInCdimage(model) || !IsModelAPed(model)) {

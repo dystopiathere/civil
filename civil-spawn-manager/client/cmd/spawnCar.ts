@@ -1,5 +1,4 @@
-// @ts-ignore
-const exports = global.exports as CivilExports;
+const exports = global.exports as CitizenExports;
 
 RegisterCommand(
   "car",
@@ -39,3 +38,5 @@ RegisterCommand(
   },
   false
 );
+
+export {};

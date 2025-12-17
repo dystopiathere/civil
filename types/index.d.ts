@@ -13,9 +13,7 @@ import {
 } from "civil";
 
 declare global {
-  interface CivilExports {
-    (exportKey: string | number, exportFunction: Function): void;
-
+  interface CitizenExports {
     // Base resources
     sessionmanager: any;
     mapmanager: MapManager;
@@ -63,6 +61,7 @@ declare global {
       heading: number;
     };
     model: string;
+    knockdown: boolean;
 
     // skills
     stamina: number;

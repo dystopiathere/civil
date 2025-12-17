@@ -10,17 +10,31 @@ import {
 import { setFocus, openPage } from "./lib";
 import "./events";
 
-// @ts-ignore
-const exports = global.exports as CivilExports;
+const exports = global.exports as CitizenExports;
 
-on("onClientGameTypeStart", () => {
+let hideComponentsTick: number;
+
+on("onResourceStart", () => {
+  if (hideComponentsTick) {
+    clearTick(hideComponentsTick);
+  }
+
   DisplayRadar(false);
 
-  setTick(() => {
+  hideComponentsTick = setTick(() => {
     [1, 2, 3, 4, 6, 7, 8, 9, 13, 20].forEach((el) => {
       HideHudComponentThisFrame(el);
     });
   });
+});
+
+on("onResourceStop", () => {
+  if (hideComponentsTick) {
+    clearTick(hideComponentsTick);
+    hideComponentsTick = undefined;
+  }
+
+  DisplayRadar(true);
 });
 
 RegisterCommand(

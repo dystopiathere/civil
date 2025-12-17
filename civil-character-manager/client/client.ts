@@ -1,12 +1,25 @@
-// @ts-ignore
-const exports = global.exports as CivilExports;
+const exports = global.exports as CitizenExports;
 
-const keys: (keyof LocalPlayerStateBagInterface)[] = ["health", "max_health", "armour", "max_armour"];
+const keys: (keyof LocalPlayerStateBagInterface)[] = ["health", "max_health", "armour", "max_armour", "knockdown"];
 
-on("onClientGameTypeStart", () => {
-  DisplayRadar(false);
+let underwaterTick: number;
 
-  setTick(() => {
+let stateBagHandler: number;
+
+on("gameEventTriggered", (name: string, args: any[]) => {
+  // console.log(`event: ${name}, args: ${args.join(", ")}`);
+});
+
+on("onResourceStart", () => {
+  if (underwaterTick) {
+    clearTick(underwaterTick);
+  }
+
+  if (stateBagHandler) {
+    RemoveStateBagChangeHandler(stateBagHandler);
+  }
+
+  underwaterTick = setTick(() => {
     if (IsPedSwimmingUnderWater(GetPlayerPed(-1))) {
       exports.civil_nui.sendPlayerUnderwater(true);
     } else {
@@ -14,7 +27,7 @@ on("onClientGameTypeStart", () => {
     }
   });
 
-  AddStateBagChangeHandler(
+  stateBagHandler = AddStateBagChangeHandler(
     null,
     `player:${GetPlayerServerId(PlayerId())}`,
     (bagName: string, key: keyof LocalPlayerStateBagInterface, value: number) => {
@@ -31,7 +44,7 @@ on("onClientGameTypeStart", () => {
       }
 
       if (key === "max_health") {
-        SetEntityMaxHealth(ped, value);
+        SetPedMaxHealth(ped, value);
         exports.civil_nui.sendPlayerMaxHealth(value);
       }
 
@@ -46,6 +59,18 @@ on("onClientGameTypeStart", () => {
       }
     }
   );
+});
+
+on("onResourceStop", () => {
+  if (underwaterTick) {
+    clearTick(underwaterTick);
+    underwaterTick = undefined;
+  }
+
+  if (stateBagHandler) {
+    RemoveStateBagChangeHandler(stateBagHandler);
+    stateBagHandler = undefined;
+  }
 });
 
 on("playerSpawned", () => {

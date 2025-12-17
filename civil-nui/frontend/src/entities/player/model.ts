@@ -20,10 +20,10 @@ export const usePlayerStore: UseBoundStore<StoreApi<PlayerState>> = create((set)
   breath: 40,
   isInWater: true,
 
-  setPlayerHealth: (health) => set((state) => ({ ...state, health })),
-  setPlayerMaxHealth: (maxHealth) => set((state) => ({ ...state, maxHealth })),
-  setPlayerArmour: (armour) => set((state) => ({ ...state, armour })),
-  setPlayerMaxArmour: (maxArmour) => set((state) => ({ ...state, maxArmour })),
-  setPlayerBreath: (breath) => set((state) => ({ ...state, breath })),
-  setPlayerInWater: (isInWater) => set((state) => ({ ...state, isInWater })),
+  setPlayerHealth: (health) => set({ health }),
+  setPlayerMaxHealth: (maxHealth) => set({ maxHealth }),
+  setPlayerArmour: (armour) => set({ armour }),
+  setPlayerMaxArmour: (maxArmour) => set({ maxArmour }),
+  setPlayerBreath: (breath) => set({ breath }),
+  setPlayerInWater: (isInWater) => set({ isInWater }),
 }));

@@ -14,7 +14,7 @@ export const useWorldStore: UseBoundStore<StoreApi<WorldState>> = create((set) =
   zoneName: "Zone",
   time: "16:00",
 
-  setZoneName: (zoneName) => set((state) => ({ ...state, zoneName })),
-  setStreetName: (streetName) => set((state) => ({ ...state, streetName })),
-  setTime: (time) => set((state) => ({ ...state, time })),
+  setZoneName: (zoneName) => set({ zoneName }),
+  setStreetName: (streetName) => set({ streetName }),
+  setTime: (time) => set({ time }),
 }));

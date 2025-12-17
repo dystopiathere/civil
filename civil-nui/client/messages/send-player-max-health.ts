@@ -3,7 +3,7 @@ export function sendPlayerMaxHealth(value: number) {
     JSON.stringify({
       name: "setPlayerMaxHealth",
       data: {
-        armour: value,
+        maxHealth: value,
       },
     })
   );

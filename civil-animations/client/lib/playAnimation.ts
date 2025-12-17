@@ -1,8 +1,7 @@
 import { AnimationFlag } from "civil";
 import { flagsMapping } from "../config";
 
-// @ts-ignore
-const exports = global.exports as CivilExports;
+const exports = global.exports as CitizenExports;
 
 export async function playAnimation(
   ped: number,
