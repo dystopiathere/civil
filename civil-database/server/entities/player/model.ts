@@ -1,7 +1,7 @@
 import { IPlayer } from "./types";
 import { BaseEntity } from "../base-entity";
 import { Identifiers } from "../../types";
-import { CharacterEntity, ConnectionEntity, PlayerEntity } from "civil";
+import { CharacterEntity, ConnectionEntity, PlayerEntity } from "types/civil";
 
 export class PlayerModel extends BaseEntity<PlayerEntity> implements IPlayer {
   constructor() {

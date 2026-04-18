@@ -13,7 +13,7 @@ type Keys = "eye_color" | "head_blends" | "face_features" | "component_variation
 
 const keys: Keys[] = ["eye_color", "head_blends", "face_features", "component_variations", "head_overlays", "model"];
 
-let stateBagHandler: number;
+let stateBagHandler: number | undefined;
 
 on("onClientGameTypeStart", () => {
   if (stateBagHandler) {
@@ -21,7 +21,7 @@ on("onClientGameTypeStart", () => {
   }
 
   stateBagHandler = AddStateBagChangeHandler(
-    null,
+    "",
     `player:${GetPlayerServerId(PlayerId())}`,
     (bagName: string, key: Keys, value: LocalPlayerStateBagInterface[Keys]) => {
       if (!keys.includes(key)) {
@@ -37,7 +37,7 @@ on("onClientGameTypeStart", () => {
       }
 
       updateFreemodeModel(ped);
-    }
+    },
   );
 });
 

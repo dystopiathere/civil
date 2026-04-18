@@ -1,7 +1,7 @@
 import { playAnimation } from "../lib";
 
 RegisterCommand(
-  "playAnimation",
+  "play-animation",
   async (source: number, args: string[], raw: string) => {
     const playerPed = GetPlayerPed(-1);
 

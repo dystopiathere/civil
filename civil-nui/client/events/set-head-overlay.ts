@@ -1,4 +1,4 @@
-import { HeadOverlays } from "civil";
+import { HeadOverlays } from "types/civil";
 
 RegisterNuiCallback("setHeadOverlay", (data: Partial<HeadOverlays>, cb: CallableFunction) => {
   const headOverlays = global.LocalPlayer.state.head_overlays;

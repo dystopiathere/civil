@@ -1,4 +1,4 @@
-import { HeadBlends } from "civil";
+import { HeadBlends } from "types/civil";
 
 RegisterNuiCallback("setHeadBlend", (data: Partial<HeadBlends>, cb: CallableFunction) => {
   const headBlends = global.LocalPlayer.state.head_blends;

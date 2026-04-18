@@ -1,4 +1,4 @@
-import { PlayerRoleEntity } from "civil";
+import { PlayerRoleEntity } from "types/civil";
 import { IPlayerRole } from "./types";
 import { BaseEntity } from "../base-entity";
 

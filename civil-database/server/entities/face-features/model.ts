@@ -1,4 +1,4 @@
-import { FaceFeaturesEntity } from "civil";
+import { FaceFeaturesEntity } from "types/civil";
 import { IFaceFeatures } from "./types";
 import { BaseEntity } from "../base-entity";
 

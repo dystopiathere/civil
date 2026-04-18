@@ -1,4 +1,4 @@
-import { FullCharacterEntity } from "civil";
+import { FullCharacterEntity } from "types/civil";
 import { setPedHeadBlendData } from "./set-ped-head-blend-data";
 import { setPedFaceFeatureData } from "./set-ped-face-feature-data";
 import { setPedHeadOverlayData } from "./set-ped-head-overlay-data";

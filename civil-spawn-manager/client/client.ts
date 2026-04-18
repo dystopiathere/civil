@@ -34,7 +34,7 @@ on("onClientGameTypeStart", async () => {
 
 on("onClientGameTypeStop", () => {});
 
-on("playerSpawned", () => {
+on("playerSpawned", async () => {
   const playerPed = GetPlayerPed(-1);
 
   const guns = [
@@ -50,4 +50,15 @@ on("playerSpawned", () => {
   guns.forEach((gun) => {
     GiveWeaponToPed(playerPed, gun, 99999, false, false);
   });
+
+  const animSet = "move_m@casual@d";
+
+  RequestAnimSet(animSet);
+  while (!HasAnimSetLoaded(animSet)) {
+    await exports.civil_helpers.delay(500);
+  }
+
+  SetPedMovementClipset(playerPed, animSet, 0);
+
+  RemoveAnimSet(animSet);
 });

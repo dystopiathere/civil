@@ -1,4 +1,4 @@
-let tick: number;
+let tick: number | undefined;
 
 export function toggleEntityDensity(state: boolean): number {
   SetPedPopulationBudget(state ? 3 : 0);

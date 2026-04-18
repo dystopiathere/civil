@@ -1,4 +1,4 @@
-import { FaceFeatures } from "civil";
+import { FaceFeatures } from "types/civil";
 
 RegisterNuiCallback("setFaceFeature", (data: Partial<FaceFeatures>, cb: CallableFunction) => {
   const faceFeatures = global.LocalPlayer.state.face_features;

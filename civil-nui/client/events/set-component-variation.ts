@@ -1,4 +1,4 @@
-import { ComponentVariations } from "civil";
+import { ComponentVariations } from "types/civil";
 
 RegisterNuiCallback("setComponentVariation", (data: Partial<ComponentVariations>, cb: CallableFunction) => {
   const componentVariations = global.LocalPlayer.state.component_variations;

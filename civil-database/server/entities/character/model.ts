@@ -6,7 +6,7 @@ import {
   HeadBlendsEntity,
   HeadOverlaysEntity,
   SkillsEntity,
-} from "civil";
+} from "types/civil";
 import { ICharacter } from "./types";
 import { BaseEntity } from "../base-entity";
 

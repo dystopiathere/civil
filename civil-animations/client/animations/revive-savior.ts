@@ -1,4 +1,4 @@
-import { AnimationChainData, AnimationFlag } from "civil";
+import { AnimationChainData, AnimationFlag } from "types/civil";
 
 const flags: AnimationFlag[] = [
   "TAG_SYNC_IN",

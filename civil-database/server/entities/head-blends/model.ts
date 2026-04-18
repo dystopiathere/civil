@@ -1,4 +1,4 @@
-import { HeadBlendsEntity } from "civil";
+import { HeadBlendsEntity } from "types/civil";
 import { IHeadBlends } from "./types";
 import { BaseEntity } from "../base-entity";
 

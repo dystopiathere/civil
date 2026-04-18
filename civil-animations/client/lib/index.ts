@@ -1,2 +1,2 @@
-export * from "./playAnimation";
-export * from "./playAnimationChain";
+export * from "./player-animation";
+export * from "./play-animation-chain";

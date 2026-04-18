@@ -1,9 +1,9 @@
-import { NuiPage } from "civil";
+import { NuiPage } from "types/civil";
 import { pages } from "../config";
 import { setFocus } from "./setFocus";
 import { navigate } from "../messages";
 
-let pageCamera: number;
+let pageCamera: number | null;
 
 export function openPage(page: NuiPage) {
   const { focus, cursor, input, setupCamera } = pages[page];

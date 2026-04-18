@@ -17,8 +17,8 @@ const keys: Keys[] = [
   "stealth_ability",
 ];
 
-let stateBagHandler: number;
-let superJumpTick: number;
+let stateBagHandler: number | undefined;
+let superJumpTick: number | undefined;
 
 on("onClientGameTypeStart", () => {
   if (stateBagHandler) {
@@ -34,7 +34,7 @@ on("onClientGameTypeStart", () => {
   });
 
   stateBagHandler = AddStateBagChangeHandler(
-    null,
+    "",
     `player:${GetPlayerServerId(PlayerId())}`,
     (bagName: string, key: Keys, value: LocalPlayerStateBagInterface[Keys]) => {
       if (!keys.includes(key)) {
@@ -44,7 +44,7 @@ on("onClientGameTypeStart", () => {
       const skill = "MP0_" + key.toUpperCase();
 
       StatSetInt(skill, value, true);
-    }
+    },
   );
 });
 

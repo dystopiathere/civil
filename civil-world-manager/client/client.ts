@@ -3,8 +3,8 @@ import { zonesMapping } from "./config";
 
 const exports = global.exports as CitizenExports;
 
-let interval: NodeJS.Timer;
-let densityTick: number;
+let interval: NodeJS.Timeout | undefined;
+let densityTick: number | undefined;
 
 on("onClientGameTypeStart", () => {
   if (densityTick) {

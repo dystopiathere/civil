@@ -1,4 +1,4 @@
-import { SkillsEntity } from "civil";
+import { SkillsEntity } from "types/civil";
 import { ISkills } from "./types";
 import { BaseEntity } from "../base-entity";
 

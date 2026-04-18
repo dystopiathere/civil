@@ -10,7 +10,7 @@ import {
   Skills,
   CivilHelpers,
   CivilModels,
-} from "civil";
+} from "types/civil";
 
 declare global {
   interface CitizenExports {

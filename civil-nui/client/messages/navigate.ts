@@ -1,4 +1,4 @@
-import { NuiPage } from "civil";
+import { NuiPage } from "types/civil";
 
 export function navigate(page: NuiPage) {
   SendNuiMessage(

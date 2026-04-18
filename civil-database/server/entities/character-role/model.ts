@@ -1,4 +1,4 @@
-import { CharacterRoleEntity } from "civil";
+import { CharacterRoleEntity } from "types/civil";
 import { ICharacterRole } from "./types";
 import { BaseEntity } from "../base-entity";
 

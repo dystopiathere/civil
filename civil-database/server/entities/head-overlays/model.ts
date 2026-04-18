@@ -1,4 +1,4 @@
-import { HeadOverlaysEntity } from "civil";
+import { HeadOverlaysEntity } from "types/civil";
 import { IHeadOverlays } from "./types";
 import { BaseEntity } from "../base-entity";
 

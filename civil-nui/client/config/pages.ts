@@ -1,4 +1,4 @@
-import { NuiPage, NuiPageData } from "civil";
+import { NuiPage, NuiPageData } from "types/civil";
 
 export const pages: Record<NuiPage, NuiPageData> = {
   hud: {

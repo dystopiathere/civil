@@ -1,4 +1,4 @@
-import { NuiPage } from "civil";
+import { NuiPage } from "types/civil";
 import { openPage } from "../lib";
 
 RegisterNuiCallback("renavigate", (data: { page: NuiPage }, cb: CallableFunction) => {

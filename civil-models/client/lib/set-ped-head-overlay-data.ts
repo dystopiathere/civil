@@ -1,4 +1,4 @@
-import { HeadOverlays } from "civil";
+import { HeadOverlays } from "types/civil";
 
 type HeadOverlayElement = {
   value: number;

@@ -1,4 +1,4 @@
-import { AnimationFlag } from "civil";
+import { AnimationFlag } from "types/civil";
 
 export const flagsMapping: Record<AnimationFlag, number> = {
   LOOPING: 1,

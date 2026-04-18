@@ -1,4 +1,4 @@
-import { ComponentVariations } from "civil";
+import { ComponentVariations } from "types/civil";
 
 type ComponentVariationsElement = {
   drawable: number;

@@ -35,5 +35,5 @@ type WeaponDamageEventData = {
 };
 
 on("weaponDamageEvent", (sender: number, data: WeaponDamageEventData) => {
-    console.log(sender, data);
+  console.log(sender, data);
 });

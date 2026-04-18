@@ -12,7 +12,7 @@ import "./events";
 
 const exports = global.exports as CitizenExports;
 
-let hideComponentsTick: number;
+let hideComponentsTick: number | undefined;
 
 on("onClientGameTypeStart", () => {
   if (hideComponentsTick) {

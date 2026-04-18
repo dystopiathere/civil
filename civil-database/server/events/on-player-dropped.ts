@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { CharacterEntity } from "civil";
+import { CharacterEntity } from "types/civil";
 import {
   CharacterModel,
   ComponentVariationsModel,
@@ -9,30 +9,48 @@ import {
   SkillsModel,
 } from "../entities";
 
-// @ts-ignore
 const exports = global.exports as CitizenExports;
 
 async function syncData(state: Omit<LocalPlayerStateBagInterface, "set">) {
   const now = dayjs().toISOString();
 
   const characterModel = new CharacterModel();
-  const headBlendsModel = new HeadBlendsModel();
-  const faceFeaturesModel = new FaceFeaturesModel();
-  const skillsModel = new SkillsModel();
-  const componentVariationsModel = new ComponentVariationsModel();
-  const headOverlaysModel = new HeadOverlaysModel();
 
-  const headBlends = await characterModel.getHeadBlends(state.character_id);
-  const faceFeatures = await characterModel.getFaceFeatures(state.character_id);
-  const skills = await characterModel.getSkills(state.character_id);
-  const componentVariations = await characterModel.getComponentVariations(state.character_id);
-  const headOverlays = await characterModel.getHeadOverlays(state.character_id);
+  const characterDataFunctions = {
+    headBlends: {
+      get: (id: number) => characterModel.getHeadBlends(id),
+      update: (id: number) => new HeadBlendsModel().update(id, { ...state.head_blends, updated_at: now }),
+    },
+    faceFeatures: {
+      get: (id: number) => characterModel.getFaceFeatures(id),
+      update: (id: number) => new FaceFeaturesModel().update(id, { ...state.face_features, updated_at: now }),
+    },
+    skills: {
+      get: (id: number) => characterModel.getSkills(id),
+      update: (id: number) => new SkillsModel().update(id, { ...state.skills, updated_at: now }),
+    },
+    componentVariations: {
+      get: (id: number) => characterModel.getComponentVariations(id),
+      update: (id: number) =>
+        new ComponentVariationsModel().update(id, { ...state.component_variations, updated_at: now }),
+    },
+    headOverlays: {
+      get: (id: number) => characterModel.getHeadOverlays(id),
+      update: (id: number) => new HeadOverlaysModel().update(id, { ...state.head_overlays, updated_at: now }),
+    },
+  };
 
-  await headBlendsModel.update(headBlends.id, { ...state.head_blends, updated_at: now });
-  await faceFeaturesModel.update(faceFeatures.id, { ...state.face_features, updated_at: now });
-  await skillsModel.update(skills.id, { ...state.skills });
-  await componentVariationsModel.update(componentVariations.id, { ...state.component_variations, updated_at: now });
-  await headOverlaysModel.update(headOverlays.id, { ...state.head_overlays, updated_at: now });
+  const promises = Object.entries(characterDataFunctions).map(([key, { get, update }]) => {
+    return async () => {
+      const data = await get(state.character_id);
+
+      if (data) {
+        await update(data.id);
+      }
+    };
+  });
+
+  await Promise.all(promises);
 
   const character: Partial<CharacterEntity> = {
     firstname: state.firstname,

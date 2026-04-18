@@ -1,4 +1,4 @@
-import { HeadBlends } from "civil";
+import { HeadBlends } from "types/civil";
 
 export function setPedHeadBlendData(ped: number, data: Partial<HeadBlends> = {}) {
   const localData = { ...global.LocalPlayer.state.head_blends };

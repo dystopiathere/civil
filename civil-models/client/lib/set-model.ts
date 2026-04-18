@@ -1,4 +1,3 @@
-// @ts-ignore
 const exports = global.exports as CitizenExports;
 
 export async function setModel(player: number, model: string) {

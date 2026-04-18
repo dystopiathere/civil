@@ -1,4 +1,4 @@
-import { ConnectionEntity } from "civil";
+import { ConnectionEntity } from "types/civil";
 import { IConnection } from "./types";
 import { BaseEntity } from "../base-entity";
 

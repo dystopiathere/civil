@@ -1,4 +1,4 @@
-declare module "civil" {
+declare module "types/civil" {
   export type SpawnData = {
     x: number;
     y: number;
@@ -41,7 +41,7 @@ declare module "civil" {
     | "BLENDOUT_WRT_LAST_FRAME"
     | "USE_FULL_BLENDING";
 
-  export type AnimationChainName = "reviveSavior" | "reviveVictim" | "dance";
+  export type AnimationChainName = "reviveSavior" | "reviveVictim" | "dance" | "kneelWatch" | "kneelSearch";
 
   export type AnimationChainData = {
     dictionary: string;
@@ -77,7 +77,7 @@ declare module "civil" {
   export type BaseEventEnteringVehicleCallback = (
     targetVehicle: number,
     vehicleSeat: number,
-    vehicleDisplayName: string
+    vehicleDisplayName: string,
   ) => void;
 
   export type BaseEventEnteringAbortedCallback = () => void;
@@ -85,14 +85,14 @@ declare module "civil" {
   export type BaseEventEnteredVehicleCallback = (
     currentVehicle: number,
     currentSeat: number,
-    vehicleDisplayName: string
+    vehicleDisplayName: string,
   ) => void;
 
   export type BaseEventLeftVehicleCallback = (
     currentVehicle: number,
     currentSeat: number,
     vehicleDisplayName: string,
-    vehicleNetId: number
+    vehicleNetId: number,
   ) => void;
 
   interface CivilHelpers {
@@ -229,7 +229,6 @@ declare module "civil" {
       anim: string,
       flags?: AnimationFlag[],
       duration?: number,
-      chained?: boolean
     ): Promise<number>;
 
     /**
@@ -238,7 +237,7 @@ declare module "civil" {
      * @param ped
      * @param chainName
      */
-    playAnimationChain(ped: number, chainName: AnimationChainName): Promise<number>;
+    playAnimationChain(ped: number, chainName: AnimationChainName): Promise<void>;
   }
 
   interface CivilNuiManager {

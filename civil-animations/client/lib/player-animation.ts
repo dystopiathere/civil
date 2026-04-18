@@ -1,4 +1,4 @@
-import { AnimationFlag } from "civil";
+import { AnimationFlag } from "types/civil";
 import { flagsMapping } from "../config";
 
 const exports = global.exports as CitizenExports;
@@ -9,12 +9,7 @@ export async function playAnimation(
   anim: string,
   flags?: AnimationFlag[],
   duration?: number,
-  chained?: boolean
 ): Promise<number> {
-  if (!chained) {
-    ClearPedTasks(ped);
-  }
-
   if (!flags) {
     flags = [];
   }
