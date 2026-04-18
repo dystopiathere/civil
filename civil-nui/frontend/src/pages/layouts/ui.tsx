@@ -10,10 +10,12 @@ export function HUDLayout() {
 
   return (
     <div className="hud">
-      <PlayerStats />
-      <WorldData />
+      <div className="container">
+        <PlayerStats />
+        <WorldData />
 
-      <Outlet />
+        <Outlet />
+      </div>
     </div>
   );
 }

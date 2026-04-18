@@ -12,9 +12,8 @@ export function PlayerStats() {
       <div className="player-stats-group">
         <PlayerHealth health={health} maxHealth={maxHealth} />
         <PlayerArmour armour={armour} maxArmour={maxArmour} />
+        {isInWater && <PlayerBreath breath={breath} />}
       </div>
-
-      {isInWater && <PlayerBreath breath={breath} />}
     </div>
   );
 }
