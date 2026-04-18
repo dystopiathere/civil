@@ -5,7 +5,11 @@
   "license": "MIT",
   "scripts": {
     "build": "node build.js --mode=production",
-    "watch": "node build.js"
+    "watch": "node build.js",
+    "front-dev": "cd ./civil-nui/frontend && vite",
+    "front-build": "cd ./civil-nui/frontend && tsc -b && vite build",
+    "front-lint": "cd ./civil-nui/frontend && eslint ..",
+    "front-preview": "cd ./civil-nui/frontend && vite preview"
   },
   "devDependencies": {
     "@citizenfx/client": "2.0.28108-1",
