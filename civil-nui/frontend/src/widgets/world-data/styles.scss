@@ -10,10 +10,9 @@
   filter: drop-shadow(0.1rem 0.2rem 0.1rem #00000080);
 
   &-time {
-    width: 3rem;
     position: relative;
 
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     font-weight: 700;
 
     &::before {
@@ -21,10 +20,9 @@
 
       position: absolute;
       top: 0;
-      right: -0.5em;
-      translate: -50% 0;
+      right: -0.75rem;
 
-      width: 0.1rem;
+      width: 0.2rem;
       height: 100%;
 
       border-radius: 0.5rem;
@@ -37,12 +35,12 @@
     flex-direction: column;
 
     &__zone {
-      font-size: 0.8rem;
+      font-size: 1rem;
       font-weight: 700;
     }
 
     &__street {
-      font-size: 0.5rem;
+      font-size: 0.7rem;
     }
   }
 }

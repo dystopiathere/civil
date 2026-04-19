@@ -1,0 +1,139 @@
+.input-axis {
+  -webkit-user-select: none;
+  user-select: none;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  padding: 0.25rem 0.5rem 0.5rem 0.5rem;
+  margin-bottom: 0.5rem;
+
+  border-radius: 0.25rem;
+
+  &__label {
+    text-align: left;
+  }
+
+  &__container {
+    position: relative;
+
+    aspect-ratio: 1/1;
+    width: 100%;
+
+    background-color: #00000080;
+    border-radius: 0.5rem;
+    opacity: 0.7;
+
+    transition: opacity 0.2s;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  &__x,
+  &__y {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+
+    background-color: #ffffffcc;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__x {
+    width: 95%;
+    height: 0.14rem;
+  }
+
+  &__y {
+    width: 0.14rem;
+    height: 95%;
+    flex-direction: column;
+  }
+
+  &__step {
+    width: 0.11rem;
+    height: 0.7rem;
+
+    background-color: #ffffff;
+
+    &:nth-of-type(odd) {
+      height: 1rem;
+    }
+  }
+
+  &__y &__step {
+    width: 0.7rem;
+    height: 0.11rem;
+
+    &:nth-of-type(odd) {
+      width: 1rem;
+    }
+  }
+
+  &__min {
+    position: absolute;
+    bottom: 1rem;
+    left: 0;
+  }
+
+  &__max {
+    position: absolute;
+    bottom: 1rem;
+    right: 0;
+  }
+
+  &__y &__min {
+    bottom: 0;
+    left: 1rem;
+  }
+
+  &__y &__max {
+    top: 0;
+    left: 1rem;
+  }
+
+  &__block-label {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__x &__block-label {
+    width: 100%;
+    top: 1rem;
+    left: 0;
+  }
+
+  &__y &__block-label {
+    flex-direction: column;
+    height: 100%;
+
+    bottom: 0;
+    right: 1rem;
+  }
+
+  &__thumb {
+    position: absolute;
+    translate: -50% -50%;
+    top: 50%;
+    left: 50%;
+
+    width: 1.5rem;
+    height: 1.5rem;
+
+    background-color: #fff;
+    border-radius: 100%;
+
+    filter: drop-shadow(0.1rem 0.2rem 0.1rem #00000080);
+
+    cursor: move;
+  }
+}

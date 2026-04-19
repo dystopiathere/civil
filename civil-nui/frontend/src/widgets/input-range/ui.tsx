@@ -32,6 +32,8 @@ export function InputRange({ label, value, min, max, step, onChange, onFocus }: 
       </div>
 
       <input
+        title={undefined}
+        placeholder={undefined}
         className="input-range__control"
         type="range"
         min={min}

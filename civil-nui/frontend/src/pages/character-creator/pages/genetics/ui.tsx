@@ -4,6 +4,7 @@ import { getHeadBlendData, setHeadBlend as eventSetHeadBlends, renavigate } from
 import { InputArrows } from "~/widgets/input-arrows";
 import { InputRange } from "~/widgets/input-range";
 import { ancestors, fathers, mothers } from "./config";
+import { InputAxis } from "~/widgets/input-axis";
 
 export function CharacterCreatorGenetics() {
   const { head_blends, setHeadBlends: stateSetHeadBlends } = useCharacterStore();
@@ -34,7 +35,7 @@ export function CharacterCreatorGenetics() {
       stateSetHeadBlends(data);
       eventSetHeadBlends(data);
     },
-    [stateSetHeadBlends]
+    [stateSetHeadBlends],
   );
 
   return (
@@ -47,26 +48,17 @@ export function CharacterCreatorGenetics() {
       />
 
       <InputArrows
-        label="Отец"
-        value={head_blends.shape_second_id}
-        range={fathers}
-        onChange={(shape_second_id) => setHeadBlends({ shape_second_id })}
-      />
-
-      <InputRange
-        label="Микс родителей"
-        value={head_blends.shape_mix}
-        min={0}
-        max={1}
-        step={0.01}
-        onChange={(shape_mix) => setHeadBlends({ shape_mix })}
-      />
-
-      <InputArrows
         label="Кожа матери"
         value={head_blends.skin_first_id}
         range={mothers}
         onChange={(skin_first_id) => setHeadBlends({ skin_first_id })}
+      />
+
+      <InputArrows
+        label="Отец"
+        value={head_blends.shape_second_id}
+        range={fathers}
+        onChange={(shape_second_id) => setHeadBlends({ shape_second_id })}
       />
 
       <InputArrows
@@ -76,13 +68,21 @@ export function CharacterCreatorGenetics() {
         onChange={(skin_second_id) => setHeadBlends({ skin_second_id })}
       />
 
-      <InputRange
-        label="Микс кожи родителей"
-        value={head_blends.skin_mix}
-        min={0}
-        max={1}
-        step={0.01}
-        onChange={(skin_mix) => setHeadBlends({ skin_mix })}
+      <InputAxis
+        label="Микс родителей"
+        x={{
+          label: "Кожа",
+          value: head_blends.skin_mix,
+          min: { label: "Матери", value: 0 },
+          max: { label: "Отца", value: 1 },
+        }}
+        y={{
+          label: "Внешность",
+          value: head_blends.shape_mix,
+          min: { label: "Мать", value: 0 },
+          max: { label: "Отец", value: 1 },
+        }}
+        onChange={(skin_mix: number, shape_mix: number) => setHeadBlends({ skin_mix, shape_mix })}
       />
 
       <InputArrows

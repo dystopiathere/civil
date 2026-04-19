@@ -25,7 +25,7 @@ type CharacterState = Pick<
 export const useCharacterStore: UseBoundStore<StoreApi<CharacterState>> = create((set) => ({
   face_features: {
     id: 1,
-    nose_width: 1,
+    nose_width: -1,
     nose_peak: 1,
     nose_length: 1,
     nose_bone_curveness: 1,
