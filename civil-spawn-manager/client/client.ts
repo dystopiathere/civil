@@ -32,8 +32,6 @@ on("onClientGameTypeStart", async () => {
   await spawnPlayer();
 });
 
-on("onClientGameTypeStop", () => {});
-
 on("playerSpawned", async () => {
   const playerPed = GetPlayerPed(-1);
 

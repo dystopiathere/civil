@@ -17,10 +17,12 @@ const keys: Keys[] = [
   "stealth_ability",
 ];
 
+const exports = global.exports as CitizenExports;
+
 let stateBagHandler: number | undefined;
 let superJumpTick: number | undefined;
 
-on("onClientGameTypeStart", () => {
+function init() {
   if (stateBagHandler) {
     RemoveStateBagChangeHandler(stateBagHandler);
   }
@@ -46,19 +48,21 @@ on("onClientGameTypeStart", () => {
       StatSetInt(skill, value, true);
     },
   );
-});
 
-on("onClientGameTypeStop", () => {
-  if (stateBagHandler) {
-    RemoveStateBagChangeHandler(stateBagHandler);
-    stateBagHandler = undefined;
-  }
+  return () => {
+    if (stateBagHandler) {
+      RemoveStateBagChangeHandler(stateBagHandler);
+      stateBagHandler = undefined;
+    }
 
-  if (superJumpTick) {
-    clearTick(superJumpTick);
-    superJumpTick = undefined;
-  }
-});
+    if (superJumpTick) {
+      clearTick(superJumpTick);
+      superJumpTick = undefined;
+    }
+  };
+}
+
+exports.civil_helpers.initialize(GetCurrentResourceName(), init);
 
 on("playerSpawned", () => {
   StatSetInt("MP0_STAMINA", (global.LocalPlayer as LocalPlayerInterface).state.stamina, true);

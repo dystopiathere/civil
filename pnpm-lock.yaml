@@ -1815,7 +1815,7 @@ packages:
     engines: {node: '>= 0.4'}
 
   types@file:types/types-1.0.0.tgz:
-    resolution: {integrity: sha512-lX5efqPzNPlkP3TXO4x3ZzpdHpxcW8Q61oATJfXth8TlngITmExzQ2pH1Be8ykizkeaiJbmraBmbX7v/bNfF6g==, tarball: file:types/types-1.0.0.tgz}
+    resolution: {integrity: sha512-iQShZPEmZmDXrqbTU1HSAy9wiJioPJQMZ3sSac1ev8GWF7528l9AZHvaoFEC7OINJRJL0UFlnFRNDMTICx7lsw==, tarball: file:types/types-1.0.0.tgz}
     version: 1.0.0
 
   typescript-eslint@8.58.2:

@@ -1,6 +1,6 @@
 import { NuiPage } from "types/civil";
 import { pages } from "../config";
-import { setFocus } from "./setFocus";
+import { setFocus } from "./set-focus";
 import { navigate } from "../messages";
 
 let pageCamera: number | null;

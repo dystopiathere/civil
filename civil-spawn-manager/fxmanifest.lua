@@ -12,4 +12,4 @@ resource_type 'gametype' {
 
 client_script 'dist/client.js'
 
-dependencies {'spawnmanager', 'civil_nui'}
+dependencies {'spawnmanager', 'civil_nui', 'civil_helpers'}

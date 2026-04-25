@@ -1,11 +1,11 @@
-const exports = global.exports as CitizenExports;
-
 type Keys = "health" | "max_health" | "armour" | "max_armour" | "knockdown";
 
 const keys: Keys[] = ["health", "max_health", "armour", "max_armour", "knockdown"];
 
+const exports = global.exports as CitizenExports;
+
 let underwaterTick: number | undefined;
-let knockdownInterval: NodeJS.Timer | undefined;
+let knockdownInterval: NodeJS.Timeout | undefined;
 let stateBagHandler: number | undefined;
 let knockdownOutOfVehicleTick: number | undefined;
 
@@ -123,7 +123,7 @@ on("gameEventTriggered", (name: string, args: any[]) => {
   }
 });
 
-on("onClientGameTypeStart", () => {
+function init() {
   if (underwaterTick) {
     clearTick(underwaterTick);
   }
@@ -150,31 +150,35 @@ on("onClientGameTypeStart", () => {
   const player = global.LocalPlayer as LocalPlayerInterface;
 
   player.state.set("stamina", 100, true);
-});
+  player.state.set("flying_ability", 100, true);
+  player.state.set("shooting_ability", 100, true);
 
-on("onClientGameTypeStop", () => {
-  if (underwaterTick) {
-    clearTick(underwaterTick);
-    underwaterTick = undefined;
-  }
+  return () => {
+    if (underwaterTick) {
+      clearTick(underwaterTick);
+      underwaterTick = undefined;
+    }
 
-  if (stateBagHandler) {
-    RemoveStateBagChangeHandler(stateBagHandler);
-    stateBagHandler = undefined;
-  }
+    if (stateBagHandler) {
+      RemoveStateBagChangeHandler(stateBagHandler);
+      stateBagHandler = undefined;
+    }
 
-  if (knockdownInterval) {
-    clearInterval(knockdownInterval);
-    knockdownInterval = undefined;
-  }
+    if (knockdownInterval) {
+      clearInterval(knockdownInterval);
+      knockdownInterval = undefined;
+    }
 
-  if (knockdownOutOfVehicleTick) {
-    clearTick(knockdownOutOfVehicleTick);
-    knockdownOutOfVehicleTick = undefined;
-  }
+    if (knockdownOutOfVehicleTick) {
+      clearTick(knockdownOutOfVehicleTick);
+      knockdownOutOfVehicleTick = undefined;
+    }
 
-  DisableIdleCamera(false);
-});
+    DisableIdleCamera(false);
+  };
+}
+
+exports.civil_helpers.initialize(GetCurrentResourceName(), init);
 
 on("playerSpawned", () => {
   const player = global.LocalPlayer as LocalPlayerInterface;

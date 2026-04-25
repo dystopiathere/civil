@@ -15,7 +15,7 @@ const keys: Keys[] = ["eye_color", "head_blends", "face_features", "component_va
 
 let stateBagHandler: number | undefined;
 
-on("onClientGameTypeStart", () => {
+function init() {
   if (stateBagHandler) {
     RemoveStateBagChangeHandler(stateBagHandler);
   }
@@ -39,14 +39,16 @@ on("onClientGameTypeStart", () => {
       updateFreemodeModel(ped);
     },
   );
-});
 
-on("onClientGameTypeStop", () => {
-  if (stateBagHandler) {
-    RemoveStateBagChangeHandler(stateBagHandler);
-    stateBagHandler = undefined;
-  }
-});
+  return () => {
+    if (stateBagHandler) {
+      RemoveStateBagChangeHandler(stateBagHandler);
+      stateBagHandler = undefined;
+    }
+  };
+}
+
+exports.civil_helpers.initialize(GetCurrentResourceName(), init);
 
 on("playerSpawned", () => {
   updateFreemodeModel(GetPlayerPed(-1));

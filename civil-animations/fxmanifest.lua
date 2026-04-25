@@ -8,4 +8,4 @@ node_version '22'
 
 client_script 'dist/client.js'
 
-dependencies {'civil_nui'}
+dependencies {'civil_helpers'}

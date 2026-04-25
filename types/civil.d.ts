@@ -102,6 +102,14 @@ declare module "types/civil" {
      * @param ms
      */
     delay(ms: number): Promise<unknown>;
+
+    /**
+     * Initialize resource helper
+     *
+     * @param resourceName
+     * @param init
+     */
+    initialize(resourceName: string, init: () => CallableFunction | void): void;
   }
 
   interface SpawnManager {

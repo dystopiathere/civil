@@ -16,7 +16,7 @@ const exports = global.exports as CitizenExports;
 let nuiTick: number | undefined;
 let nuiInterval: NodeJS.Timeout | undefined;
 
-on("onClientGameTypeStart", () => {
+function init() {
   if (nuiTick) {
     clearTick(nuiTick);
   }
@@ -42,19 +42,21 @@ on("onClientGameTypeStart", () => {
   nuiInterval = setInterval(() => {
     sendSafeZone(GetSafeZoneSize());
   }, 500);
-});
 
-on("onClientGameTypeStop", () => {
-  if (nuiTick) {
-    clearTick(nuiTick);
-    nuiTick = undefined;
-  }
+  return () => {
+    if (nuiTick) {
+      clearTick(nuiTick);
+      nuiTick = undefined;
+    }
 
-  if (nuiInterval) {
-    clearInterval(nuiInterval);
-    nuiInterval = undefined;
-  }
-});
+    if (nuiInterval) {
+      clearInterval(nuiInterval);
+      nuiInterval = undefined;
+    }
+  };
+}
+
+exports.civil_helpers.initialize(GetCurrentResourceName(), init);
 
 RegisterCommand(
   "characterCreator",
