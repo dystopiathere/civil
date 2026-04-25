@@ -1,0 +1,1 @@
+export const ADDITIONAL_PED_HEALTH = 300;
