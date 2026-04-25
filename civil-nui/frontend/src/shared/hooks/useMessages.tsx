@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { type MessageEventData } from "~/shared/lib/event-manager";
 import { type Player, usePlayerStore } from "~/entities/player";
 import { useWorldStore, type World } from "~/entities/world";
 import { pathKeys } from "~/shared/lib/react-router";
-import { useNavigate } from "react-router-dom";
 
 export function useMessages() {
-  const [safeZone, setSafeZone] = useState<number>(1);
+  const [safeZone, setSafeZone] = useState<number>(0.85);
 
   const {
     setPlayerHealth,
@@ -25,59 +25,57 @@ export function useMessages() {
     window.onmessage = (event: MessageEvent<MessageEventData>) => {
       const { name, data } = event.data;
 
-      if (name === "setPlayerHealth") {
-        const { health } = data as Pick<Player, "health">;
+      switch (name) {
+        case "setPlayerHealth":
+          const { health } = data as Pick<Player, "health">;
 
-        setPlayerHealth(health > 0 ? health : 0);
-      }
+          setPlayerHealth(health > 0 ? health : 0);
+          break;
+        case "setPlayerArmour":
+          const { armour } = data as Pick<Player, "armour">;
 
-      if (name === "setPlayerArmour") {
-        const { armour } = data as Pick<Player, "armour">;
+          setPlayerArmour(armour);
+          break;
+        case "setPlayerMaxHealth":
+          const { maxHealth } = data as Pick<Player, "maxHealth">;
 
-        setPlayerArmour(armour);
-      }
+          setPlayerMaxHealth(maxHealth);
+          break;
+        case "setPlayerMaxArmour":
+          const { maxArmour } = data as Pick<Player, "maxArmour">;
 
-      if (name === "setPlayerMaxHealth") {
-        const { maxHealth } = data as Pick<Player, "maxHealth">;
+          setPlayerMaxArmour(maxArmour);
+          break;
+        case "setPlayerUnderwater":
+          const { breath, isInWater } = data as Pick<Player, "breath" | "isInWater">;
 
-        setPlayerMaxHealth(maxHealth);
-      }
+          setPlayerBreath(breath > 0 ? breath : 0);
+          setPlayerInWater(isInWater);
+          break;
+        case "setWorldData":
+          const { streetName, zoneName, time } = data as World;
 
-      if (name === "setPlayerMaxArmour") {
-        const { maxArmour } = data as Pick<Player, "maxArmour">;
+          setStreetName(streetName);
+          setZoneName(zoneName);
+          setTime(time);
+          break;
+        case "navigate":
+          const { page } = data as { page: keyof object };
 
-        setPlayerMaxArmour(maxArmour);
-      }
+          const getPath = pathKeys[page] as CallableFunction;
 
-      if (event.data.name === "setPlayerUnderwater") {
-        const { breath, isInWater } = data as Pick<Player, "breath" | "isInWater">;
+          if (getPath) {
+            navigate(getPath());
+          }
+          break;
+        case "setSafeZone":
+          const { safeZone: sz } = data as { safeZone: number };
 
-        setPlayerBreath(breath > 0 ? breath : 0);
-        setPlayerInWater(isInWater);
-      }
-
-      if (name === "setWorldData") {
-        const { streetName, zoneName, time } = data as World;
-
-        setStreetName(streetName);
-        setZoneName(zoneName);
-        setTime(time);
-      }
-
-      if (name === "navigate") {
-        const { page } = data as { page: keyof object };
-
-        const getPath = pathKeys[page] as CallableFunction;
-
-        if (getPath) {
-          navigate(getPath());
-        }
-      }
-
-      if (name === "setSafeZone") {
-        const { safeZone: sz } = data as { safeZone: number };
-
-        setSafeZone(sz);
+          setSafeZone(sz);
+          break;
+        default:
+          console.error("unhandled message", name);
+          break;
       }
     };
 

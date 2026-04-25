@@ -14,11 +14,15 @@ import "./events";
 const exports = global.exports as CitizenExports;
 
 let nuiTick: number | undefined;
-let lastSafeZone: number;
+let nuiInterval: NodeJS.Timeout | undefined;
 
 on("onClientGameTypeStart", () => {
   if (nuiTick) {
     clearTick(nuiTick);
+  }
+
+  if (nuiInterval) {
+    clearInterval(nuiInterval);
   }
 
   const minimap = RequestScaleformMovie("minimap");
@@ -33,20 +37,22 @@ on("onClientGameTypeStart", () => {
     BeginScaleformMovieMethod(minimap, "SETUP_HEALTH_ARMOUR");
     ScaleformMovieMethodAddParamInt(3);
     EndScaleformMovieMethod();
-
-    const safeZone = GetSafeZoneSize();
-
-    if (lastSafeZone && lastSafeZone !== safeZone) {
-      lastSafeZone = safeZone;
-      sendSafeZone(safeZone);
-    }
   });
+
+  nuiInterval = setInterval(() => {
+    sendSafeZone(GetSafeZoneSize());
+  }, 500);
 });
 
 on("onClientGameTypeStop", () => {
   if (nuiTick) {
     clearTick(nuiTick);
     nuiTick = undefined;
+  }
+
+  if (nuiInterval) {
+    clearInterval(nuiInterval);
+    nuiInterval = undefined;
   }
 });
 

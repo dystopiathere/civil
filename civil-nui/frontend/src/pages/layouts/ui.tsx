@@ -16,15 +16,9 @@ export function HUDLayout() {
       return;
     }
 
-    const paddingLeft = (1 - safeZone) * 100;
-    const paddingRight = (1 - safeZone) * 100;
-    const paddingTop = (1 - safeZone) * 50;
-    const paddingBottom = (1 - safeZone) * 50;
+    const paddingOffset = (1 - safeZone) * 50;
 
-    hudRef.current.style.paddingLeft = `${paddingLeft}px`;
-    hudRef.current.style.paddingRight = `${paddingRight}px`;
-    hudRef.current.style.paddingTop = `${paddingTop}px`;
-    hudRef.current.style.paddingBottom = `${paddingBottom}px`;
+    hudRef.current.style.padding = `${paddingOffset / 1.8}% ${paddingOffset}%`;
   }, [safeZone]);
 
   return (

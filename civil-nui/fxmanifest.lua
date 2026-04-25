@@ -6,7 +6,7 @@ version '1.0.0'
 
 node_version '22'
 
-ui_page 'dist/index.html'
+ui_page 'http://localhost:5173'
 
 client_script 'dist/client.js'
 

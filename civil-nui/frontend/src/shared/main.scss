@@ -45,9 +45,10 @@
 .container {
   position: relative;
 
-  max-width: 3440px;
-  width: 100%;
+  width: auto;
   height: 100%;
+
+  aspect-ratio: 16/9;
 }
 
 a,
