@@ -28,7 +28,8 @@ export type Message =
   | "setPlayerUnderwater"
   | "setWorldData"
   | "setCharacterData"
-  | "navigate";
+  | "navigate"
+  | "setSafeZone";
 
 export type MessageEventData = {
   name: Message;

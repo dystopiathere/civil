@@ -1,5 +1,5 @@
 RegisterNuiCallback("getFaceFeature", (data: {}, cb: CallableFunction) => {
-  cb([global.LocalPlayer.state.face_features, false]);
+  cb([(global.LocalPlayer as LocalPlayerInterface).state.face_features, false]);
 });
 
 export {};

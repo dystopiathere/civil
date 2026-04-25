@@ -27,7 +27,7 @@ async function syncData(state: Omit<LocalPlayerStateBagInterface, "set">) {
     },
     skills: {
       get: (id: number) => characterModel.getSkills(id),
-      update: (id: number) => new SkillsModel().update(id, { ...state.skills, updated_at: now }),
+      update: (id: number) => new SkillsModel().update(id, { ...state.skills }),
     },
     componentVariations: {
       get: (id: number) => characterModel.getComponentVariations(id),
@@ -40,14 +40,14 @@ async function syncData(state: Omit<LocalPlayerStateBagInterface, "set">) {
     },
   };
 
-  const promises = Object.entries(characterDataFunctions).map(([key, { get, update }]) => {
-    return async () => {
+  const promises = Object.entries(characterDataFunctions).map(([_, { get, update }]) => {
+    return (async () => {
       const data = await get(state.character_id);
 
       if (data) {
         await update(data.id);
       }
-    };
+    })();
   });
 
   await Promise.all(promises);

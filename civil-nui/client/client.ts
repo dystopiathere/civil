@@ -5,6 +5,7 @@ import {
   sendPlayerMaxArmour,
   sendPlayerMaxHealth,
   sendPlayerUnderwater,
+  sendSafeZone,
   sendWorldData,
 } from "./messages";
 import { setFocus, openPage } from "./lib";
@@ -12,29 +13,41 @@ import "./events";
 
 const exports = global.exports as CitizenExports;
 
-let hideComponentsTick: number | undefined;
+let nuiTick: number | undefined;
+let lastSafeZone: number;
 
 on("onClientGameTypeStart", () => {
-  if (hideComponentsTick) {
-    clearTick(hideComponentsTick);
+  if (nuiTick) {
+    clearTick(nuiTick);
   }
 
-  DisplayRadar(false);
+  const minimap = RequestScaleformMovie("minimap");
+  SetRadarBigmapEnabled(true, false);
+  SetRadarBigmapEnabled(false, false);
 
-  hideComponentsTick = setTick(() => {
+  nuiTick = setTick(() => {
     [1, 2, 3, 4, 6, 7, 8, 9, 13, 20].forEach((el) => {
       HideHudComponentThisFrame(el);
     });
+
+    BeginScaleformMovieMethod(minimap, "SETUP_HEALTH_ARMOUR");
+    ScaleformMovieMethodAddParamInt(3);
+    EndScaleformMovieMethod();
+
+    const safeZone = GetSafeZoneSize();
+
+    if (lastSafeZone && lastSafeZone !== safeZone) {
+      lastSafeZone = safeZone;
+      sendSafeZone(safeZone);
+    }
   });
 });
 
 on("onClientGameTypeStop", () => {
-  if (hideComponentsTick) {
-    clearTick(hideComponentsTick);
-    hideComponentsTick = undefined;
+  if (nuiTick) {
+    clearTick(nuiTick);
+    nuiTick = undefined;
   }
-
-  DisplayRadar(true);
 });
 
 RegisterCommand(
@@ -42,7 +55,7 @@ RegisterCommand(
   () => {
     openPage("characterCreatorGenetics");
   },
-  false
+  false,
 );
 
 RegisterKeyMapping("characterCreator", "Open character creator", "keyboard", "g");

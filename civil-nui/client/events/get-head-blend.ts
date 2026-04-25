@@ -1,5 +1,5 @@
 RegisterNuiCallback("getHeadBlend", (data: {}, cb: CallableFunction) => {
-  cb([global.LocalPlayer.state.head_blends, false]);
+  cb([(global.LocalPlayer as LocalPlayerInterface).state.head_blends, false]);
 });
 
 export {};

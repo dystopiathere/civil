@@ -1,11 +1,23 @@
 const exports = global.exports as CitizenExports;
 
+let tick: number | undefined;
+let interval: NodeJS.Timeout | undefined;
+
 RegisterCommand(
   "test",
   async (source: number, args: string[], raw: string) => {
-    const ped = GetPlayerPed(-1);
+    if (tick) {
+      clearTick(tick);
+      tick = undefined;
+    }
+    if (interval) {
+      clearInterval(interval);
+      interval = undefined;
+    }
+
+    console.log(GetSafeZoneSize());
   },
-  false
+  false,
 );
 
 export {};

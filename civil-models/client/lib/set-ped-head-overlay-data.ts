@@ -9,7 +9,7 @@ type HeadOverlayElement = {
 };
 
 export function setPedHeadOverlayData(ped: number, data: Partial<HeadOverlays> = {}) {
-  const localData = { ...global.LocalPlayer.state.head_overlays };
+  const localData = { ...(global.LocalPlayer as LocalPlayerInterface).state.head_overlays };
 
   Object.assign(localData, data);
 

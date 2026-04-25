@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { type MessageEventData } from "~/shared/lib/event-manager";
 import { type Player, usePlayerStore } from "~/entities/player";
 import { useWorldStore, type World } from "~/entities/world";
@@ -6,6 +6,8 @@ import { pathKeys } from "~/shared/lib/react-router";
 import { useNavigate } from "react-router-dom";
 
 export function useMessages() {
+  const [safeZone, setSafeZone] = useState<number>(1);
+
   const {
     setPlayerHealth,
     setPlayerMaxHealth,
@@ -71,6 +73,12 @@ export function useMessages() {
           navigate(getPath());
         }
       }
+
+      if (name === "setSafeZone") {
+        const { safeZone: sz } = data as { safeZone: number };
+
+        setSafeZone(sz);
+      }
     };
 
     return () => {
@@ -88,4 +96,6 @@ export function useMessages() {
     setTime,
     setZoneName,
   ]);
+
+  return { safeZone };
 }

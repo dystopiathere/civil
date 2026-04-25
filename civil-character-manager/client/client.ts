@@ -118,7 +118,7 @@ on("gameEventTriggered", (name: string, args: any[]) => {
     const ped = GetPlayerPed(-1);
 
     if (victim === ped) {
-      global.LocalPlayer.state.set("health", GetEntityHealth(ped), true);
+      (global.LocalPlayer as LocalPlayerInterface).state.set("health", GetEntityHealth(ped), true);
     }
   }
 });

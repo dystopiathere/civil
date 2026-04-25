@@ -33,7 +33,7 @@ export function InputAxis({ label, x, y, onChange, onFocus }: InputRangeProps) {
   const dragStateTimeout = useRef<number>(null);
 
   useEffect(() => {
-    [x, y].forEach(({ label, value, min, max }, key) => {
+    [x, y].forEach(({ value, min, max, reverse }, key) => {
       const setMaxValue = key === 0 ? setMaxValueX : setMaxValueY;
 
       let result = 1;
@@ -51,8 +51,24 @@ export function InputAxis({ label, x, y, onChange, onFocus }: InputRangeProps) {
       if (!thumbRef.current) {
         return;
       }
+
+      let offsetPercentage = ((value - min.value) / (result - min.value)) * 100;
+
+      if (key === 0) {
+        if (reverse) {
+          offsetPercentage = 100 - offsetPercentage;
+        }
+
+        thumbRef.current.style.left = `${offsetPercentage}%`;
+      } else {
+        if (!reverse) {
+          offsetPercentage = 100 - offsetPercentage;
+        }
+
+        thumbRef.current.style.top = `${offsetPercentage}%`;
+      }
     });
-  }, [[x.max.value, y.max.value]]);
+  }, [x.max.value, y.max.value]);
 
   return (
     <div className="input-axis">

@@ -45,13 +45,13 @@ export function CharacterCreatorFace() {
           value: face_features.nose_width,
           min: { label: "Уже", value: -1 },
           max: { label: "Шире", value: 1 },
-          reverse: true,
         }}
         y={{
           label: "Высота",
           value: face_features.nose_peak,
           min: { label: "Ниже", value: -1 },
           max: { label: "Выше", value: 1 },
+          reverse: true,
         }}
         onChange={(nose_width: number, nose_peak: number) => setFaceFeature({ nose_width, nose_peak })}
       />
@@ -81,6 +81,7 @@ export function CharacterCreatorFace() {
           value: face_features.nose_length,
           min: { label: "Короче", value: -1 },
           max: { label: "Длиннее", value: 1 },
+          reverse: true,
         }}
         y={{
           label: "Кончик",

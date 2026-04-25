@@ -5,3 +5,4 @@ export * from "./send-player-max-armour";
 export * from "./send-player-underwater";
 export * from "./send-world-data";
 export * from "./navigate";
+export * from "./send-safe-zone";

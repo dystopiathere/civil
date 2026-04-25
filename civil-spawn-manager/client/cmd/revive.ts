@@ -11,7 +11,7 @@ RegisterCommand(
 
     await exports.civil_animations.playAnimationChain(playerPed, "reviveVictim");
 
-    global.LocalPlayer.state.set("health", 180, true);
+    (global.LocalPlayer as LocalPlayerInterface).state.set("health", 180, true);
   },
   false,
 );

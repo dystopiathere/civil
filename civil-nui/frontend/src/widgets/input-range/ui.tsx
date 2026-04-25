@@ -40,7 +40,7 @@ export function InputRange({ label, value, min, max, step, onChange, onFocus }: 
         max={Array.isArray(maxValue) ? maxValue[maxValue.length - 1] : maxValue}
         step={step}
         value={value}
-        onChange={(event) => {
+        onInput={(event) => {
           let newValue = Number(event.currentTarget.value);
           if (Array.isArray(maxValue) && !maxValue.includes(newValue)) {
             while (!maxValue.includes(newValue)) {

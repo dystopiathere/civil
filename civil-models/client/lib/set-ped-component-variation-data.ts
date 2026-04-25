@@ -7,7 +7,7 @@ type ComponentVariationsElement = {
 };
 
 export function setPedComponentVariationData(ped: number, data: Partial<ComponentVariations> = {}) {
-  const localData = { ...global.LocalPlayer.state.component_variations };
+  const localData = { ...(global.LocalPlayer as LocalPlayerInterface).state.component_variations };
 
   Object.assign(localData, data);
 
