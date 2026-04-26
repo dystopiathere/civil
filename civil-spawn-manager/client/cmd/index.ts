@@ -5,3 +5,4 @@ import "./respawn";
 import "./test";
 import "./set-time";
 import "./blackout";
+import "./coords";

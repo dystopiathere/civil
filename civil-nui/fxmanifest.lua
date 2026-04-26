@@ -6,8 +6,8 @@ version '1.0.0'
 
 node_version '22'
 
--- ui_page 'http://localhost:5173'
-ui_page 'dist/index.html'
+ui_page 'http://localhost:5173'
+-- ui_page 'dist/index.html'
 
 client_script 'dist/client.js'
 

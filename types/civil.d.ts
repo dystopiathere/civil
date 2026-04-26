@@ -95,6 +95,11 @@ declare module "types/civil" {
     vehicleNetId: number,
   ) => void;
 
+  export type InstructionButtonData = {
+    text: string;
+    button?: string;
+  };
+
   interface CivilHelpers {
     /**
      * Await for delay
@@ -110,6 +115,22 @@ declare module "types/civil" {
      * @param init
      */
     initialize(resourceName: string, init: () => CallableFunction | void): void;
+
+    /**
+     * Draw text on world coords
+     *
+     * @param x
+     * @param y
+     * @param z
+     * @param text
+     */
+    drawText3D(x: number, y: number, z: number, text: string): void;
+
+    /**
+     *
+     * @param instructions
+     */
+    prepareInstructionsScaleform(instructions: InstructionButtonData | InstructionButtonData[]): Promise<number>;
   }
 
   interface SpawnManager {
