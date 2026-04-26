@@ -129,4 +129,17 @@ export const markers: MarkerData[] = [
     color: { red: 255, green: 255, blue: 255, alpha: 191 },
     helpText: "Press to interact",
   },
+  {
+    label: "Clothes Shop #3",
+    type: 1,
+    coords: {
+      x: 76.840576171875,
+      y: -1390.8724365234375,
+      z: 29.37615203857422,
+    },
+    action: () => exports.civil_nui.openPage("characterCreatorGenetics"),
+    size: "medium",
+    color: { red: 255, green: 255, blue: 255, alpha: 191 },
+    helpText: "Press to interact",
+  },
 ];

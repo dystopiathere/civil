@@ -14,16 +14,6 @@ const exports = global.exports as CitizenExports;
 
 exports.civil_helpers.initialize(GetCurrentResourceName(), init);
 
-RegisterCommand(
-  "characterCreator",
-  () => {
-    openPage("characterCreatorGenetics");
-  },
-  false,
-);
-
-RegisterKeyMapping("characterCreator", "Open character creator", "keyboard", "g");
-
 // EXPORT MESSAGES
 exports("sendPlayerHealth", sendPlayerHealth);
 exports("sendPlayerMaxHealth", sendPlayerMaxHealth);
