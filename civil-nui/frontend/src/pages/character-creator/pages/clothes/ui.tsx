@@ -39,7 +39,7 @@ export function CharacterCreatorClothes() {
       stateSetComponentVariations(data);
       eventSetComponentVariation(data);
     },
-    [stateSetComponentVariations]
+    [stateSetComponentVariations],
   );
 
   const getDrawablesList = useCallback(async (componentId: number) => {
@@ -86,26 +86,32 @@ export function CharacterCreatorClothes() {
 
   return (
     <div className="character-creator-page">
-      {clothes.map(({ componentId, title, drawableKey, textureKey }) => {
+      {clothes.map(({ componentId, title, drawableKey, textureKey }, key) => {
         const drawableValue = component_variations[drawableKey] as number;
         const textureValue = component_variations[textureKey] as number;
+
+        const tabIndex = (key + 1) * 2;
 
         return (
           <Fragment key={componentId}>
             <InputRange
+              tabIndex={tabIndex - 1}
               label={title.drawable}
               min={0}
               max={getDrawablesList(componentId)}
               step={1}
               value={drawableValue}
+              disabledOnMaxValue={1}
               onChange={(value) => setComponentVariation({ [drawableKey]: value, [textureKey]: 0 })}
             />
             <InputRange
+              tabIndex={tabIndex}
               label={title.texture}
               min={0}
               max={getTexturesList(componentId, drawableValue)}
               step={1}
               value={textureValue}
+              disabledOnMaxValue={1}
               onChange={(value) => setComponentVariation({ [textureKey]: value })}
             />
           </Fragment>

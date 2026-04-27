@@ -131,6 +131,7 @@ export function CharacterCreatorFace() {
         }
       />
       <InputRange
+        tabIndex={1}
         label="Высота щек"
         value={face_features.cheek_bones}
         min={-1}
@@ -139,6 +140,7 @@ export function CharacterCreatorFace() {
         onChange={(cheek_bones) => setFaceFeature({ cheek_bones })}
       />
       <InputRange
+        tabIndex={2}
         label="Размер глаз"
         value={face_features.eye_opening}
         min={-1}
@@ -147,6 +149,7 @@ export function CharacterCreatorFace() {
         onChange={(eye_opening) => setFaceFeature({ eye_opening })}
       />
       <InputRange
+        tabIndex={3}
         label="Размер губ"
         value={face_features.lip_thickness}
         min={-1}
@@ -192,6 +195,7 @@ export function CharacterCreatorFace() {
         }
       />
       <InputRange
+        tabIndex={4}
         label="Высота подбородка"
         value={face_features.chin_bone}
         min={-1}
@@ -200,6 +204,7 @@ export function CharacterCreatorFace() {
         onChange={(chin_bone) => setFaceFeature({ chin_bone })}
       />
       <InputRange
+        tabIndex={5}
         label="Ямка подбородка"
         value={face_features.chin_hole}
         min={-1}
@@ -208,6 +213,7 @@ export function CharacterCreatorFace() {
         onChange={(chin_hole) => setFaceFeature({ chin_hole })}
       />
       <InputRange
+        tabIndex={6}
         label="Ширина шеи"
         value={face_features.neck_thickness}
         min={-1}

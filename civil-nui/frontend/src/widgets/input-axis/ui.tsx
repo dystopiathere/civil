@@ -68,7 +68,7 @@ export function InputAxis({ label, x, y, onChange, onFocus }: InputRangeProps) {
         thumbRef.current.style.top = `${offsetPercentage}%`;
       }
     });
-  }, [x.max.value, y.max.value]);
+  }, [JSON.stringify(x), JSON.stringify(y)]);
 
   return (
     <div className="input-axis">

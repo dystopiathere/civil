@@ -1,7 +1,6 @@
 import { useCallback, useEffect } from "react";
 import { useCharacterStore, type HeadBlends } from "~/entities/character";
 import { getHeadBlendData, setHeadBlend as eventSetHeadBlends, renavigate } from "~/shared/lib/event-manager";
-import { InputArrows } from "~/widgets/input-arrows";
 import { InputRange } from "~/widgets/input-range";
 import { ancestors, fathers, mothers } from "./config";
 import { InputAxis } from "~/widgets/input-axis";
@@ -40,31 +39,43 @@ export function CharacterCreatorGenetics() {
 
   return (
     <div className="character-creator-page">
-      <InputArrows
+      <InputRange
+        tabIndex={1}
         label="Мать"
+        min={0}
+        max={mothers}
+        step={1}
         value={head_blends.shape_first_id}
-        range={mothers}
         onChange={(shape_first_id) => setHeadBlends({ shape_first_id })}
       />
 
-      <InputArrows
+      <InputRange
+        tabIndex={2}
         label="Кожа матери"
+        min={0}
+        max={mothers}
+        step={1}
         value={head_blends.skin_first_id}
-        range={mothers}
         onChange={(skin_first_id) => setHeadBlends({ skin_first_id })}
       />
 
-      <InputArrows
+      <InputRange
+        tabIndex={3}
         label="Отец"
+        min={0}
+        max={fathers}
+        step={1}
         value={head_blends.shape_second_id}
-        range={fathers}
         onChange={(shape_second_id) => setHeadBlends({ shape_second_id })}
       />
 
-      <InputArrows
+      <InputRange
+        tabIndex={4}
         label="Кожа отца"
+        min={0}
+        max={fathers}
+        step={1}
         value={head_blends.skin_second_id}
-        range={fathers}
         onChange={(skin_second_id) => setHeadBlends({ skin_second_id })}
       />
 
@@ -73,8 +84,8 @@ export function CharacterCreatorGenetics() {
         x={{
           label: "Кожа",
           value: head_blends.skin_mix,
-          min: { label: "Матери", value: 0 },
-          max: { label: "Отца", value: 1 },
+          min: { label: "Мать", value: 0 },
+          max: { label: "Отец", value: 1 },
         }}
         y={{
           label: "Внешность",
@@ -85,21 +96,28 @@ export function CharacterCreatorGenetics() {
         onChange={(skin_mix: number, shape_mix: number) => setHeadBlends({ skin_mix, shape_mix })}
       />
 
-      <InputArrows
+      <InputRange
+        tabIndex={5}
         label="Предок"
+        min={0}
+        max={ancestors}
+        step={1}
         value={head_blends.shape_third_id}
-        range={ancestors}
         onChange={(shape_third_id) => setHeadBlends({ shape_third_id })}
       />
 
-      <InputArrows
+      <InputRange
+        tabIndex={6}
         label="Кожа предка"
+        min={0}
+        max={ancestors}
+        step={1}
         value={head_blends.skin_third_id}
-        range={ancestors}
         onChange={(skin_third_id) => setHeadBlends({ skin_third_id })}
       />
 
       <InputRange
+        tabIndex={7}
         label="Микс предка"
         value={head_blends.third_mix}
         min={0}
