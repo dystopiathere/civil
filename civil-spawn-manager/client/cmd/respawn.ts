@@ -11,8 +11,9 @@ RegisterCommand(
     ClearPedBloodDamage(ped);
 
     player.state.set("health", player.state.max_health, true);
+    player.state.set("knockdown", false, true);
   },
-  false
+  false,
 );
 
 export {};

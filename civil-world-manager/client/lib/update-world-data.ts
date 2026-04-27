@@ -1,4 +1,4 @@
-import { zonesMapping } from "../config";
+import { zonesMapping } from "./configs";
 
 let interval: NodeJS.Timeout | undefined;
 
@@ -24,6 +24,10 @@ export function updateWorldData() {
     const minutes = GetClockMinutes().toString().padStart(2, "0");
 
     const time = `${hours}:${minutes}`;
+
+    if (!zonesMapping[zoneName]) {
+      console.log(zoneName);
+    }
 
     exports.civil_nui.sendWorldData({
       streetName,

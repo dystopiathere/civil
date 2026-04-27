@@ -6,20 +6,20 @@ import {
   setPedFaceFeatureData,
   updateFreemodeModel,
   init,
+  freeze,
 } from "./lib";
 
-const exports = global.exports as CitizenExports;
-
-exports.civil_helpers.initialize(GetCurrentResourceName(), init);
+global.exports.civil_helpers.initialize(GetCurrentResourceName(), init);
 
 on("playerSpawned", () => {
   updateFreemodeModel(GetPlayerPed(-1));
 });
 
 // EXPORT LIB
-exports("setModel", setModel);
-exports("setPedHeadBlendData", setPedHeadBlendData);
-exports("setPedHeadOverlayData", setPedHeadOverlayData);
-exports("setPedComponentVariationData", setPedComponentVariationData);
-exports("setPedFaceFeatureData", setPedFaceFeatureData);
-exports("updateFreemodeModel", updateFreemodeModel);
+global.exports("setModel", setModel);
+global.exports("setPedHeadBlendData", setPedHeadBlendData);
+global.exports("setPedHeadOverlayData", setPedHeadOverlayData);
+global.exports("setPedComponentVariationData", setPedComponentVariationData);
+global.exports("setPedFaceFeatureData", setPedFaceFeatureData);
+global.exports("updateFreemodeModel", updateFreemodeModel);
+global.exports("freeze", freeze);

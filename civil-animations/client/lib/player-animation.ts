@@ -1,8 +1,6 @@
 import { AnimationFlag } from "types/civil";
 import { flagsMapping } from "../config";
 
-const exports = global.exports as CitizenExports;
-
 export async function playAnimation(
   ped: number,
   animDict: string,
@@ -18,7 +16,7 @@ export async function playAnimation(
     RequestAnimDict(animDict);
 
     while (!HasAnimDictLoaded(animDict)) {
-      await exports.civil_helpers.delay(500);
+      await global.exports.civil_helpers.delay(500);
     }
 
     const animDuration = GetAnimDuration(animDict, anim) * 1000;

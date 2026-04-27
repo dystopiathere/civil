@@ -88,58 +88,5 @@ export const zonesMapping: Record<string, string> = {
   ZANCUDO: "Река Занкудо",
   ZP_ORT: "Порт Лос Сантоса",
   ZQ_UAR: "Дэвис Кварц",
+  SanAnd: "Сан-Андреас",
 };
-
-type MarkerData = {
-  type: number;
-  coords: { x: number; y: number; z: number };
-  action: CallableFunction;
-  size: "small" | "medium" | "large";
-  color: { red: number; green: number; blue: number; alpha: number };
-  label?: string;
-  helpText?: string;
-};
-
-const exports = global.exports as CitizenExports;
-
-export const markers: MarkerData[] = [
-  {
-    label: "Clothes Shop #1",
-    type: 1,
-    coords: {
-      x: 124.2783432006836,
-      y: -224.8079833984375,
-      z: 54.5578498840332,
-    },
-    action: () => exports.civil_nui.openPage("characterCreatorGenetics"),
-    size: "medium",
-    color: { red: 255, green: 255, blue: 255, alpha: 191 },
-    helpText: "Press to interact",
-  },
-  {
-    label: "Clothes Shop #2",
-    type: 1,
-    coords: {
-      x: -703.8528442382812,
-      y: -152.1354217529297,
-      z: 37.41512680053711,
-    },
-    action: () => exports.civil_nui.openPage("characterCreatorGenetics"),
-    size: "large",
-    color: { red: 255, green: 255, blue: 255, alpha: 191 },
-    helpText: "Press to interact",
-  },
-  {
-    label: "Clothes Shop #3",
-    type: 1,
-    coords: {
-      x: 76.840576171875,
-      y: -1390.8724365234375,
-      z: 29.37615203857422,
-    },
-    action: () => exports.civil_nui.openPage("characterCreatorGenetics"),
-    size: "medium",
-    color: { red: 255, green: 255, blue: 255, alpha: 191 },
-    helpText: "Press to interact",
-  },
-];

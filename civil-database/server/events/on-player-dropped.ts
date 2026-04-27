@@ -9,8 +9,6 @@ import {
   SkillsModel,
 } from "../entities";
 
-const exports = global.exports as CitizenExports;
-
 async function syncData(state: Omit<LocalPlayerStateBagInterface, "set">) {
   const now = dayjs().toISOString();
 
@@ -110,4 +108,4 @@ on("playerDropped", async (reason: string, resourceName: string, clientDropReaso
   await syncData(data);
 });
 
-exports("syncData", syncData);
+global.exports("syncData", syncData);

@@ -1,17 +1,10 @@
-const exports = global.exports as CitizenExports;
-
 RegisterCommand(
   "revive",
   async (source: number, args: string[], raw: string) => {
-    const playerPed = GetPlayerPed(-1);
+    const localPlayer = global.LocalPlayer as LocalPlayerInterface;
 
-    const [x, y, z] = GetEntityCoords(playerPed, true);
-
-    NetworkResurrectLocalPlayer(x, y, z, GetEntityHeading(playerPed), 0, true);
-
-    await exports.civil_animations.playAnimationChain(playerPed, "reviveVictim");
-
-    (global.LocalPlayer as LocalPlayerInterface).state.set("health", 180, true);
+    localPlayer.state.set("health", localPlayer.state.max_health, true);
+    localPlayer.state.set("knockdown", false, true);
   },
   false,
 );

@@ -5,16 +5,19 @@ export const pages: Record<NuiPage, NuiPageData> = {
     focus: false,
     cursor: false,
     input: true,
+    freeze: false,
   },
   characterCreator: {
     focus: true,
     cursor: true,
     input: false,
+    freeze: false,
   },
   characterCreatorGenetics: {
     focus: true,
     cursor: true,
     input: false,
+    freeze: true,
     setupCamera: () => {
       const camera = CreateCam("DEFAULT_SCRIPTED_CAMERA", true);
 
@@ -33,6 +36,7 @@ export const pages: Record<NuiPage, NuiPageData> = {
     focus: true,
     cursor: true,
     input: false,
+    freeze: true,
     setupCamera: () => {
       const camera = CreateCam("DEFAULT_SCRIPTED_CAMERA", true);
 
@@ -51,6 +55,7 @@ export const pages: Record<NuiPage, NuiPageData> = {
     focus: true,
     cursor: true,
     input: false,
+    freeze: true,
     setupCamera: () => {
       const camera = CreateCam("DEFAULT_SCRIPTED_CAMERA", true);
 
@@ -69,6 +74,7 @@ export const pages: Record<NuiPage, NuiPageData> = {
     focus: true,
     cursor: true,
     input: false,
+    freeze: true,
     setupCamera: () => {
       const camera = CreateCam("DEFAULT_SCRIPTED_CAMERA", true);
 

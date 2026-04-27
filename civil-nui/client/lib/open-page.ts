@@ -6,10 +6,14 @@ import { navigate } from "../messages";
 let pageCamera: number | null;
 
 export function openPage(page: NuiPage) {
-  const { focus, cursor, input, setupCamera } = pages[page];
+  const { focus, cursor, input, freeze, setupCamera } = pages[page];
 
   navigate(page);
   setFocus(focus, cursor, input);
+
+  const ped = GetPlayerPed(-1);
+
+  global.exports.civil_models.freeze(ped, freeze);
 
   if (!setupCamera) {
     if (pageCamera && DoesCamExist(pageCamera)) {

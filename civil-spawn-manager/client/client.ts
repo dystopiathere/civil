@@ -1,7 +1,5 @@
 import "./cmd";
 
-const exports = global.exports as CitizenExports;
-
 async function spawnPlayer() {
   const player = global.LocalPlayer as LocalPlayerInterface;
 
@@ -13,10 +11,10 @@ async function spawnPlayer() {
 
   RequestModel(model);
   while (!HasModelLoaded(model)) {
-    await exports.civil_helpers.delay(500);
+    await global.exports.civil_helpers.delay(500);
   }
 
-  exports.spawnmanager.spawnPlayer({
+  global.exports.spawnmanager.spawnPlayer({
     x: last_position.x ?? 410.213,
     y: last_position.y ?? -963.708,
     z: last_position.z ?? 28.651,
@@ -48,15 +46,4 @@ on("playerSpawned", async () => {
   guns.forEach((gun) => {
     GiveWeaponToPed(playerPed, gun, 99999, false, false);
   });
-
-  const animSet = "move_m@casual@d";
-
-  RequestAnimSet(animSet);
-  while (!HasAnimSetLoaded(animSet)) {
-    await exports.civil_helpers.delay(500);
-  }
-
-  SetPedMovementClipset(playerPed, animSet, 0);
-
-  RemoveAnimSet(animSet);
 });

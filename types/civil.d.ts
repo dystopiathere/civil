@@ -100,6 +100,17 @@ declare module "types/civil" {
     button?: string;
   };
 
+  export type MarkerData = {
+    type: number;
+    coords: { x: number; y: number; z: number };
+    action: CallableFunction;
+    size: "small" | "medium" | "large";
+    color: { red: number; green: number; blue: number; alpha: number };
+    label?: string;
+    helpText?: string;
+    blip?: { sprite: number; shortRange: boolean };
+  };
+
   interface CivilHelpers {
     /**
      * Await for delay
@@ -131,6 +142,15 @@ declare module "types/civil" {
      * @param instructions
      */
     prepareInstructionsScaleform(instructions: InstructionButtonData | InstructionButtonData[]): Promise<number>;
+
+    /**
+     * Random number in range
+     *
+     * @param min
+     * @param max
+     * @param step
+     */
+    random(min: number, max: number, step: number): number;
   }
 
   interface SpawnManager {
@@ -328,17 +348,61 @@ declare module "types/civil" {
   }
 
   interface CivilModels {
+    /**
+     * Set model for player
+     *
+     * @param player
+     * @param model
+     */
     setModel(player: number, model: string): Promise<void>;
 
+    /**
+     * Set ped componnt variation
+     *
+     * @param ped
+     * @param data
+     */
     setPedComponentVariationData(ped: number, data: Partial<ComponentVariations>): void;
 
+    /**
+     * Set ped face features
+     *
+     * @param ped
+     * @param data
+     */
     setPedFaceFeatureData(ped: number, data: Partial<FaceFeatures>): void;
 
+    /**
+     * Set ped head blends
+     *
+     * @param ped
+     * @param data
+     */
     setPedHeadBlendData(ped: number, data: Partial<HeadBlends>): void;
 
+    /**
+     * Set ped head overlay
+     *
+     * @param ped
+     * @param data
+     */
     setPedHeadOverlayData(ped: number, data: Partial<HeadOverlays>): void;
 
+    /**
+     * Update full appearance of freemode model
+     *
+     * @param ped
+     * @param data
+     */
     updateFreemodeModel(ped: number, data: Partial<FullCharacterEntity>): void;
+
+    /**
+     * Freeze ped and disable idle animations
+     *
+     * @param ped
+     * @param state
+     */
+    freeze(ped: number, state: boolean): void;
   }
 
   export type NuiPage =
@@ -364,6 +428,7 @@ declare module "types/civil" {
     focus: boolean;
     cursor: boolean;
     input: boolean;
+    freeze: boolean;
     setupCamera?: () => number;
   };
 

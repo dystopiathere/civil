@@ -1,9 +1,8 @@
-import { delay, drawText3D, initialize, prepareInstructionsScaleform } from "./lib";
-
-const exports = global.exports as CitizenExports;
+import { delay, drawText3D, initialize, prepareInstructionsScaleform, random } from "./lib";
 
 // EXPORT LIB
-exports("delay", delay);
-exports("initialize", initialize);
-exports("drawText3D", drawText3D);
-exports("prepareInstructionsScaleform", prepareInstructionsScaleform);
+global.exports("delay", delay);
+global.exports("initialize", initialize);
+global.exports("drawText3D", drawText3D);
+global.exports("prepareInstructionsScaleform", prepareInstructionsScaleform);
+global.exports("random", random);

@@ -1,5 +1,3 @@
-const exports = global.exports as CitizenExports;
-
 RegisterCommand(
   "car",
   async (source: number, args: string[], raw: string) => {
@@ -16,7 +14,7 @@ RegisterCommand(
 
     RequestModel(model);
     while (!HasModelLoaded(model)) {
-      await exports.civil_helpers.delay(500);
+      await global.exports.civil_helpers.delay(500);
     }
 
     const ped = GetPlayerPed(-1);
@@ -36,7 +34,7 @@ RegisterCommand(
 
     SetModelAsNoLongerNeeded(model);
   },
-  false
+  false,
 );
 
 export {};

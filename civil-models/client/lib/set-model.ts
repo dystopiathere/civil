@@ -1,5 +1,3 @@
-const exports = global.exports as CitizenExports;
-
 export async function setModel(player: number, model: string) {
   if (!IsModelInCdimage(model) || !IsModelAPed(model)) {
     console.error(`Bad model: ${model}`);
@@ -14,7 +12,7 @@ export async function setModel(player: number, model: string) {
   RequestModel(model);
 
   while (!HasModelLoaded(model)) {
-    await exports.civil_helpers.delay(500);
+    await global.exports.civil_helpers.delay(500);
   }
 
   SetPlayerModel(player, model);

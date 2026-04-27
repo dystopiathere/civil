@@ -1,8 +1,6 @@
 import { init } from "./lib";
 
-const exports = global.exports as CitizenExports;
-
-exports.civil_helpers.initialize(GetCurrentResourceName(), init);
+global.exports.civil_helpers.initialize(GetCurrentResourceName(), init);
 
 on("playerSpawned", () => {
   StatSetInt("MP0_STAMINA", (global.LocalPlayer as LocalPlayerInterface).state.stamina, true);

@@ -10,19 +10,17 @@ import {
 import { setFocus, openPage, init } from "./lib";
 import "./events";
 
-const exports = global.exports as CitizenExports;
-
-exports.civil_helpers.initialize(GetCurrentResourceName(), init);
+global.exports.civil_helpers.initialize(GetCurrentResourceName(), init);
 
 // EXPORT MESSAGES
-exports("sendPlayerHealth", sendPlayerHealth);
-exports("sendPlayerMaxHealth", sendPlayerMaxHealth);
-exports("sendPlayerArmour", sendPlayerArmour);
-exports("sendPlayerMaxArmour", sendPlayerMaxArmour);
-exports("sendWorldData", sendWorldData);
-exports("sendPlayerUnderwater", sendPlayerUnderwater);
-exports("navigate", navigate);
+global.exports("sendPlayerHealth", sendPlayerHealth);
+global.exports("sendPlayerMaxHealth", sendPlayerMaxHealth);
+global.exports("sendPlayerArmour", sendPlayerArmour);
+global.exports("sendPlayerMaxArmour", sendPlayerMaxArmour);
+global.exports("sendWorldData", sendWorldData);
+global.exports("sendPlayerUnderwater", sendPlayerUnderwater);
+global.exports("navigate", navigate);
 
 // EXPORT LIB
-exports("setFocus", setFocus);
-exports("openPage", openPage);
+global.exports("setFocus", setFocus);
+global.exports("openPage", openPage);

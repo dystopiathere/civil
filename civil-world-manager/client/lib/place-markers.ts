@@ -1,6 +1,4 @@
-import { markers } from "../config";
-
-const exports = global.exports as CitizenExports;
+import { clothesShops } from "./configs";
 
 let markersTick: number | undefined;
 
@@ -12,6 +10,8 @@ const sizes: Record<"small" | "medium" | "large", { x: number; y: number; z: num
 
 const SHOW_DISTANCE = 100.0;
 
+const markers = [...clothesShops];
+
 export async function placeMarkers() {
   if (markersTick) {
     clearTick(markersTick);
@@ -20,12 +20,19 @@ export async function placeMarkers() {
   const helpInstructions = new Map<string, number>();
   let activeInstruction: string | null = null;
 
-  for (const { helpText } of markers) {
+  for (const { blip, coords, helpText } of markers) {
+    if (blip) {
+      const blipId = AddBlipForCoord(coords.x, coords.y, coords.z);
+      SetBlipSprite(blipId, blip.sprite);
+
+      SetBlipAsShortRange(blipId, blip.shortRange);
+    }
+
     if (!helpText || helpInstructions.has(helpText)) {
       continue;
     }
 
-    const sc = await exports.civil_helpers.prepareInstructionsScaleform({
+    const sc = await global.exports.civil_helpers.prepareInstructionsScaleform({
       text: helpText,
       button: GetControlInstructionalButton(0, 51, true),
     });
@@ -72,7 +79,7 @@ export async function placeMarkers() {
       );
 
       if (label) {
-        exports.civil_helpers.drawText3D(coords.x, coords.y, coords.z, label);
+        global.exports.civil_helpers.drawText3D(coords.x, coords.y, coords.z, label);
       }
 
       if (distance < sizes[size].x) {

@@ -9,6 +9,7 @@ export function toggleAmbientSounds(state: boolean) {
     StopAudioScene("CHARACTER_CHANGE_IN_SKY_SCENE");
   }
 
+  SetAudioFlag("AmbientZoneDisabled", !state);
   SetAudioFlag("PoliceScannerDisabled", !state);
   SetAudioFlag("DisableFlightMusic", !state);
   SetAudioFlag("DisableBarks", !state);
@@ -35,4 +36,6 @@ export function toggleAmbientSounds(state: boolean) {
   SetScenarioTypeEnabled("WORLD_VEHICLE_BIKE_OFF_ROAD_RACE", state);
 
   SetRandomEventFlag(state);
+
+  DistantCopCarSirens(state);
 }

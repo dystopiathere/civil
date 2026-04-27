@@ -1,6 +1,11 @@
 let tick: number | undefined;
 
 export function toggleEntityDensity(state: boolean): number {
+  if (tick) {
+    clearTick(tick);
+    tick = undefined;
+  }
+
   SetPedPopulationBudget(state ? 3 : 0);
   SetVehiclePopulationBudget(state ? 3 : 0);
 
@@ -9,13 +14,7 @@ export function toggleEntityDensity(state: boolean): number {
   SetPlayerWantedLevel(PlayerId(), 0, state);
   SetPlayerWantedLevelNow(PlayerId(), state);
   SetPlayerWantedLevelNoDrop(PlayerId(), 0, state);
-  Array.from({ length: 12 }).forEach((_, id) => EnableDispatchService(id + 1, state));
-
-  if (state && tick) {
-    clearTick(tick);
-    tick = undefined;
-    return 0;
-  }
+  Array.from({ length: 14 }).forEach((_, id) => EnableDispatchService(id + 1, state));
 
   if (state) {
     return 0;

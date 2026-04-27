@@ -1,5 +1,3 @@
-const exports = global.exports as CitizenExports;
-
 RegisterCommand(
   "coords",
   async (source: number, args: string[], raw: string) => {
