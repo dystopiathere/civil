@@ -124,8 +124,9 @@ declare module "types/civil" {
      *
      * @param resourceName
      * @param init
+     * @param dependencies
      */
-    initialize(resourceName: string, init: () => CallableFunction | void): void;
+    initialize(resourceName: string, init: () => CallableFunction | void, dependencies?: string[]): void;
 
     /**
      * Draw text on world coords
@@ -411,7 +412,8 @@ declare module "types/civil" {
     | "characterCreatorGenetics"
     | "characterCreatorFace"
     | "characterCreatorBody"
-    | "characterCreatorClothes";
+    | "characterCreatorClothes"
+    | "inventory";
 
   export type CameraSetupData = {
     posX: number;

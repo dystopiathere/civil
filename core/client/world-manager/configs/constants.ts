@@ -1,0 +1,1 @@
+export const MARKER_SHOW_DISTANCE = 100.0;
