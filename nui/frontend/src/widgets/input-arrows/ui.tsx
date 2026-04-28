@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ArrowIcon } from "~/shared/ui/arrow-icon";
+import { ArrowIcon } from "~/shared/ui";
 import "./styles.scss";
 
 type Primitive = string | number;

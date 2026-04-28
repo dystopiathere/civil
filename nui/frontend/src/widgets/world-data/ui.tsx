@@ -1,4 +1,4 @@
-import { useWorldStore } from "~/entities/world";
+import { useWorldStore } from "~/entities";
 import "./styles.scss";
 
 export function WorldData() {

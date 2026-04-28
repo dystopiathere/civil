@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { renavigate } from "~/shared/lib/event-manager";
+import { renavigate } from "~/shared/lib";
 
 export function CharacterCreatorBody() {
   useEffect(() => {

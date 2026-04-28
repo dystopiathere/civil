@@ -1,4 +1,4 @@
-import { ArmourIcon } from "~/shared/ui/armour-icon";
+import { ArmourIcon } from "~/shared/ui";
 
 type PlayerArmourProps = {
   armour: number;

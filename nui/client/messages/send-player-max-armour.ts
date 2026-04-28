@@ -1,10 +1,8 @@
-export function sendPlayerMaxArmour(value: number) {
+export function sendPlayerMaxArmour(max_armour: number) {
   SendNuiMessage(
     JSON.stringify({
       name: "setPlayerMaxArmour",
-      data: {
-        maxArmour: value,
-      },
-    })
+      data: { max_armour },
+    }),
   );
 }

@@ -1,7 +1,7 @@
-import { type EventSend, invoke } from "~/shared/lib/event-manager";
-import type { Character } from "~/entities/character";
+import type { CharacterEntity } from "types/civil";
+import { type EventSend, invoke } from "~/shared/lib";
 
-type EventRequestData = Pick<Character, "eye_color">;
+type EventRequestData = Pick<CharacterEntity, "eye_color">;
 
 type EventResponseData = {
   status: boolean;

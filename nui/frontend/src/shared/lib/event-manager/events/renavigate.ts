@@ -1,4 +1,4 @@
-import { type EventSend, invoke } from "~/shared/lib/event-manager";
+import { type EventSend, invoke } from "~/shared/lib";
 
 type EventRequestData = {
   page: string;

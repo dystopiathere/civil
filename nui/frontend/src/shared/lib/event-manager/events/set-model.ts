@@ -1,7 +1,7 @@
-import { type EventSend, invoke } from "~/shared/lib/event-manager";
-import type { Character } from "~/entities/character";
+import type { CharacterEntity } from "types/civil";
+import { type EventSend, invoke } from "~/shared/lib";
 
-type EventRequestData = Pick<Character, "model">;
+type EventRequestData = Pick<CharacterEntity, "model">;
 
 type EventResponseData = {
   status: boolean;

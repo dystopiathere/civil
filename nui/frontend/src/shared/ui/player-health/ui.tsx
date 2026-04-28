@@ -1,4 +1,4 @@
-import { HealthIcon } from "~/shared/ui/health-icon";
+import { HealthIcon } from "~/shared/ui";
 
 type PlayerHealthProps = {
   health: number;

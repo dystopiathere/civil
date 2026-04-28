@@ -1,13 +1,14 @@
-import { type EventSend, invoke } from "~/shared/lib/event-manager";
-import type { HeadBlends } from "~/entities/character";
+import type { HeadBlendsEntity } from "types/civil";
+import { type EventSend, invoke } from "~/shared/lib";
 
 type EventRequestData = {
   nodata: null;
 };
 
-type EventResponseData = Omit<HeadBlends, "id" | "created_at" | "updated_at">;
+type EventResponseData = HeadBlendsEntity;
 
 const mockResponseData: EventResponseData = {
+  id: 1,
   shape_first_id: 1,
   shape_second_id: 1,
   shape_mix: 1,
@@ -17,6 +18,8 @@ const mockResponseData: EventResponseData = {
   shape_third_id: 1,
   skin_third_id: 1,
   third_mix: 1,
+  created_at: "",
+  updated_at: "",
 };
 
 export const getHeadBlendData: EventSend<EventRequestData, EventResponseData> = () => {

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { closeComponent } from "~/shared/lib/event-manager";
+import { closeComponent } from "~/shared/lib";
 
 export function useKeyboardEvents() {
   useEffect(() => {

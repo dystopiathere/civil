@@ -1,11 +1,11 @@
-export function sendPlayerUnderwater(isInWater: boolean) {
+export function sendPlayerUnderwater(is_in_water: boolean) {
   SendNuiMessage(
     JSON.stringify({
       name: "setPlayerUnderwater",
       data: {
         breath: GetPlayerUnderwaterTimeRemaining(PlayerId()),
-        isInWater,
+        is_in_water,
       },
-    })
+    }),
   );
 }

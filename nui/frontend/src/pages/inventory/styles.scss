@@ -1,6 +1,19 @@
 .inventory {
   position: absolute;
   top: 50%;
-  left: 25%;
-  translate: -50% 0;
+  left: 50%;
+  translate: -50% -50%;
+
+  display: flex;
+  gap: 1rem;
+
+  &__group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+
+    &.horizontal {
+      flex-direction: row;
+    }
+  }
 }

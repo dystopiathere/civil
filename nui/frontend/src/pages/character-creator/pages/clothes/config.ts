@@ -1,12 +1,12 @@
-import type { ComponentVariations } from "~/entities/character";
+import type { ComponentVariationsEntity } from "types/civil";
 
 type ClothesData = {
   title: {
     drawable: string;
     texture: string;
   };
-  drawableKey: keyof ComponentVariations;
-  textureKey: keyof ComponentVariations;
+  drawableKey: keyof ComponentVariationsEntity;
+  textureKey: keyof ComponentVariationsEntity;
   componentId: number;
 };
 

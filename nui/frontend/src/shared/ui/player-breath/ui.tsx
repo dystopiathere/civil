@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { LungIcon } from "~/shared/ui/lung-icon";
+import { LungIcon } from "~/shared/ui";
 
 type PlayerBreathProps = {
   breath: number;

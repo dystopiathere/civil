@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { type MessageEventData } from "~/shared/lib/event-manager";
-import { type Player, usePlayerStore } from "~/entities/player";
-import { useWorldStore, type World } from "~/entities/world";
-import { pathKeys } from "~/shared/lib/react-router";
+import type { FullCharacterEntity } from "types/civil";
+import { type MessageEventData, pathKeys } from "~/shared/lib";
+import { useCharacterStore, useWorldStore, type AdditionalCharacterData, type World } from "~/entities";
 
 export function useMessages() {
   const [safeZone, setSafeZone] = useState<number>(0.85);
@@ -15,7 +14,7 @@ export function useMessages() {
     setPlayerMaxArmour,
     setPlayerBreath,
     setPlayerInWater,
-  } = usePlayerStore();
+  } = useCharacterStore();
 
   const { setStreetName, setZoneName, setTime } = useWorldStore();
 
@@ -27,30 +26,30 @@ export function useMessages() {
 
       switch (name) {
         case "setPlayerHealth":
-          const { health } = data as Pick<Player, "health">;
+          const { health } = data as Pick<FullCharacterEntity, "health">;
 
           setPlayerHealth(health > 0 ? health : 0);
           break;
         case "setPlayerArmour":
-          const { armour } = data as Pick<Player, "armour">;
+          const { armour } = data as Pick<FullCharacterEntity, "armour">;
 
           setPlayerArmour(armour);
           break;
         case "setPlayerMaxHealth":
-          const { maxHealth } = data as Pick<Player, "maxHealth">;
+          const { max_health } = data as Pick<FullCharacterEntity, "max_health">;
 
-          setPlayerMaxHealth(maxHealth);
+          setPlayerMaxHealth(max_health);
           break;
         case "setPlayerMaxArmour":
-          const { maxArmour } = data as Pick<Player, "maxArmour">;
+          const { max_armour } = data as Pick<FullCharacterEntity, "max_armour">;
 
-          setPlayerMaxArmour(maxArmour);
+          setPlayerMaxArmour(max_armour);
           break;
         case "setPlayerUnderwater":
-          const { breath, isInWater } = data as Pick<Player, "breath" | "isInWater">;
+          const { breath, is_in_water } = data as Pick<AdditionalCharacterData, "breath" | "is_in_water">;
 
           setPlayerBreath(breath > 0 ? breath : 0);
-          setPlayerInWater(isInWater);
+          setPlayerInWater(is_in_water);
           break;
         case "setWorldData":
           const { streetName, zoneName, time } = data as World;

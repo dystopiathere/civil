@@ -1,10 +1,8 @@
-export function sendPlayerHealth(value: number) {
+export function sendPlayerHealth(health: number) {
   SendNuiMessage(
     JSON.stringify({
       name: "setPlayerHealth",
-      data: {
-        health: value,
-      },
-    })
+      data: { health },
+    }),
   );
 }

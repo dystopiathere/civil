@@ -1,6 +1,6 @@
-import { TabsNavigation } from "~/widgets/tabs-navigation";
-import { characterCreatorPages } from "./config";
 import { Outlet } from "react-router-dom";
+import { TabsNavigation } from "~/widgets";
+import { characterCreatorPages } from "./config";
 import "./styles.scss";
 
 export function CharacterCreator() {

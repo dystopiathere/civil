@@ -1,7 +1,7 @@
-import { type EventSend, invoke } from "~/shared/lib/event-manager";
-import type { HeadBlends } from "~/entities/character";
+import type { HeadBlendsEntity } from "types/civil";
+import { type EventSend, invoke } from "~/shared/lib";
 
-type EventRequestData = Partial<Omit<HeadBlends, "id" | "created_at" | "updated_at">>;
+type EventRequestData = Partial<Omit<HeadBlendsEntity, "id" | "created_at" | "updated_at">>;
 
 type EventResponseData = {
   status: boolean;

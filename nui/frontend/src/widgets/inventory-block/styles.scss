@@ -1,0 +1,32 @@
+.inventory-block {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  width: min-content;
+  padding: 0.5rem;
+
+  background-color: #00000080;
+  border-radius: 0.5rem;
+
+  &__title {
+    width: min-content;
+    padding: 0.5rem 1rem;
+
+    background-color: #00000080;
+    border-radius: 0.2rem;
+  }
+
+  &__container {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  &__row {
+    display: flex;
+    gap: 0.2rem;
+  }
+}

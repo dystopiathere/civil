@@ -1,10 +1,8 @@
-export function sendPlayerMaxHealth(value: number) {
+export function sendPlayerMaxHealth(max_health: number) {
   SendNuiMessage(
     JSON.stringify({
       name: "setPlayerMaxHealth",
-      data: {
-        maxHealth: value,
-      },
-    })
+      data: { max_health },
+    }),
   );
 }

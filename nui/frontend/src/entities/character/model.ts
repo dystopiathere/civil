@@ -1,28 +1,37 @@
-import { create, type StoreApi, type UseBoundStore } from "zustand";
 import type {
-  Character,
-  ComponentVariations,
-  FaceFeatures,
-  HeadBlends,
-  HeadOverlays,
-  Skills,
-} from "~/entities/character";
+  ComponentVariationsEntity,
+  FaceFeaturesEntity,
+  FullCharacterEntity,
+  HeadBlendsEntity,
+  HeadOverlaysEntity,
+  SkillsEntity,
+} from "types/civil";
+import { create, type StoreApi, type UseBoundStore } from "zustand";
+import type { AdditionalCharacterData } from "./types";
 
 type Actions = {
-  setFaceFeatures: (faceFeatures: Partial<FaceFeatures>) => void;
-  setSkills: (faceFeatures: Partial<Skills>) => void;
-  setHeadOverlays: (faceFeatures: Partial<HeadOverlays>) => void;
-  setComponentVariations: (faceFeatures: Partial<ComponentVariations>) => void;
-  setHeadBlends: (headBlends: Partial<HeadBlends>) => void;
+  setFaceFeatures: (faceFeatures: Partial<FaceFeaturesEntity>) => void;
+  setSkills: (faceFeatures: Partial<SkillsEntity>) => void;
+  setHeadOverlays: (faceFeatures: Partial<HeadOverlaysEntity>) => void;
+  setComponentVariations: (faceFeatures: Partial<ComponentVariationsEntity>) => void;
+  setHeadBlends: (headBlends: Partial<HeadBlendsEntity>) => void;
+  setPlayerHealth: (health: number) => void;
+  setPlayerMaxHealth: (maxHealth: number) => void;
+  setPlayerArmour: (armour: number) => void;
+  setPlayerMaxArmour: (maxArmour: number) => void;
+  setPlayerBreath: (breath: number) => void;
+  setPlayerInWater: (isInWater: boolean) => void;
 };
 
-type CharacterState = Pick<
-  Character,
-  "face_features" | "skills" | "head_blends" | "head_overlays" | "component_variations"
-> &
-  Actions;
+type CharacterState = Partial<FullCharacterEntity & AdditionalCharacterData> & Actions;
 
 export const useCharacterStore: UseBoundStore<StoreApi<CharacterState>> = create((set) => ({
+  health: 200,
+  max_health: 200,
+  armour: 25,
+  max_armour: 100,
+  breath: 40,
+  is_in_water: true,
   face_features: {
     id: 1,
     nose_width: -1,
@@ -159,39 +168,56 @@ export const useCharacterStore: UseBoundStore<StoreApi<CharacterState>> = create
     updated_at: "time",
   },
 
-  setFaceFeatures: (data: Partial<FaceFeatures>) =>
+  setPlayerHealth: (health) => set({ health }),
+  setPlayerMaxHealth: (max_health) => set({ max_health }),
+  setPlayerArmour: (armour) => set({ armour }),
+  setPlayerMaxArmour: (max_armour) => set({ max_armour }),
+  setPlayerBreath: (breath) => set({ breath }),
+  setPlayerInWater: (is_in_water) => set({ is_in_water }),
+
+  setFaceFeatures: (data: Partial<FaceFeaturesEntity>) =>
     set((state) => {
       const face_features = { ...state.face_features };
       Object.assign(face_features, data);
+      const newState = { ...state };
+      Object.assign(newState, { face_features });
 
-      return { face_features };
+      return newState;
     }),
-  setSkills: (data: Partial<Skills>) =>
+  setSkills: (data: Partial<SkillsEntity>) =>
     set((state) => {
       const skills = { ...state.skills };
       Object.assign(skills, data);
+      const newState = { ...state };
+      Object.assign(newState, { skills });
 
-      return { skills };
+      return newState;
     }),
-  setHeadOverlays: (data: Partial<HeadOverlays>) =>
+  setHeadOverlays: (data: Partial<HeadOverlaysEntity>) =>
     set((state) => {
       const head_overlays = { ...state.head_overlays };
       Object.assign(head_overlays, data);
+      const newState = { ...state };
+      Object.assign(newState, { head_overlays });
 
-      return { head_overlays };
+      return newState;
     }),
-  setComponentVariations: (data: Partial<ComponentVariations>) =>
+  setComponentVariations: (data: Partial<ComponentVariationsEntity>) =>
     set((state) => {
       const component_variations = { ...state.component_variations };
       Object.assign(component_variations, data);
+      const newState = { ...state };
+      Object.assign(newState, { component_variations });
 
-      return { component_variations };
+      return newState;
     }),
-  setHeadBlends: (data: Partial<HeadBlends>) =>
+  setHeadBlends: (data: Partial<HeadBlendsEntity>) =>
     set((state) => {
       const head_blends = { ...state.head_blends };
       Object.assign(head_blends, data);
+      const newState = { ...state };
+      Object.assign(newState, { head_blends });
 
-      return { head_blends };
+      return newState;
     }),
 }));

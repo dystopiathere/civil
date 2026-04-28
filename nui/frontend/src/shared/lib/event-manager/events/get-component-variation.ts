@@ -1,13 +1,14 @@
-import { type EventSend, invoke } from "~/shared/lib/event-manager";
-import type { ComponentVariations } from "~/entities/character";
+import type { ComponentVariationsEntity } from "types/civil";
+import { type EventSend, invoke } from "~/shared/lib";
 
 type EventRequestData = {
   nodata: null;
 };
 
-type EventResponseData = Omit<ComponentVariations, "id" | "created_at" | "updated_at">;
+type EventResponseData = ComponentVariationsEntity;
 
 const mockResponseData: EventResponseData = {
+  id: 1,
   face_drawable: 1,
   face_texture: 1,
   face_palette: 1,
@@ -44,6 +45,8 @@ const mockResponseData: EventResponseData = {
   torso_second_drawable: 1,
   torso_second_texture: 1,
   torso_second_palette: 1,
+  created_at: "",
+  updated_at: "",
 };
 
 export const getComponentVariation: EventSend<EventRequestData, EventResponseData> = (data) => {

@@ -1,6 +1,6 @@
 import type { RouteObject } from "react-router-dom";
-import { pathKeys } from "~/shared/lib/react-router";
 import { createElement } from "react";
+import { pathKeys } from "~/shared/lib";
 import { CharacterCreatorClothes } from "./ui";
 
 export const characterCreatorClothesRoute: RouteObject = {

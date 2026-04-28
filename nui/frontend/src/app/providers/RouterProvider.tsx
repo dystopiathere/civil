@@ -1,8 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { HUDLayout } from "~/pages/layouts";
-import { pathKeys } from "~/shared/lib/react-router";
-import { characterCreatorRoute } from "~/pages/character-creator";
-import { inventoryRoute } from "~/pages/inventory";
+import { HUDLayout, characterCreatorRoute, inventoryRoute } from "~/pages";
+import { pathKeys } from "~/shared/lib";
 
 const router = createBrowserRouter([
   {

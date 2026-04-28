@@ -1,10 +1,8 @@
-export function sendSafeZone(value: number) {
+export function sendSafeZone(safeZone: number) {
   SendNuiMessage(
     JSON.stringify({
       name: "setSafeZone",
-      data: {
-        safeZone: value,
-      },
+      data: { safeZone },
     }),
   );
 }

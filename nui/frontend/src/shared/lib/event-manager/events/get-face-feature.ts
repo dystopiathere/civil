@@ -1,13 +1,14 @@
-import { type EventSend, invoke } from "~/shared/lib/event-manager";
-import type { FaceFeatures } from "~/entities/character";
+import type { FaceFeaturesEntity } from "types/civil";
+import { type EventSend, invoke } from "~/shared/lib";
 
 type EventRequestData = {
   nodata: null;
 };
 
-type EventResponseData = Omit<FaceFeatures, "id" | "created_at" | "updated_at">;
+type EventResponseData = FaceFeaturesEntity;
 
 const mockResponseData: EventResponseData = {
+  id: 1,
   nose_width: 1,
   nose_peak: 1,
   nose_length: 1,
@@ -28,6 +29,8 @@ const mockResponseData: EventResponseData = {
   chin_bone_shape: 1,
   chin_hole: 1,
   neck_thickness: 1,
+  created_at: "",
+  updated_at: "",
 };
 
 export const getFaceFeature: EventSend<EventRequestData, EventResponseData> = (data) => {

@@ -1,7 +1,6 @@
 import { useEffect, useRef } from "react";
 import { Outlet } from "react-router-dom";
-import { PlayerStats } from "~/widgets/player-stats";
-import { WorldData } from "~/widgets/world-data";
+import { PlayerStats, WorldData } from "~/widgets";
 import { useKeyboardEvents, useMessages } from "~/shared/hooks";
 import "./styles.scss";
 
