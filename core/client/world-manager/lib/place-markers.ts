@@ -31,7 +31,9 @@ export async function placeMarkers() {
     const ped = GetPlayerPed(-1);
     const [pedX, pedY, pedZ] = GetEntityCoords(ped, false);
 
-    markers.forEach(({ type, coords, size, color, action, label, helpText }) => {
+    markers.forEach((marker) => {
+      const { type, coords, size, color, action, label, helpText } = marker;
+
       const distance = Vdist2(pedX, pedY, pedZ, coords.x, coords.y, coords.z - 1);
 
       if (distance > MARKER_SHOW_DISTANCE) {

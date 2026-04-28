@@ -1,9 +1,12 @@
-import type { AnimationChainName } from "types/civil";
 import { delay } from "~/helpers";
 import { chains, flagsMapping } from "../configs";
 
-export async function playAnimationChain(ped: number, chainName: AnimationChainName): Promise<void> {
+export async function playAnimationChain(ped: number, chainName: string): Promise<void> {
   const chain = chains[chainName];
+
+  if (!chain) {
+    return;
+  }
 
   const animDicts = new Set<string>();
 

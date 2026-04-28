@@ -1,7 +1,7 @@
-import type { AnimationChainData, AnimationChainName } from "types/civil";
+import type { AnimationChainData } from "../types";
 import { dance, kneelWatch, kneelSearch, reviveSavior, reviveVictim } from "../chains";
 
-export const chains: Record<AnimationChainName, AnimationChainData[]> = {
+export const chains: Record<string, AnimationChainData[]> = {
   reviveSavior,
   reviveVictim,
   dance,

@@ -1,4 +1,4 @@
-import { HeadOverlays } from "types/civil";
+import { HeadOverlaysEntity } from "types/civil";
 
 type HeadOverlayElement = {
   value: number;
@@ -8,7 +8,7 @@ type HeadOverlayElement = {
   color2?: number;
 };
 
-export function setPedHeadOverlayData(ped: number, data: Partial<HeadOverlays> = {}) {
+export function setPedHeadOverlayData(ped: number, data: Partial<HeadOverlaysEntity> = {}) {
   const localData = { ...(global.LocalPlayer as LocalPlayerInterface).state.head_overlays };
 
   Object.assign(localData, data);

@@ -1,6 +1,6 @@
-import { FaceFeatures } from "types/civil";
+import { FaceFeaturesEntity } from "types/civil";
 
-export function setPedFaceFeatureData(ped: number, data: Partial<FaceFeatures> = {}) {
+export function setPedFaceFeatureData(ped: number, data: Partial<FaceFeaturesEntity> = {}) {
   const localData = { ...(global.LocalPlayer as LocalPlayerInterface).state.face_features };
 
   Object.assign(localData, data);

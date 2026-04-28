@@ -1,6 +1,6 @@
-import { HeadBlends } from "types/civil";
+import { HeadBlendsEntity } from "types/civil";
 
-export function setPedHeadBlendData(ped: number, data: Partial<HeadBlends> = {}) {
+export function setPedHeadBlendData(ped: number, data: Partial<HeadBlendsEntity> = {}) {
   const localData = { ...(global.LocalPlayer as LocalPlayerInterface).state.head_blends };
 
   Object.assign(localData, data);
@@ -16,6 +16,6 @@ export function setPedHeadBlendData(ped: number, data: Partial<HeadBlends> = {})
     localData.shape_mix,
     localData.skin_mix,
     localData.third_mix,
-    false
+    false,
   );
 }

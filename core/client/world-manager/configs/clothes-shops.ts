@@ -1,4 +1,4 @@
-import type { MarkerData } from "types/civil";
+import { MarkerData } from "../types";
 
 const coords = [
   "121.62761688232422 -224.69203186035156 54.557823181152344",

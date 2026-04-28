@@ -1,4 +1,4 @@
-import { ComponentVariations } from "types/civil";
+import { ComponentVariationsEntity } from "types/civil";
 
 type ComponentVariationsElement = {
   drawable: number;
@@ -6,7 +6,7 @@ type ComponentVariationsElement = {
   palette: number;
 };
 
-export function setPedComponentVariationData(ped: number, data: Partial<ComponentVariations> = {}) {
+export function setPedComponentVariationData(ped: number, data: Partial<ComponentVariationsEntity> = {}) {
   const localData = { ...(global.LocalPlayer as LocalPlayerInterface).state.component_variations };
 
   Object.assign(localData, data);

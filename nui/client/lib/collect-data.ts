@@ -1,4 +1,4 @@
-import { zonesMapping } from "../configs";
+import { ADDITIONAL_HEALTH, zonesMapping } from "../configs";
 import {
   sendPlayerArmour,
   sendPlayerHealth,
@@ -20,8 +20,8 @@ export function collectData() {
 
   sendSafeZone(GetSafeZoneSize());
 
-  sendPlayerHealth(GetEntityHealth(ped));
-  sendPlayerMaxHealth(GetEntityMaxHealth(ped));
+  sendPlayerHealth(GetEntityHealth(ped) - ADDITIONAL_HEALTH);
+  sendPlayerMaxHealth(GetEntityMaxHealth(ped) - ADDITIONAL_HEALTH);
   sendPlayerArmour(GetPedArmour(ped));
   sendPlayerMaxArmour(GetPlayerMaxArmour(PlayerId()));
 

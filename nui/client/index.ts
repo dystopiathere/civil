@@ -1,13 +1,14 @@
-import { openPage, collectData, registerCallbacks } from "./lib";
+import { collectData, registerCallbacks, registerEvents } from "./lib";
 import { registerKeyMappings } from "./lib/register-key-mappings";
 
-registerCallbacks();
-registerKeyMappings();
-
-on("onCLientResourceStart", (resource: string) => {
+on("onClientResourceStart", (resource: string) => {
   if (resource !== GetCurrentResourceName()) {
     return;
   }
+
+  registerEvents();
+  registerCallbacks();
+  registerKeyMappings();
 
   const minimap = RequestScaleformMovie("minimap");
   SetRadarBigmapEnabled(true, false);

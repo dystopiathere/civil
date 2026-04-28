@@ -1,13 +1,13 @@
+import { FullCharacterDto } from "types/civil";
 import { syncData } from "../lib";
 
-export async function onPlayerDropped(reason: string, resourceName: string, clientDropReason: number) {
+export async function onPlayerDropped(reason: string, _: string, clientDropReason: number) {
   const localPlayer = Player(global.source) as LocalPlayerInterface;
 
   console.log(`Player ${localPlayer.state.player_id} dropped with reason: ${reason} (Code ${clientDropReason})`);
 
-  const data: Omit<LocalPlayerStateBagInterface, "set"> = {
-    player_id: localPlayer.state.player_id,
-    character_id: localPlayer.state.character_id,
+  const data: FullCharacterDto = {
+    id: localPlayer.state.id,
     firstname: localPlayer.state.firstname,
     lastname: localPlayer.state.lastname,
     age: localPlayer.state.age,
@@ -26,13 +26,6 @@ export async function onPlayerDropped(reason: string, resourceName: string, clie
     last_position: localPlayer.state.last_position,
     model: localPlayer.state.model,
     knockdown: localPlayer.state.knockdown,
-    stamina: localPlayer.state.stamina,
-    strength: localPlayer.state.strength,
-    lung_capacity: localPlayer.state.lung_capacity,
-    wheelie_ability: localPlayer.state.wheelie_ability,
-    flying_ability: localPlayer.state.flying_ability,
-    shooting_ability: localPlayer.state.shooting_ability,
-    stealth_ability: localPlayer.state.stealth_ability,
   };
 
   await syncData(data);

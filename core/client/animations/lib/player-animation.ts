@@ -1,4 +1,4 @@
-import type { AnimationFlag } from "types/civil";
+import type { AnimationFlag } from "../types";
 import { delay } from "~/helpers";
 import { flagsMapping } from "../configs";
 

@@ -1,8 +1,7 @@
 import { type EventSend, invoke } from "~/shared/lib/event-manager";
-import type { NuiPage } from "types/civil";
 
 type EventRequestData = {
-  page: NuiPage;
+  page: string;
 };
 
 type EventResponseData = {

@@ -1,3 +1,4 @@
+import { CharacterEntity, FullCharacterDto } from "types/civil";
 import dayjs from "dayjs";
 import {
   CharacterModel,
@@ -7,9 +8,8 @@ import {
   HeadOverlaysModel,
   SkillsModel,
 } from "../entities";
-import { CharacterEntity } from "types/civil";
 
-export async function syncData(state: Omit<LocalPlayerStateBagInterface, "set">) {
+export async function syncData(state: FullCharacterDto) {
   const now = dayjs().toISOString();
 
   const characterModel = new CharacterModel();
@@ -40,7 +40,7 @@ export async function syncData(state: Omit<LocalPlayerStateBagInterface, "set">)
 
   const promises = Object.entries(characterDataFunctions).map(([_, { get, update }]) => {
     return (async () => {
-      const data = await get(state.character_id);
+      const data = await get(state.id);
 
       if (data) {
         await update(data.id);
@@ -67,5 +67,5 @@ export async function syncData(state: Omit<LocalPlayerStateBagInterface, "set">)
     updated_at: now,
   };
 
-  await characterModel.update(state.character_id, character);
+  await characterModel.update(state.id, character);
 }

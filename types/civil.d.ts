@@ -269,6 +269,26 @@ declare module "types/civil" {
     updated_at: string;
   };
 
+  export type FullCharacterEntity = CharacterEntity & {
+    head_blends: HeadBlendsEntity;
+    face_features: FaceFeaturesEntity;
+    head_overlays: HeadOverlaysEntity;
+    component_variations: ComponentVariationsEntity;
+    skills: SkillsEntity;
+  };
+
+  export type FullCharacterDto = Omit<
+    FullCharacterEntity,
+    | "active"
+    | "head_blends_id"
+    | "face_features_id"
+    | "skills_id"
+    | "component_variations_id"
+    | "head_overlays_id"
+    | "created_at"
+    | "updated_at"
+  >;
+
   export type ConnectionEntity = {
     id: number;
     player_id: number;
