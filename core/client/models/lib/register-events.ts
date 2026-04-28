@@ -4,5 +4,5 @@ import { freeze } from "./freeze";
 export function registerEvents() {
   on("playerSpawned", onPlayerSpawned);
 
-  on("models:freeze", (state: boolean) => freeze(state));
+  on("models:freeze", freeze);
 }

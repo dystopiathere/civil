@@ -1,7 +1,7 @@
 import { tempIdsMapping } from "../mappings";
 import { CharacterModel, PlayerModel } from "../entities";
 
-on("playerJoining", async (oldId: string) => {
+export async function onPlayerJoining(oldId: string) {
   const playerSource = global.source;
 
   const playerId = tempIdsMapping[oldId];
@@ -25,46 +25,18 @@ on("playerJoining", async (oldId: string) => {
       console.error("Can't assign character to player");
       return;
     }
+
+    character = newCharacter;
   }
 
-  const characterId = character.id;
-
-  delete character.id;
-  delete character.head_blends_id;
-  delete character.face_features_id;
-  delete character.skills_id;
-  delete character.component_variations_id;
-  delete character.head_overlays_id;
-  delete character.created_at;
-  delete character.updated_at;
-
-  const headBlends = await characterModel.getHeadBlends(characterId);
-  const faceFeatures = await characterModel.getFaceFeatures(characterId);
-  const skills = await characterModel.getSkills(characterId);
-  const componentVariations = await characterModel.getComponentVariations(characterId);
-  const headOverlays = await characterModel.getHeadOverlays(characterId);
-
-  delete headBlends.id;
-  delete headBlends.created_at;
-  delete headBlends.updated_at;
-
-  delete faceFeatures.id;
-  delete faceFeatures.created_at;
-  delete faceFeatures.updated_at;
-
-  delete skills.id;
-
-  delete componentVariations.id;
-  delete componentVariations.created_at;
-  delete componentVariations.updated_at;
-
-  delete headOverlays.id;
-  delete headOverlays.created_at;
-  delete headOverlays.updated_at;
+  const headBlends = await characterModel.getHeadBlends(character.id);
+  const faceFeatures = await characterModel.getFaceFeatures(character.id);
+  const skills = await characterModel.getSkills(character.id);
+  const componentVariations = await characterModel.getComponentVariations(character.id);
+  const headOverlays = await characterModel.getHeadOverlays(character.id);
 
   const data = {
     player_id: playerId,
-    character_id: characterId,
     ...character,
     head_blends: headBlends,
     face_features: faceFeatures,
@@ -76,4 +48,4 @@ on("playerJoining", async (oldId: string) => {
   Object.entries(data).forEach(([key, value]) => {
     Player(playerSource).state.set(key, value, true);
   });
-});
+}

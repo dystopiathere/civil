@@ -1,12 +1,10 @@
-import { NuiPage } from "types/civil";
-
-export function navigate(page: NuiPage) {
+export function navigate(page: string) {
   SendNuiMessage(
     JSON.stringify({
       name: "navigate",
       data: {
         page,
       },
-    })
+    }),
   );
 }

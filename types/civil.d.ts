@@ -8,48 +8,6 @@ declare module "types/civil" {
     skipFade?: boolean;
   };
 
-  export type AnimationFlag =
-    | "LOOPING"
-    | "HOLD_LAST_FRAME"
-    | "REPOSITION_WHEN_FINISHED"
-    | "NOT_INTERRUPTABLE"
-    | "UPPERBODY"
-    | "SECONDARY"
-    | "REORIENT_WHEN_FINISHED"
-    | "ABORT_ON_PED_MOVEMENT"
-    | "ADDITIVE"
-    | "TURN_OFF_COLLISION"
-    | "OVERRIDE_PHYSICS"
-    | "IGNORE_GRAVITY"
-    | "EXTRACT_INITIAL_OFFSET"
-    | "EXIT_AFTER_INTERRUPTED"
-    | "TAG_SYNC_IN"
-    | "TAG_SYNC_OUT"
-    | "TAG_SYNC_CONTINUOUS"
-    | "FORCE_START"
-    | "USE_KINEMATIC_PHYSICS"
-    | "USE_MOVER_EXTRACTION"
-    | "HIDE_WEAPON"
-    | "ENDS_IN_DEAD_POSE"
-    | "ACTIVATE_RAGDOLL_ON_COLLISION"
-    | "DONT_EXIT_ON_DEATH"
-    | "ABORT_ON_WEAPON_DAMAGE"
-    | "DISABLE_FORCED_PHYSICS_UPDATE"
-    | "PROCESS_ATTACHMENTS_ON_START"
-    | "EXPAND_PED_CAPSULE_FROM_SKELETON"
-    | "USE_ALTERNATIVE_FP_ANIM"
-    | "BLENDOUT_WRT_LAST_FRAME"
-    | "USE_FULL_BLENDING";
-
-  export type AnimationChainName = "reviveSavior" | "reviveVictim" | "dance" | "kneelWatch" | "kneelSearch";
-
-  export type AnimationChainData = {
-    dictionary: string;
-    name: string;
-    flags: AnimationFlag[];
-    duration?: number;
-  };
-
   export type BaseEvents =
     | "baseevents:onPlayerDied"
     | "baseevents:onPlayerKilled"
@@ -94,65 +52,6 @@ declare module "types/civil" {
     vehicleDisplayName: string,
     vehicleNetId: number,
   ) => void;
-
-  export type InstructionButtonData = {
-    text: string;
-    button?: string;
-  };
-
-  export type MarkerData = {
-    type: number;
-    coords: { x: number; y: number; z: number };
-    action: CallableFunction;
-    size: "small" | "medium" | "large";
-    color: { red: number; green: number; blue: number; alpha: number };
-    label?: string;
-    helpText?: string;
-    blip?: { sprite: number; shortRange: boolean };
-  };
-
-  interface CivilHelpers {
-    /**
-     * Await for delay
-     *
-     * @param ms
-     */
-    delay(ms: number): Promise<unknown>;
-
-    /**
-     * Initialize resource helper
-     *
-     * @param resourceName
-     * @param init
-     * @param dependencies
-     */
-    initialize(resourceName: string, init: () => CallableFunction | void, dependencies?: string[]): void;
-
-    /**
-     * Draw text on world coords
-     *
-     * @param x
-     * @param y
-     * @param z
-     * @param text
-     */
-    drawText3D(x: number, y: number, z: number, text: string): void;
-
-    /**
-     *
-     * @param instructions
-     */
-    prepareInstructionsScaleform(instructions: InstructionButtonData | InstructionButtonData[]): Promise<number>;
-
-    /**
-     * Random number in range
-     *
-     * @param min
-     * @param max
-     * @param step
-     */
-    random(min: number, max: number, step: number): number;
-  }
 
   interface SpawnManager {
     /**
@@ -262,178 +161,6 @@ declare module "types/civil" {
     roundEnded(): void;
   }
 
-  interface AnimationsManager {
-    /**
-     * Play solo animation from chosen dictionary
-     *
-     * @param ped
-     * @param animDict
-     * @param anim
-     * @param flags
-     * @param duration
-     * @param chained
-     */
-    playAnimation(
-      ped: number,
-      animDict: string,
-      anim: string,
-      flags?: AnimationFlag[],
-      duration?: number,
-    ): Promise<number>;
-
-    /**
-     * Play pre-configured animations chain
-     *
-     * @param ped
-     * @param chainName
-     */
-    playAnimationChain(ped: number, chainName: AnimationChainName): Promise<void>;
-  }
-
-  interface CivilNuiManager {
-    /**
-     * Send update player health NUI event
-     */
-    sendPlayerHealth(value: number): void;
-
-    /**
-     * Send update player max health NUI event
-     */
-    sendPlayerMaxHealth(value: number): void;
-
-    /**
-     * Send update player armour NUI event
-     */
-    sendPlayerArmour(value: number): void;
-
-    /**
-     * Send update player max armour NUI event
-     */
-    sendPlayerMaxArmour(value: number): void;
-
-    /**
-     * Send update player underwater state NUI event
-     *
-     * @param isInWater
-     */
-    sendPlayerUnderwater(isInWater: boolean): void;
-
-    /**
-     * Send world data NUI event
-     *
-     * @param data
-     */
-    sendWorldData(data: { streetName: string; zoneName: string; time: string }): void;
-
-    /**
-     *
-     * @param page
-     */
-    navigate(page: NuiPage): void;
-
-    /**
-     * Set NUI focused
-     *
-     * @param focus
-     * @param cursor
-     * @param input
-     */
-    setFocus(focus: boolean, cursor: boolean, input: boolean): void;
-
-    /**
-     * Open NUI page with default settings
-     *
-     * @param page
-     */
-    openPage(page: NuiPage): void;
-  }
-
-  interface CivilModels {
-    /**
-     * Set model for player
-     *
-     * @param player
-     * @param model
-     */
-    setModel(player: number, model: string): Promise<void>;
-
-    /**
-     * Set ped componnt variation
-     *
-     * @param ped
-     * @param data
-     */
-    setPedComponentVariationData(ped: number, data: Partial<ComponentVariations>): void;
-
-    /**
-     * Set ped face features
-     *
-     * @param ped
-     * @param data
-     */
-    setPedFaceFeatureData(ped: number, data: Partial<FaceFeatures>): void;
-
-    /**
-     * Set ped head blends
-     *
-     * @param ped
-     * @param data
-     */
-    setPedHeadBlendData(ped: number, data: Partial<HeadBlends>): void;
-
-    /**
-     * Set ped head overlay
-     *
-     * @param ped
-     * @param data
-     */
-    setPedHeadOverlayData(ped: number, data: Partial<HeadOverlays>): void;
-
-    /**
-     * Update full appearance of freemode model
-     *
-     * @param ped
-     * @param data
-     */
-    updateFreemodeModel(ped: number, data: Partial<FullCharacterEntity>): void;
-
-    /**
-     * Freeze ped and disable idle animations
-     *
-     * @param ped
-     * @param state
-     */
-    freeze(ped: number, state: boolean): void;
-  }
-
-  export type NuiPage =
-    | "hud"
-    | "characterCreator"
-    | "characterCreatorGenetics"
-    | "characterCreatorFace"
-    | "characterCreatorBody"
-    | "characterCreatorClothes"
-    | "inventory";
-
-  export type CameraSetupData = {
-    posX: number;
-    posY: number;
-    posZ: number;
-    rotX: number;
-    rotY: number;
-    rotZ: number;
-    fov: number;
-    rotationOrder: number;
-  };
-
-  export type NuiPageData = {
-    focus: boolean;
-    cursor: boolean;
-    input: boolean;
-    freeze: boolean;
-    setupCamera?: () => number;
-  };
-
   type KeyboardKeys =
     | "LBUTTON"
     | "RBUTTON"
@@ -542,14 +269,6 @@ declare module "types/civil" {
     updated_at: string;
   };
 
-  export type FullCharacterEntity = CharacterEntity & {
-    head_blends: HeadBlendsEntity;
-    face_features: FaceFeaturesEntity;
-    skills: SkillsEntity;
-    head_overlays: HeadOverlaysEntity;
-    component_variations: ComponentVariationsEntity;
-  };
-
   export type ConnectionEntity = {
     id: number;
     player_id: number;
@@ -577,8 +296,6 @@ declare module "types/civil" {
     updated_at: string;
   };
 
-  export type HeadBlends = Omit<HeadBlendsEntity, "id" | "created_at" | "updated_at">;
-
   export type FaceFeaturesEntity = {
     id: number;
     nose_width: number;
@@ -605,8 +322,6 @@ declare module "types/civil" {
     updated_at: string;
   };
 
-  export type FaceFeatures = Omit<FaceFeaturesEntity, "id" | "created_at" | "updated_at">;
-
   export type SkillsEntity = {
     id: number;
     stamina: number;
@@ -617,8 +332,6 @@ declare module "types/civil" {
     shooting_ability: number;
     stealth_ability: number;
   };
-
-  export type Skills = Omit<SkillsEntity, "id">;
 
   export type HeadOverlaysEntity = {
     id: number;
@@ -666,8 +379,6 @@ declare module "types/civil" {
     updated_at: string;
   };
 
-  export type HeadOverlays = Omit<HeadOverlaysEntity, "id" | "created_at" | "updated_at">;
-
   export type ComponentVariationsEntity = {
     id: number;
     face_drawable: number;
@@ -709,6 +420,4 @@ declare module "types/civil" {
     created_at: string;
     updated_at: string;
   };
-
-  export type ComponentVariations = Omit<ComponentVariationsEntity, "id" | "created_at" | "updated_at">;
 }

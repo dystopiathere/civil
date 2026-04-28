@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import { tempIdsMapping } from "../mappings";
 import { Deferrals, Identifiers } from "../types";
 
-on("playerConnecting", (name: string, setKickReason: (reason: string) => void, deferrals: Deferrals) => {
+export function onPlayerConnecting(name: string, setKickReason: (reason: string) => void, deferrals: Deferrals) {
   deferrals.defer();
 
   const playerTempId = global.source.toString();
@@ -87,4 +87,4 @@ on("playerConnecting", (name: string, setKickReason: (reason: string) => void, d
       deferrals.done();
     }, 0);
   }, 0);
-});
+}

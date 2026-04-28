@@ -1,8 +1,5 @@
-import { collectPedPosition, placeMarkers, toggleAmbientSounds, toggleEntityDensity } from "./lib";
+import { placeMarkers } from "./lib";
 
-collectPedPosition();
-placeMarkers();
-
-SetArtificialLightsState(true);
-toggleEntityDensity(false);
-toggleAmbientSounds(false);
+export function init() {
+  placeMarkers();
+}

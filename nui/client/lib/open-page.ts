@@ -1,17 +1,14 @@
-import { NuiPage } from "types/civil";
-import { pages } from "../config";
+import { pages } from "../configs";
 import { setFocus } from "./set-focus";
 import { navigate } from "../messages";
 
 let pageCamera: number | null;
 
-export function openPage(page: NuiPage) {
+export function openPage(page: string) {
   const { focus, cursor, input, freeze, setupCamera } = pages[page];
 
   navigate(page);
   setFocus(focus, cursor, input);
-
-  const ped = GetPlayerPed(-1);
 
   emit("models:freeze", freeze);
 
