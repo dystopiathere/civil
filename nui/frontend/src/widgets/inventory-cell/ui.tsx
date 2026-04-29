@@ -2,22 +2,24 @@ import { useDroppable } from "@dnd-kit/react";
 import "./styles.scss";
 import classNames from "classnames";
 
-type InventoryCellProps = {
+export type CellData = {
   place: string;
-  id: number;
-  row: number;
+  position: { x: number; y: number };
+};
+
+type InventoryCellProps = CellData & {
   highlight?: boolean;
 };
 
-export function InventoryCell({ place, id, row, highlight }: InventoryCellProps) {
-  const { ref } = useDroppable({ id: `cell:${place}|${id}|${row}` });
+export function InventoryCell({ place, position, highlight }: InventoryCellProps) {
+  const { ref } = useDroppable({ id: `cell:${place}|${position.x}|${position.y}` });
 
   return (
     <div
       ref={ref}
       data-cell-place={place}
-      data-cell-id={id}
-      data-row-id={row}
+      data-cell-id={position.x}
+      data-row-id={position.y}
       className={classNames("inventory-cell", highlight && "highlight")}
     />
   );

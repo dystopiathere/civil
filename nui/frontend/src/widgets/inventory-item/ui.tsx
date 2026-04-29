@@ -1,7 +1,7 @@
+import { useCallback, useEffect, useState, type RefObject } from "react";
+import { useDraggable, useDroppable } from "@dnd-kit/react";
 import classNames from "classnames";
 import "./styles.scss";
-import { useDraggable, useDroppable } from "@dnd-kit/react";
-import { useEffect, useState, type RefObject } from "react";
 
 export type ItemData = {
   id: number;
@@ -31,24 +31,20 @@ const PADDING_X = 0.5;
 const PADDING_Y = 0.25;
 
 export function InventoryItem({ item, inventoryRef }: InventoryItemProps) {
-  const [position, setPosition] = useState({
-    x: 0,
-    y: 0,
-  });
+  const [initPosition, setInitPosition] = useState({ x: 0, y: 0 });
 
   const hash = `${item.id}|${item.hash}|${item.count}|${item.maxCount}|${item.size.x}|${item.size.y}`;
-
   const { ref: dragRef, isDragging } = useDraggable({ id: `${hash}` });
   const { ref: dropRef } = useDroppable({ id: `item:${hash}` });
 
-  useEffect(() => {
+  const getItemPosition = useCallback(() => {
     if (!inventoryRef.current) {
-      return;
+      return initPosition;
     }
 
     const block = inventoryRef.current.querySelector(`[data-block="${item.place}"]`);
     if (!block) {
-      return;
+      return initPosition;
     }
 
     const root = document.documentElement;
@@ -61,11 +57,15 @@ export function InventoryItem({ item, inventoryRef }: InventoryItemProps) {
     const topDelta = (blockRect.top - inventoryRect.top) / rem - PADDING_Y;
     const leftDelta = (blockRect.left - inventoryRect.left) / rem + PADDING_X;
 
-    setPosition({
+    return {
       x: CELL_SIZE * item.position.x + CELL_SPACING * item.position.x + leftDelta,
-      y: CELL_SIZE * item.position.y + CELL_SPACING * item.position.y + topDelta,
-    });
-  }, [item]);
+      y: CELL_SIZE * item.position.y + CELL_SPACING * item.position.y + topDelta + CELL_SIZE,
+    };
+  }, [initPosition, JSON.stringify(item)]);
+
+  useEffect(() => {
+    setInitPosition(getItemPosition());
+  }, []);
 
   return (
     <>
@@ -75,8 +75,7 @@ export function InventoryItem({ item, inventoryRef }: InventoryItemProps) {
         style={{
           width: CELL_SIZE * item.size.x + CELL_SPACING * (item.size.x - 1) + "rem",
           height: CELL_SIZE * item.size.y + CELL_SPACING * (item.size.y - 1) + "rem",
-          top: position.y + "rem",
-          left: position.x + "rem",
+          translate: `${getItemPosition().x + "rem"} ${getItemPosition().y + "rem"}`,
         }}
       >
         <div ref={dropRef} className="inventory-item__content">

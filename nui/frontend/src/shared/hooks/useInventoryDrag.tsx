@@ -1,6 +1,6 @@
-import type { CollisionEvent, DragDropEventHandlers } from "@dnd-kit/react";
-import { useCallback, useRef, useState } from "react";
-import type { ItemData } from "~/widgets";
+import type { CollisionEvent, DragDropEventHandlers, DragEndEvent } from "@dnd-kit/react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import type { BlockData, CellData, ItemData } from "~/widgets";
 
 export function useInventoryDrag(data: ItemData[]) {
   const [items, setItems] = useState<ItemData[]>(data);
@@ -9,6 +9,55 @@ export function useInventoryDrag(data: ItemData[]) {
   const hightlightTimeout = useRef<number>(null);
   const draggingItem = useRef<Partial<ItemData>>(null);
   const lastCollisions = useRef<CollisionEvent["collisions"]>(null);
+
+  useEffect(() => {
+    return () => {
+      if (hightlightTimeout.current) {
+        clearTimeout(hightlightTimeout.current);
+      }
+    };
+  }, []);
+
+  // NORMALIZERS
+  const normalizeCell = useCallback((data: string) => {
+    const [place, cellId, row] = data.split("|");
+
+    return {
+      place,
+      id: Number(cellId),
+      row: Number(row),
+    };
+  }, []);
+
+  const normalizeItem = useCallback((data: string) => {
+    const [id, hash, count, maxCount, sizeX, sizeY] = data.split("|");
+
+    return {
+      id: Number(id),
+      hash,
+      count: Number(count),
+      maxCount: Number(maxCount),
+      size: { x: Number(sizeX), y: Number(sizeY) },
+    };
+  }, []);
+
+  const normalizeBlock = useCallback((data: string) => {
+    const [place, sizeX, sizeY] = data.split("|");
+
+    return {
+      place,
+      size: { x: Number(sizeX), y: Number(sizeY) },
+    };
+  }, []);
+
+  // HELPERS
+  const getNamedCollisions = useCallback((name: string) => {
+    if (!lastCollisions.current) {
+      return [];
+    }
+
+    return lastCollisions.current.filter(({ id }) => id.toString().startsWith(name)).sort((a, b) => b.value - a.value);
+  }, []);
 
   const changeItem = useCallback((id: number, data: Partial<ItemData> | null) => {
     setItems((prev) => {
@@ -30,95 +79,65 @@ export function useInventoryDrag(data: ItemData[]) {
     });
   }, []);
 
-  const hasItemsCollision = useCallback((item: ItemData, collisions: CollisionEvent["collisions"]) => {
-    const collisionItems = collisions
-      .filter(({ id }) => id.toString().startsWith("item"))
-      .sort((a, b) => b.value - a.value)
-      .map(({ id }) => {
-        const [_, itemData] = id.toString().split(":");
-        const [itemId, hash, count, maxCount, sizeX, sizeY] = itemData.split("|");
+  const mapCollisions = useCallback((collisions: CollisionEvent["collisions"], normalizer: (data: string) => any) => {
+    return collisions.map(({ id }) => {
+      const [_, data] = id.toString().split(":");
 
-        return {
-          id: Number(itemId),
-          hash,
-          count: Number(count),
-          maxCount: Number(maxCount),
-          size: { x: Number(sizeX), y: Number(sizeY) },
-        };
-      });
-
-    if (
-      collisionItems.length === 0 ||
-      !collisionItems.some((collisionItem) => collisionItem.id !== item.id && collisionItem.hash === item.hash)
-    ) {
-      return;
-    }
-
-    return collisionItems;
+      return normalizer(data);
+    });
   }, []);
 
-  const handleItemsCollision = useCallback((item: ItemData, collisionItems: Partial<ItemData>[]) => {
-    const closestCollisionItem = collisionItems[0] as ItemData;
+  const getClosestCellWithOffset = useCallback(({ operation }: DragEndEvent) => {
+    const { activatorEvent, shape } = operation;
 
-    if (!closestCollisionItem) {
+    if (!draggingItem.current || !activatorEvent || !shape) {
       return;
     }
 
-    if (closestCollisionItem.count + item.count > closestCollisionItem.maxCount) {
-      const deltaCount = closestCollisionItem.maxCount - closestCollisionItem.count;
+    const item = draggingItem.current as ItemData;
 
-      changeItem(closestCollisionItem.id, { count: closestCollisionItem.count + deltaCount });
-      changeItem(item.id, { count: item.count - deltaCount });
-    } else {
-      changeItem(closestCollisionItem.id, { count: closestCollisionItem.count + item.count });
-      changeItem(item.id, null);
-    }
-  }, []);
+    const { clientX, clientY } = activatorEvent as MouseEvent;
+    const { left, top, width, height } = shape.initial.boundingRectangle;
 
-  const onStart = useCallback<DragDropEventHandlers["onDragStart"]>(({ operation }) => {
-    const { source } = operation;
-    if (!source) {
-      return;
-    }
+    const point = {
+      x: (clientX - left) / width,
+      y: (clientY - top) / height,
+    };
 
-    const [id, hash, count, maxCount, sizeX, sizeY] = source.id.toString().split("|");
-    draggingItem.current = {
-      id: Number(id),
-      hash,
-      count: Number(count),
-      maxCount: Number(maxCount),
-      size: { x: Number(sizeX), y: Number(sizeY) },
+    const offset = {
+      x: Math.floor(item.size.x * point.x),
+      y: Math.floor(item.size.y * point.y),
+    };
+
+    const collisionCells = getNamedCollisions("cell");
+    const cells = mapCollisions(collisionCells, normalizeCell);
+    const { place, id: closestCellId, row: closestCellRow } = cells[0];
+
+    return {
+      place,
+      position: { x: closestCellId - offset.x, y: closestCellRow - offset.y },
     };
   }, []);
 
-  const onCollision = useCallback<DragDropEventHandlers["onCollision"]>(({ collisions }) => {
+  // HIGHLIGHT HANDLER
+  const handleHighlightCells = useCallback(() => {
     if (!draggingItem.current) {
       return;
     }
-
-    lastCollisions.current = collisions;
 
     if (hightlightTimeout.current) {
       clearTimeout(hightlightTimeout.current);
       setHighlightCells([]);
     }
 
-    const cells = collisions
-      .filter(({ id }) => id.toString().startsWith("cell"))
-      .sort((a, b) => b.value - a.value)
-      .slice(0, draggingItem.current.size!.x * draggingItem.current.size!.y * 0.8)
-      .map(({ id }) => {
-        const [_, cellData] = id.toString().split(":");
-        const [place, cellId, row] = cellData.split("|");
+    const { x, y } = draggingItem.current.size!;
+    const volume = x * y;
+    const highlightVolume = volume;
 
-        return {
-          place,
-          id: Number(cellId),
-          row: Number(row),
-        };
-      });
+    const cellCollisions = getNamedCollisions("cell");
+    const cells = mapCollisions(cellCollisions, normalizeCell);
 
-    setHighlightCells(cells);
+    setHighlightCells(cells.slice(0, highlightVolume));
 
     hightlightTimeout.current = setTimeout(() => {
       setHighlightCells([]);
@@ -126,19 +145,113 @@ export function useInventoryDrag(data: ItemData[]) {
     }, 500);
   }, []);
 
-  const onStop = useCallback<DragDropEventHandlers["onDragEnd"]>(() => {
-    if (!lastCollisions.current || !draggingItem.current) {
+  // RESTRICTIONS
+  const hasItemsCollision = useCallback(() => {
+    if (!draggingItem.current) {
+      return false;
+    }
+
+    const item = draggingItem.current as ItemData;
+
+    const collisionItems = getNamedCollisions("item");
+    const items = mapCollisions(collisionItems, normalizeItem);
+
+    const hasAnotherItem = items.some((el) => el.id !== item.id && el.hash === item.hash);
+
+    return items.length > 0 && hasAnotherItem;
+  }, []);
+
+  const isCellFitsBlock = useCallback((cell: CellData) => {
+    if (cell.position.x < 0 || cell.position.y < 0) {
+      return false;
+    }
+
+    if (!draggingItem.current) {
+      return false;
+    }
+
+    const item = draggingItem.current as ItemData;
+
+    const collisionBlocks = getNamedCollisions("block");
+    const blocks = mapCollisions(collisionBlocks, normalizeBlock);
+    const closestBlock = blocks.find((block) => block.place === cell.place) as BlockData;
+    if (!closestBlock) {
+      return false;
+    }
+
+    const fitsX = cell.position.x + item.size.x <= closestBlock.size.x;
+    const fitsY = cell.position.y + item.size.y <= closestBlock.size.y;
+
+    return fitsX && fitsY;
+  }, []);
+
+  // DROP HANDLERS
+  const handleItemsCollision = useCallback(() => {
+    if (!draggingItem.current) {
       return;
     }
 
-    const collisions = lastCollisions.current;
     const item = draggingItem.current as ItemData;
 
-    const itemsCollision = hasItemsCollision(item, collisions);
+    const collisionItems = getNamedCollisions("item");
+    const items = mapCollisions(collisionItems, normalizeItem);
 
-    if (itemsCollision) {
-      return handleItemsCollision(item, itemsCollision);
+    const closestItem = items[0];
+
+    if (!closestItem) {
+      return;
     }
+
+    if (closestItem.count + item.count > closestItem.maxCount) {
+      const deltaCount = closestItem.maxCount - closestItem.count;
+
+      changeItem(closestItem.id, { count: closestItem.count + deltaCount });
+      changeItem(item.id, { count: item.count - deltaCount });
+    } else {
+      changeItem(closestItem.id, { count: closestItem.count + item.count });
+      changeItem(item.id, null);
+    }
+  }, []);
+
+  // DRAG EVENTS HANDLERS
+  const onStart = useCallback<DragDropEventHandlers["onDragStart"]>(({ operation }) => {
+    const { source } = operation;
+    if (!source) {
+      return;
+    }
+
+    draggingItem.current = normalizeItem(source.id.toString());
+  }, []);
+
+  const onCollision = useCallback<DragDropEventHandlers["onCollision"]>(({ collisions }) => {
+    if (collisions.length === 0) {
+      return;
+    }
+
+    lastCollisions.current = collisions;
+
+    handleHighlightCells();
+  }, []);
+
+  const onStop = useCallback<DragDropEventHandlers["onDragEnd"]>((event) => {
+    if (!draggingItem.current) {
+      return;
+    }
+
+    const item = draggingItem.current as ItemData;
+
+    if (hasItemsCollision()) {
+      handleItemsCollision();
+    } else {
+      const closestCell = getClosestCellWithOffset(event);
+
+      if (closestCell && isCellFitsBlock(closestCell)) {
+        changeItem(item.id, closestCell);
+      }
+    }
+
+    draggingItem.current = null;
+    lastCollisions.current = null;
   }, []);
 
   return { items, highlightCells, onStart, onStop, onCollision };

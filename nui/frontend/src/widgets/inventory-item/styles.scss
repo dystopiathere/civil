@@ -13,7 +13,7 @@
   user-select: none;
   cursor: grab;
 
-  transition: opacity 0.2s;
+  transition: opacity 0.2s translate 0.2s;
 
   &__content {
     width: 100%;

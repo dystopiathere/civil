@@ -17,30 +17,21 @@ type InventoryBlockProps = {
 };
 
 export function InventoryBlock({ place, block, highlightCells }: InventoryBlockProps) {
-  const { ref } = useDroppable({ id: `block:${place}` });
+  const { ref } = useDroppable({ id: `block:${place}|${block.size.x}|${block.size.y}` });
 
   return (
     <div className="inventory-block" data-block={place}>
       <div className="inventory-block__title">{block.title}</div>
       <div className="inventory-block__container" ref={ref}>
-        {Array.from({ length: block.size.y }).map((_, rowKey) => (
-          <div key={rowKey} className="inventory-block__row">
-            {Array.from({ length: block.size.x }).map((_, cellKey) => {
+        {Array.from({ length: block.size.y }).map((_, y) => (
+          <div key={y} className="inventory-block__row">
+            {Array.from({ length: block.size.x }).map((_, x) => {
               const highlight =
                 highlightCells.findIndex(
-                  (highlightCell) =>
-                    highlightCell.id === cellKey && highlightCell.place === place && highlightCell.row === rowKey,
+                  (highlightCell) => highlightCell.id === x && highlightCell.place === place && highlightCell.row === y,
                 ) >= 0;
 
-              return (
-                <InventoryCell
-                  key={`${place}${rowKey}${cellKey}`}
-                  place={place}
-                  id={cellKey}
-                  row={rowKey}
-                  highlight={highlight}
-                />
-              );
+              return <InventoryCell key={`${place}${y}${x}`} place={place} position={{ x, y }} highlight={highlight} />;
             })}
           </div>
         ))}

@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useRef } from "react";
 import { DragDropProvider } from "@dnd-kit/react";
 import { CharacterAppearence, InventoryBlock, InventoryItem, type BlockData, type ItemData } from "~/widgets";
 import { useInventoryDrag } from "~/shared/hooks";
@@ -34,7 +34,7 @@ const TEST_ITEMS: ItemData[] = [
     hash: "test",
     name: "Test item",
     place: "trunk",
-    count: 3,
+    count: 13,
     maxCount: 15,
     position: {
       x: 1,
@@ -72,7 +72,7 @@ export function Inventory() {
 
   return (
     <DragDropProvider onDragStart={onStart} onDragEnd={onStop} onCollision={onCollision}>
-      <div className="inventory" ref={ref}>
+      <div className="inventory" id="inventory" ref={ref}>
         <CharacterAppearence />
 
         <div className="inventory__group horizontal">
