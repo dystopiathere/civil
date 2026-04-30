@@ -1,8 +1,7 @@
 import { ConnectionEntity } from "types/civil";
-import { IConnection } from "./types";
 import { BaseEntity } from "../base-entity";
 
-export class ConnectionModel extends BaseEntity<ConnectionEntity> implements IConnection {
+export class ConnectionModel extends BaseEntity<ConnectionEntity> {
   constructor() {
     super("connections");
   }

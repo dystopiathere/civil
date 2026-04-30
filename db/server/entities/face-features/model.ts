@@ -1,8 +1,7 @@
 import { FaceFeaturesEntity } from "types/civil";
-import { IFaceFeatures } from "./types";
 import { BaseEntity } from "../base-entity";
 
-export class FaceFeaturesModel extends BaseEntity<FaceFeaturesEntity> implements IFaceFeatures {
+export class FaceFeaturesModel extends BaseEntity<FaceFeaturesEntity> {
   constructor() {
     super("face_features");
   }

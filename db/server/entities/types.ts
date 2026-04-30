@@ -1,11 +1,50 @@
-export interface IBaseEntity<T extends object> {
-  create<D extends object = T>(data?: Partial<D>): Promise<T | false>;
+export interface IBaseEntity<T extends Record<string, any> = Record<string, any>, D extends Partial<T> = Partial<T>> {
+  readonly tableName: string;
+  readonly fillableFields: (keyof T)[];
+  readonly outputFields: (keyof T)[];
+  readonly relations: Relations;
 
-  update<D extends object = T>(id: number, data: Partial<D>): Promise<T | false>;
+  prepareFields(data?: D): { keys: (keyof D)[]; values: D[keyof D][] };
 
-  getById(id: number, relations?: string[]): Promise<T | null>;
+  prepareOutput(data: T): Partial<T>;
 
-  getAll(): Promise<T[]>;
+  query(sql: (keys: (keyof D)[]) => string, data?: D, id?: number): Promise<Partial<T>[] | false>;
 
-  delete(id: number): Promise<T | false>;
+  create(data?: D): Promise<Partial<T>[] | false>;
+
+  update(id: number, data: D): Promise<Partial<T>[] | false>;
+
+  getById(id: number): Promise<Partial<T>[] | false>;
+
+  getAll(): Promise<Partial<T>[] | false>;
+
+  delete(id: number): Promise<Partial<T>[] | false>;
+
+  hasRelation(relation: IBaseEntity, localId: number, relatedKey: string): ReturnType<IBaseEntity["query"]>;
+
+  belongsToRelation(
+    relation: IBaseEntity,
+    relatedId: number,
+    junctionTable?: string,
+    relatedKey?: string,
+    localKey?: string,
+    localId?: number,
+  ): ReturnType<IBaseEntity["query"]>;
+
+  assignManyToMany(
+    entity: IBaseEntity,
+    junctionTable: string,
+    localKey: string,
+    localId: number,
+    relatedKey: string,
+    relatedId: number,
+    pivot?: Record<string, any>,
+  ): Promise<boolean>;
 }
+
+export type Relations = {
+  belongsTo?: IBaseEntity[];
+  belongsToMany?: IBaseEntity[];
+  hasOne?: IBaseEntity[];
+  hasMany?: IBaseEntity[];
+};

@@ -8,7 +8,10 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "noEmit": true,
-    "types": ["@types/node", "@citizenfx/server", "types"]
+    "types": ["@types/node", "@citizenfx/server", "types"],
+    "paths": {
+      "~/*": ["./*"]
+    }
   },
   "include": ["./"]
 }

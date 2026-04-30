@@ -1,110 +1,142 @@
-import { Pool } from "pg";
-import { IBaseEntity } from "./types";
+import { QueryBuilder } from "~/helpers";
+import { IBaseEntity, Relations } from "./types";
 
-export class BaseEntity<T extends object> implements IBaseEntity<T> {
-  protected readonly pool: Pool;
-
-  constructor(private readonly tableName: string) {
-    this.pool = new Pool({
-      host: GetConvar("db_host", "127.0.0.1"),
-      port: GetConvarInt("db_port", 5432),
-      user: GetConvar("db_user", ""),
-      password: GetConvar("db_password", ""),
-      database: GetConvar("db_name", ""),
-    });
+export class BaseEntity<T extends Record<string, any> = Record<string, any>, D extends Partial<T> = Partial<T>> {
+  readonly tableName: string = "";
+  readonly fillableFields: (keyof T)[] = [];
+  readonly outputFields: (keyof T)[] = [];
+  readonly relations: Relations = {
+    hasOne: [],
+    hasMany: [],
+    belongsTo: [],
+    belongsToMany: [],
+  };
+  prepareFields(data?: D): { keys: (keyof D)[]; values: D[keyof D][] } {
+    if (!data) {
+      return { keys: [], values: [] };
+    }
+    const keys: (keyof D)[] = [];
+    const values: D[keyof D][] = [];
+    for (const field of this.fillableFields) {
+      if (field in data) {
+        keys.push(field);
+        values.push(data[field]);
+      }
+    }
+    return { keys, values };
   }
-
-  async create<D extends object = T>(data?: Partial<D>): Promise<T | false> {
-    let sql: string;
-
+  prepareOutput(data: T): Partial<T> {
+    const preparedData: Partial<T> = {};
+    for (const field of this.outputFields) {
+      if (field in data) {
+        preparedData[field] = data[field];
+      }
+    }
+    return preparedData;
+  }
+  async create(data?: D): Promise<Partial<T>[] | false> {
+    const query = new QueryBuilder();
+    query.action = "insert";
+    query.table = this.tableName;
     if (data) {
-      const keys = Object.keys(data).join(",");
-      const valuesPlaceholders = Array.from({ length: Object.values(data).length }, (_, key) => `$${key + 1}`);
-      sql = `INSERT INTO ${this.tableName} (${keys})
-             VALUES (${valuesPlaceholders})
-             RETURNING *`;
-    } else {
-      sql = `INSERT INTO ${this.tableName} DEFAULT
-             VALUES
-             RETURNING *`;
+      const sql = (keys: (keyof D)[]) => {
+        const valuesPlaceholders = Array.from({ length: keys.length }, (_, key) => `$${key + 1}`);
+        return `INSERT INTO ${this.tableName} (${keys?.join(",")})
+            VALUES (${valuesPlaceholders.join(",")})
+            RETURNING *`;
+      };
+      return this.query(sql, data);
     }
-
-    const client = await this.pool.connect();
-
-    const result = await client.query<T>(sql, data ? Object.values(data) : []);
-
-    client.release();
-
-    return result.rows[0] ?? false;
+    const sql = (_: (keyof D)[]) => {
+      return `INSERT INTO ${this.tableName} DEFAULT VALUES
+            RETURNING *`;
+    };
+    return this.query(sql);
   }
-
-  async update<D extends object = T>(id: number, data: Partial<D>): Promise<T | false> {
-    const dataset = Object.keys(data)
-      .map((field, key) => {
-        return `${field} = $${key + 2}`;
-      })
-      .join(",");
-
-    const sql = `UPDATE ${this.tableName}
-                 SET ${dataset}
-                 WHERE id = $1
-                 RETURNING *`;
-
-    const client = await this.pool.connect();
-
-    const result = await client.query<T & { updated_at?: string }>(sql, [id, ...Object.values(data)]);
-
-    if (result.rows?.length && result.rows[0].updated_at) {
-      const updSql = `UPDATE ${this.tableName}
-                      SET updated_at = NOW()`;
-
-      await client.query<T>(updSql);
+  async update(id: number, data: D): Promise<Partial<T>[] | false> {
+    const sql = (keys: (keyof D)[]) => {
+      const dataset = keys
+        .map((field, key) => {
+          return `${String(field)} = $${key + 2}`;
+        })
+        .join(",");
+      return `UPDATE ${this.tableName} SET ${dataset}
+            WHERE id = $1
+            RETURNING *`;
+    };
+    return this.query(sql, data, id);
+  }
+  async getById(id: number): Promise<Partial<T>[] | false> {
+    const sql = (_: (keyof D)[]) => {
+      return `SELECT * FROM ${this.tableName}
+            WHERE id = $1`;
+    };
+    return this.query(sql, undefined, id);
+  }
+  async getAll(): Promise<Partial<T>[] | false> {
+    const sql = (_: (keyof D)[]) => {
+      return `SELECT * FROM ${this.tableName}`;
+    };
+    return this.query(sql);
+  }
+  async delete(id: number): Promise<Partial<T>[] | false> {
+    const sql = (_: (keyof D)[]) => {
+      return `DELETE FROM ${this.tableName}
+            WHERE id = $1
+            RETURNING *`;
+    };
+    return this.query(sql, undefined, id);
+  }
+  async hasRelation(relation: IBaseEntity, localId: number, relatedKey: string): ReturnType<IBaseEntity["query"]> {
+    const sql = (_: (keyof D)[]) => {
+      return `SELECT * FROM ${relation.tableName} WHERE ${relatedKey} = $1`;
+    };
+    return relation.query(sql, undefined, localId);
+  }
+  async belongsTo<R extends IBaseEntity = IBaseEntity>(relation: R, relatedId: number): ReturnType<R["query"]> {
+    const sql = (_: (keyof D)[]) => {
+      return `SELECT * FROM ${relation.tableName} WHERE id = $1`;
+    };
+    return relation.query(sql, undefined, relatedId);
+  }
+  async belongsToMany(
+    relation: IBaseEntity,
+    junctionTable: string,
+    relatedKey: string,
+    localKey: string,
+    localId: number,
+  ): ReturnType<IBaseEntity["query"]> {
+    const sql = (_: (keyof D)[]) => {
+      return `SELECT rt.* as relation, jt.* as pivot FROM ${junctionTable} jt
+              JOIN ${relation.tableName} rt ON rt.id = jt.${relatedKey}
+              WHERE jt.${localKey} = $1`;
+    };
+    return relation.query(sql, undefined, localId!);
+  }
+  async assignManyToMany(
+    entity: IBaseEntity,
+    junctionTable: string,
+    localKey: string,
+    localId: number,
+    relatedKey: string,
+    relatedId: number,
+    pivot?: Record<string, any>,
+  ): Promise<boolean> {
+    if (!this.getById(localId) || !entity.getById(relatedId)) {
+      return false;
     }
-
-    client.release();
-
-    return result.rows[0] ?? false;
-  }
-
-  async getById(id: number, relations?: string[]): Promise<T | null> {
-    const sql = `SELECT *
-                 FROM ${this.tableName}
-                 WHERE id = $1`;
-
-    const client = await this.pool.connect();
-
-    const result = await client.query<T>(sql, [id]);
-
-    client.release();
-
-    return result.rows[0] ?? null;
-  }
-
-  async getAll(): Promise<T[]> {
-    const sql = `SELECT *
-                 FROM ${this.tableName}`;
-
-    const client = await this.pool.connect();
-
-    const result = await client.query<T>(sql);
-
-    client.release();
-
-    return result.rows;
-  }
-
-  async delete(id: number): Promise<T | false> {
-    const sql = `DELETE
-                 FROM ${this.tableName}
-                 WHERE id = $1
+    const data = {
+      [localKey]: localId,
+      [relatedKey]: relatedId,
+      ...pivot,
+    };
+    const valuesPlaceholders = Array.from({ length: Object.values(data).length }, (_, key) => `$${key + 1}`);
+    const sql = `INSERT INTO ${junctionTable} (${Object.keys(data).join(",")})
+                 VALUES (${valuesPlaceholders.join(",")})
                  RETURNING *`;
-
     const client = await this.pool.connect();
-
-    const result = await client.query<T>(sql, [id]);
-
+    const result = await client.query(sql);
     client.release();
-
-    return result.rows[0] ?? false;
+    return !!result.rows.length;
   }
 }

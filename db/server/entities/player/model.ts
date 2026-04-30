@@ -1,9 +1,8 @@
-import { IPlayer } from "./types";
+import { CharacterEntity, ConnectionEntity, PlayerEntity } from "types/civil";
 import { BaseEntity } from "../base-entity";
 import { Identifiers } from "../../types";
-import { CharacterEntity, ConnectionEntity, PlayerEntity } from "types/civil";
 
-export class PlayerModel extends BaseEntity<PlayerEntity> implements IPlayer {
+export class PlayerModel extends BaseEntity<PlayerEntity> {
   constructor() {
     super("players");
   }

@@ -1,8 +1,7 @@
 import { HeadBlendsEntity } from "types/civil";
-import { IHeadBlends } from "./types";
-import { BaseEntity } from "../base-entity";
+import { BaseEntity } from "~/entities";
 
-export class HeadBlendsModel extends BaseEntity<HeadBlendsEntity> implements IHeadBlends {
+export class HeadBlendsModel extends BaseEntity<HeadBlendsEntity> {
   constructor() {
     super("head_blends");
   }

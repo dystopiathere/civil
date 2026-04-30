@@ -1,9 +1,10 @@
 import { CharacterRoleEntity } from "types/civil";
-import { ICharacterRole } from "./types";
-import { BaseEntity } from "../base-entity";
+import { BaseEntity } from "~/entities";
 
-export class CharacterRoleModel extends BaseEntity<CharacterRoleEntity> implements ICharacterRole {
-  constructor() {
-    super("character_roles");
-  }
+export class CharacterRoleModel extends BaseEntity<CharacterRoleEntity> {
+  readonly tableName: string = "character_roles";
+
+  readonly fillableFields: (keyof CharacterRoleEntity)[] = ["name"];
+
+  readonly outputFields: (keyof CharacterRoleEntity)[] = ["id", "name"];
 }

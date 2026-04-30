@@ -1,8 +1,7 @@
 import { PlayerRoleEntity } from "types/civil";
-import { IPlayerRole } from "./types";
 import { BaseEntity } from "../base-entity";
 
-export class PlayerRoleModel extends BaseEntity<PlayerRoleEntity> implements IPlayerRole {
+export class PlayerRoleModel extends BaseEntity<PlayerRoleEntity> {
   constructor() {
     super("player_roles");
   }

@@ -8,3 +8,5 @@ export * from "./player";
 export * from "./player-role";
 export * from "./skills";
 export * from "./connection";
+export * from "./base-entity";
+export * from "./types";
