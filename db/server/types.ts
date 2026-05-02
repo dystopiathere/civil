@@ -1,3 +1,5 @@
+export type Primitive = string | symbol | number | bigint | boolean | null | undefined;
+
 export type Deferrals = {
   defer(): void;
 
@@ -26,13 +28,13 @@ export type FieldData = {
   alias?: string;
 };
 
-export type Operator = "=" | "!=" | "in" | "not in" | "like" | "not like";
+export type Operator = "=" | "!=" | "in" | "not in" | "like" | "not like" | "is null" | "is not null";
 
 export type CriterionData =
   | {
-      leftParameter: any;
+      leftParameter: string;
       operator: Operator;
-      rightParameter: any;
+      rightParameter?: Primitive | Primitive[];
     }
   | UnionCriteriaData;
 

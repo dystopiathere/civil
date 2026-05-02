@@ -1,20 +1,40 @@
-import { Client, CustomTypesConfig, QueryConfigValues, QueryResultRow } from "pg";
-import { Action, CriterionData, FieldData, isUnionCriteriaData, JoinData, TableData, UnionType } from "~/types";
+import { Client, QueryResult, QueryResultRow } from "pg";
+import {
+  Action,
+  CriterionData,
+  FieldData,
+  isUnionCriteriaData,
+  JoinData,
+  Primitive,
+  TableData,
+  UnionType,
+} from "~/types";
 
-export class QueryBuilder {
+function GetConvar(name: string, defaultValue: string) {
+  return defaultValue;
+}
+
+function GetConvarInt(name: string, defaultValue: number) {
+  return defaultValue;
+}
+
+export class QueryBuilder<R extends QueryResultRow = any> {
   static preparedStatements: Record<string, string> = {};
 
   private readonly client: Client;
 
   private _queryString: string = "";
-  private paramsCounter: number = 0;
+  private paramsMapping: Record<string, number> = {};
+  private tables: string[] = [];
+  private aliases: string[] = [];
 
   private _action: Action = "select";
   private _table: TableData = { name: "" };
   private _fields: FieldData[] = [];
   private _joins: JoinData[] = [];
-  private _criteria: CriterionData[] = [];
-  private _params: Record<string, any> = {};
+  private _criteria: CriterionData | undefined;
+  private _params: Record<string, Primitive> = {};
+  private _values: Partial<Record<keyof R, Primitive>> = {};
   private _returning: string | string[] = "*";
 
   constructor() {
@@ -41,10 +61,18 @@ export class QueryBuilder {
   set table(value: string | TableData) {
     if (typeof value === "string") {
       this._table = { name: value };
+
+      this.tables.push(value);
       return;
     }
 
     this._table = value;
+
+    this.tables.push(value.name);
+
+    if (value.alias) {
+      this.aliases.push(value.alias);
+    }
   }
   get table(): TableData {
     return this._table;
@@ -62,32 +90,52 @@ export class QueryBuilder {
 
   set joins(value: JoinData[]) {
     this._joins = value;
+
+    value.forEach(({ table }) => {
+      this.tables.push(table.name);
+
+      if (table.alias) {
+        this.aliases.push(table.alias);
+      }
+    });
   }
   get joins(): JoinData[] {
     return this._joins;
   }
   addJoin(join: JoinData) {
     this._joins.push(join);
+
+    this.tables.push(join.table.name);
+    if (join.table.alias) {
+      this.aliases.push(join.table.alias);
+    }
   }
 
-  set criteria(value: CriterionData[]) {
+  set criteria(value: CriterionData) {
     this._criteria = value;
   }
-  get criteria(): CriterionData[] {
+  get criteria(): CriterionData | undefined {
     return this._criteria;
   }
-  addCriterion(criterion: CriterionData) {
-    this._criteria.push(criterion);
-  }
 
-  set params(value: Record<string, any>) {
+  set params(value: Record<string, Primitive>) {
     this._params = value;
   }
-  get params(): Record<string, any> {
+  get params(): Record<string, Primitive> {
     return this._params;
   }
-  addParam(key: string, value: any) {
+  setParam(key: string, value: Primitive) {
     this._params[key] = value;
+  }
+
+  set values(value: Partial<Record<keyof R, Primitive>>) {
+    this._values = value;
+  }
+  get values(): Partial<Record<keyof R, Primitive>> {
+    return this._values;
+  }
+  setValue(key: keyof R, value: Primitive) {
+    this._values[key] = value;
   }
 
   set returning(value: string | string[]) {
@@ -113,50 +161,55 @@ export class QueryBuilder {
     return this.client.query("savepoint");
   }
 
-  private buildQueryString<I = any[]>(values?: QueryConfigValues<I>) {
-    if (!this.table) {
-      return;
-    }
-
-    switch (this.action) {
-      case "insert":
-        this.buildInsertQueryString(values);
-        break;
-      case "update":
-        break;
-      case "delete":
-        break;
-      default:
-        this.buildSelectQueryString(values);
-        break;
-    }
-  }
-
   private buildFields() {
     if (!this.fields.length) {
       this._queryString += ` *`;
       return;
     }
 
-    this.fields.forEach(({ name, alias }) => {
-      this._queryString += ` ${name}`;
+    const mappedFields = this.fields.map(({ name, alias }) => {
+      let field = `${name}`;
 
       if (alias) {
-        this._queryString += ` as ${alias}`;
+        field += ` as ${alias}`;
       }
+
+      return field;
     });
+
+    this._queryString += ` ${mappedFields.join(", ")}`;
   }
 
-  private buildSelectQueryString<I = any[]>(values?: QueryConfigValues<I>) {
+  private buildQueryString() {
+    if (!this.table) {
+      return;
+    }
+
+    switch (this.action) {
+      case "insert":
+        this.buildInsertQueryString();
+        break;
+      case "update":
+        break;
+      case "delete":
+        break;
+      default:
+        this.buildSelectQueryString();
+        break;
+    }
+  }
+
+  private buildSelectQueryString() {
     this._queryString += "select";
     this.buildFields();
     this._queryString += " from";
     this.buildTableName(this.table);
     this.buildJoins();
+    this.buildWhere();
   }
 
-  private buildInsertQueryString<I = any[]>(values?: QueryConfigValues<I>) {
-    if (!Object.keys(this.params).length) {
+  private buildInsertQueryString() {
+    if (!Object.keys(this.values).length) {
       this._queryString += "insert into";
       this.buildTableName(this.table);
       this._queryString += " default values";
@@ -166,8 +219,15 @@ export class QueryBuilder {
 
     this._queryString = `insert into`;
     this.buildTableName(this.table);
+    this.buildValues();
+  }
 
-    const keys = Object.keys(this.params);
+  private buildValues() {
+    const keys = Object.keys(this.values);
+    const values = Object.values(this.values).map(this.prepareValue);
+
+    console.log(keys, values);
+
     const placeholders = keys.map((_, key) => `$${key + 1}`);
   }
 
@@ -192,6 +252,75 @@ export class QueryBuilder {
     this._queryString += ` returning ${this.returning}`;
   }
 
+  private getValueType(value: Primitive | Primitive[]) {
+    if (!value) {
+      return;
+    }
+
+    switch (typeof value) {
+      case "string":
+        if (!isNaN(Date.parse(value))) {
+          return "timestamp";
+        }
+
+        return "text";
+      case "number":
+        if (Number.isInteger(value)) {
+          return "int";
+        }
+
+        return "numeric";
+      case "symbol":
+        return "char";
+      default:
+        return typeof value;
+    }
+  }
+
+  private prepareValue(value: Primitive) {
+    if (!value) {
+      return value;
+    }
+
+    let fixedValue = value;
+    let result = String(value);
+    const valueType = this.getValueType(value);
+
+    if (result.startsWith(":")) {
+      if (!(result in this.paramsMapping)) {
+        this.paramsMapping[result] = Object.keys(this.paramsMapping).length + 1;
+      }
+
+      result = "$" + this.paramsMapping[result];
+
+      return result;
+    }
+
+    if (valueType) {
+      if (valueType === "char") {
+        result = (value as Symbol).description ?? "";
+        fixedValue = result;
+      }
+
+      if (!result) {
+        throw new Error("failed to get criterion value");
+      }
+
+      const tableOrAlias = fixedValue.toString().split(".")[0];
+      const detectType = tableOrAlias && !this.aliases.includes(tableOrAlias) && !this.tables.includes(tableOrAlias);
+
+      if (detectType) {
+        if (["char", "text", "timestamp"].includes(valueType)) {
+          result = `'${result}'`;
+        }
+
+        result += `::${valueType}`;
+      }
+    }
+
+    return result;
+  }
+
   private buildCriterion(criterion: CriterionData, unionType?: UnionType, key?: number) {
     if (isUnionCriteriaData(criterion)) {
       return;
@@ -205,12 +334,29 @@ export class QueryBuilder {
     this._queryString += ` ${leftParameter} ${operator}`;
 
     switch (operator) {
+      case "is null":
+      case "is not null":
+        break;
       case "in":
       case "not in":
-        this._queryString += ` (${rightParameter})`;
+        if (!rightParameter || !Array.isArray(rightParameter)) {
+          throw new Error("Right parameter is required to be an array");
+        }
+
+        const preparedRightParameter = rightParameter.map((parameter) => this.prepareValue(parameter)).join(", ");
+
+        this._queryString += ` (${preparedRightParameter})`;
         break;
       default:
-        this._queryString += ` ${rightParameter}`;
+        if (!rightParameter) {
+          throw new Error("Right parameter is required");
+        }
+
+        if (Array.isArray(rightParameter)) {
+          throw new Error("Right parameter must be a primitive");
+        }
+
+        this._queryString += ` ${this.prepareValue(rightParameter)}`;
         break;
     }
   }
@@ -251,18 +397,17 @@ export class QueryBuilder {
   }
 
   private buildWhere() {
-    if (!this.criteria.length) {
+    if (!this.criteria) {
       return;
     }
+
+    this._queryString += " where";
+    this.buildCriteria(this.criteria);
   }
 
   prepare(name: string) {
     if (!this._queryString) {
       this.buildQueryString();
-    }
-
-    if (!this._queryString) {
-      throw new Error("Query string not formed");
     }
 
     QueryBuilder.preparedStatements[name] = this._queryString;
@@ -278,35 +423,76 @@ export class QueryBuilder {
   }
 
   deallocateAll() {
+    QueryBuilder.preparedStatements = {};
     return this.client.query("deallocate all");
   }
 
-  send<R extends QueryResultRow = any, I = any[]>(values?: QueryConfigValues<I>) {
-    this.buildQueryString(values);
-
-    if (!this._queryString) {
-      throw new Error("Query string not formed");
+  private queryCallback(error: Error, result: QueryResult<R>) {
+    if (error) {
+      throw error;
     }
 
-    if (values) {
-      return this.client.query<R, I>(this._queryString, values, () => {});
-    }
-
-    return this.client.query<R>(this._queryString);
+    return result;
   }
 
-  sendNamed<R extends QueryResultRow = any, I = any[]>(
-    name: string,
-    values?: QueryConfigValues<I>,
-    types?: CustomTypesConfig,
-  ) {
-    if (!(name in QueryBuilder.preparedStatements)) {
-      this.prepare(name);
-    }
+  private prepareParams(text: string) {
+    const values: string[] = [];
 
-    const text = QueryBuilder.preparedStatements[name];
+    Object.entries(this.paramsMapping).forEach(([param, id]) => {
+      if (!this.params[param]) {
+        throw new Error(param + " value not provided");
+      }
 
-    return this.client.query<R, I>({ name, text, values, types }, (error, result) => {});
+      const value = this.prepareValue(this.params[param]);
+      const paramType = this.getValueType(this.params[param]);
+
+      if (paramType) {
+        text = text.replaceAll("$" + id, "$" + `${id}::${paramType})`);
+      }
+
+      values[id] = String(value);
+    });
+
+    return values.filter((value) => value);
+  }
+
+  send(name?: string) {
+    return new Promise((resolve, reject) => {
+      try {
+        let text: string;
+
+        if (name) {
+          if (!(name in QueryBuilder.preparedStatements)) {
+            reject("Named query must be prepared first");
+          }
+
+          text = QueryBuilder.preparedStatements[name];
+        } else {
+          this.buildQueryString();
+
+          text = this.queryString;
+        }
+
+        if (!Object.keys(this.params).length) {
+          resolve(text);
+
+          this.client.query<R>(text, (error, result) => {
+            resolve(this.queryCallback(error, result));
+          });
+          return;
+        }
+
+        const values = this.prepareParams(text);
+
+        resolve([name, text, values]);
+
+        this.client.query<R, string[]>({ name, text, values }, (error, result) => {
+          resolve(this.queryCallback(error, result));
+        });
+      } catch (error) {
+        reject(error);
+      }
+    });
   }
 
   connect() {
