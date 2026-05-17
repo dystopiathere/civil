@@ -1,4 +1,5 @@
 import { Client, QueryResult, QueryResultRow } from "pg";
+import { isJson } from "~/lib";
 import {
   Action,
   CriterionData,
@@ -9,14 +10,6 @@ import {
   TableData,
   UnionType,
 } from "~/types";
-
-function GetConvar(name: string, defaultValue: string) {
-  return defaultValue;
-}
-
-function GetConvarInt(name: string, defaultValue: number) {
-  return defaultValue;
-}
 
 export class QueryBuilder<R extends QueryResultRow = any> {
   static preparedStatements: Record<string, string> = {};
@@ -33,8 +26,8 @@ export class QueryBuilder<R extends QueryResultRow = any> {
   private _fields: FieldData[] = [];
   private _joins: JoinData[] = [];
   private _criteria: CriterionData | undefined;
-  private _params: Record<string, Primitive> = {};
-  private _values: Partial<Record<keyof R, Primitive>> = {};
+  private _params: Record<string, Primitive | Primitive[]> = {};
+  private _values: Partial<Record<keyof R, R[keyof R] | string>> = {};
   private _returning: string | string[] = "*";
 
   constructor() {
@@ -118,23 +111,23 @@ export class QueryBuilder<R extends QueryResultRow = any> {
     return this._criteria;
   }
 
-  set params(value: Record<string, Primitive>) {
+  set params(value: Record<string, Primitive | Primitive[]>) {
     this._params = value;
   }
-  get params(): Record<string, Primitive> {
+  get params(): Record<string, Primitive | Primitive[]> {
     return this._params;
   }
-  setParam(key: string, value: Primitive) {
+  setParam(key: string, value: Primitive | Primitive[]) {
     this._params[key] = value;
   }
 
-  set values(value: Partial<Record<keyof R, Primitive>>) {
+  set values(value: Partial<Record<keyof R, R[keyof R] | string>>) {
     this._values = value;
   }
-  get values(): Partial<Record<keyof R, Primitive>> {
+  get values(): Partial<Record<keyof R, R[keyof R] | string>> {
     return this._values;
   }
-  setValue(key: keyof R, value: Primitive) {
+  setValue<T extends keyof R>(key: T, value: R[T] | string) {
     this._values[key] = value;
   }
 
@@ -143,6 +136,14 @@ export class QueryBuilder<R extends QueryResultRow = any> {
   }
   get returning(): string | string[] {
     return this._returning;
+  }
+
+  connect() {
+    return this.client.connect();
+  }
+
+  end() {
+    return this.client.end();
   }
 
   beginTransaction() {
@@ -161,106 +162,37 @@ export class QueryBuilder<R extends QueryResultRow = any> {
     return this.client.query("savepoint");
   }
 
-  private buildFields() {
-    if (!this.fields.length) {
-      this._queryString += ` *`;
+  prepare(name: string) {
+    if (!this._queryString) {
+      this.buildQueryString();
+    }
+
+    QueryBuilder.preparedStatements[name] = this._queryString;
+  }
+
+  deallocate(name: string) {
+    if (!(name in QueryBuilder.preparedStatements)) {
       return;
     }
 
-    const mappedFields = this.fields.map(({ name, alias }) => {
-      let field = `${name}`;
-
-      if (alias) {
-        field += ` as ${alias}`;
-      }
-
-      return field;
-    });
-
-    this._queryString += ` ${mappedFields.join(", ")}`;
+    delete QueryBuilder.preparedStatements[name];
+    return this.client.query(`deallocate ${name}`);
   }
 
-  private buildQueryString() {
-    if (!this.table) {
-      return;
-    }
-
-    switch (this.action) {
-      case "insert":
-        this.buildInsertQueryString();
-        break;
-      case "update":
-        break;
-      case "delete":
-        break;
-      default:
-        this.buildSelectQueryString();
-        break;
-    }
+  deallocateAll() {
+    QueryBuilder.preparedStatements = {};
+    return this.client.query("deallocate all");
   }
 
-  private buildSelectQueryString() {
-    this._queryString += "select";
-    this.buildFields();
-    this._queryString += " from";
-    this.buildTableName(this.table);
-    this.buildJoins();
-    this.buildWhere();
-  }
-
-  private buildInsertQueryString() {
-    if (!Object.keys(this.values).length) {
-      this._queryString += "insert into";
-      this.buildTableName(this.table);
-      this._queryString += " default values";
-      this.buildReturning();
-      return;
-    }
-
-    this._queryString = `insert into`;
-    this.buildTableName(this.table);
-    this.buildValues();
-  }
-
-  private buildValues() {
-    const keys = Object.keys(this.values);
-    const values = Object.values(this.values).map(this.prepareValue);
-
-    console.log(keys, values);
-
-    const placeholders = keys.map((_, key) => `$${key + 1}`);
-  }
-
-  private buildTableName({ name, alias }: TableData) {
-    if (!name) {
-      throw new Error("Table name is required");
-    }
-
-    this._queryString += ` ${name}`;
-
-    if (alias) {
-      this._queryString += ` as ${alias}`;
-    }
-  }
-
-  private buildReturning() {
-    if (Array.isArray(this.returning)) {
-      this._queryString += ` returning ${this.returning.join(", ")}`;
-      return;
-    }
-
-    this._queryString += ` returning ${this.returning}`;
-  }
-
-  private getValueType(value: Primitive | Primitive[]) {
-    if (!value) {
-      return;
-    }
-
+  private getValueType(value: Primitive) {
     switch (typeof value) {
       case "string":
         if (!isNaN(Date.parse(value))) {
           return "timestamp";
+        }
+
+        if (isJson(value)) {
+          return "json";
         }
 
         return "text";
@@ -273,13 +205,19 @@ export class QueryBuilder<R extends QueryResultRow = any> {
       case "symbol":
         return "char";
       default:
+        if (value === null || value === undefined) {
+          return;
+        }
+
         return typeof value;
     }
   }
 
-  private prepareValue(value: Primitive) {
-    if (!value) {
-      return value;
+  private prepareValue(value: Primitive | Primitive[]): Primitive {
+    if (Array.isArray(value)) {
+      const mappedArray = value.map((el) => this.prepareValue(el)).join(", ");
+
+      return `(${mappedArray})`;
     }
 
     let fixedValue = value;
@@ -306,11 +244,11 @@ export class QueryBuilder<R extends QueryResultRow = any> {
         throw new Error("failed to get criterion value");
       }
 
-      const tableOrAlias = fixedValue.toString().split(".")[0];
+      const tableOrAlias = String(fixedValue).split(".")[0];
       const detectType = tableOrAlias && !this.aliases.includes(tableOrAlias) && !this.tables.includes(tableOrAlias);
 
       if (detectType) {
-        if (["char", "text", "timestamp"].includes(valueType)) {
+        if (["char", "text", "timestamp", "json"].includes(valueType)) {
           result = `'${result}'`;
         }
 
@@ -319,6 +257,143 @@ export class QueryBuilder<R extends QueryResultRow = any> {
     }
 
     return result;
+  }
+
+  private prepareParams(text: string) {
+    const values: string[] = [];
+
+    Object.entries(this.paramsMapping).forEach(([param, id]) => {
+      if (!Object.hasOwn(this.params, param)) {
+        throw new Error(param + " value not provided");
+      }
+
+      const value = this.prepareValue(this.params[param]);
+
+      if (Array.isArray(this.params[param])) {
+        values[id] = String(value);
+        return;
+      }
+
+      const paramType = this.getValueType(this.params[param]);
+
+      if (paramType) {
+        text = text.replaceAll("$" + id, "$" + `${id}::${paramType})`);
+      }
+
+      values[id] = String(value);
+    });
+
+    return values.filter((value) => value);
+  }
+
+  private buildQueryString() {
+    if (!this.table) {
+      return;
+    }
+
+    switch (this.action) {
+      case "insert":
+        this.buildInsertQueryString();
+        break;
+      case "update":
+        this.buildUpdateQueryString();
+        break;
+      case "delete":
+        this.buildDeleteQueryString();
+        break;
+      default:
+        this.buildSelectQueryString();
+        break;
+    }
+  }
+
+  private buildSelectQueryString() {
+    this._queryString = "select";
+    this.buildFields();
+    this._queryString += " from";
+    this.buildTableName(this.table);
+    this.buildJoins();
+    this.buildWhere();
+  }
+
+  private buildUpdateQueryString() {
+    if (!Object.keys(this.values).length) {
+      throw new Error("Update values is required");
+    }
+
+    this._queryString = "update";
+    this.buildTableName(this.table);
+
+    this.buildSet();
+    this.buildWhere();
+    this.buildReturning();
+  }
+
+  private buildDeleteQueryString() {
+    this._queryString = "delete from";
+    this.buildTableName(this.table);
+    this.buildWhere();
+    this.buildReturning();
+  }
+
+  private buildInsertQueryString() {
+    this._queryString = "insert into";
+
+    this.buildTableName(this.table);
+    if (!Object.keys(this.values).length) {
+      this._queryString += " default values";
+      this.buildReturning();
+      return;
+    }
+
+    this.buildValues();
+    this.buildReturning();
+  }
+
+  private buildTableName({ name, alias }: TableData) {
+    if (!name) {
+      throw new Error("Table name is required");
+    }
+
+    this._queryString += ` ${name}`;
+
+    if (alias) {
+      this._queryString += ` as ${alias}`;
+    }
+  }
+
+  private buildFields() {
+    if (!this.fields.length) {
+      this._queryString += ` *`;
+      return;
+    }
+
+    const mappedFields = this.fields.map(({ name, alias }) => {
+      let field = `${name}`;
+
+      if (alias) {
+        field += ` as ${alias}`;
+      }
+
+      return field;
+    });
+
+    this._queryString += ` ${mappedFields.join(", ")}`;
+  }
+
+  private buildValues() {
+    const keys = Object.keys(this.values);
+    const values = Object.values(this.values).map((value) => this.prepareValue(value));
+
+    this._queryString += ` (${keys.join(", ")}) values (${values.join(", ")})`;
+  }
+
+  private buildSet() {
+    this._queryString += " set";
+
+    const sets = Object.entries(this.values).map(([key, value]) => `${key} = ${String(this.prepareValue(value))}`);
+
+    this._queryString += ` ${sets.join(", ")}`;
   }
 
   private buildCriterion(criterion: CriterionData, unionType?: UnionType, key?: number) {
@@ -343,9 +418,7 @@ export class QueryBuilder<R extends QueryResultRow = any> {
           throw new Error("Right parameter is required to be an array");
         }
 
-        const preparedRightParameter = rightParameter.map((parameter) => this.prepareValue(parameter)).join(", ");
-
-        this._queryString += ` (${preparedRightParameter})`;
+        this._queryString += ` ${String(this.prepareValue(rightParameter))}`;
         break;
       default:
         if (!rightParameter) {
@@ -356,7 +429,7 @@ export class QueryBuilder<R extends QueryResultRow = any> {
           throw new Error("Right parameter must be a primitive");
         }
 
-        this._queryString += ` ${this.prepareValue(rightParameter)}`;
+        this._queryString += ` ${String(this.prepareValue(rightParameter))}`;
         break;
     }
   }
@@ -405,58 +478,16 @@ export class QueryBuilder<R extends QueryResultRow = any> {
     this.buildCriteria(this.criteria);
   }
 
-  prepare(name: string) {
-    if (!this._queryString) {
-      this.buildQueryString();
-    }
-
-    QueryBuilder.preparedStatements[name] = this._queryString;
-  }
-
-  deallocate(name: string) {
-    if (!(name in QueryBuilder.preparedStatements)) {
+  private buildReturning() {
+    if (Array.isArray(this.returning)) {
+      this._queryString += ` returning ${this.returning.join(", ")}`;
       return;
     }
 
-    delete QueryBuilder.preparedStatements[name];
-    return this.client.query(`deallocate ${name}`);
+    this._queryString += ` returning ${this.returning}`;
   }
 
-  deallocateAll() {
-    QueryBuilder.preparedStatements = {};
-    return this.client.query("deallocate all");
-  }
-
-  private queryCallback(error: Error, result: QueryResult<R>) {
-    if (error) {
-      throw error;
-    }
-
-    return result;
-  }
-
-  private prepareParams(text: string) {
-    const values: string[] = [];
-
-    Object.entries(this.paramsMapping).forEach(([param, id]) => {
-      if (!this.params[param]) {
-        throw new Error(param + " value not provided");
-      }
-
-      const value = this.prepareValue(this.params[param]);
-      const paramType = this.getValueType(this.params[param]);
-
-      if (paramType) {
-        text = text.replaceAll("$" + id, "$" + `${id}::${paramType})`);
-      }
-
-      values[id] = String(value);
-    });
-
-    return values.filter((value) => value);
-  }
-
-  send(name?: string) {
+  send(name?: string): Promise<R[] | false> {
     return new Promise((resolve, reject) => {
       try {
         let text: string;
@@ -474,32 +505,28 @@ export class QueryBuilder<R extends QueryResultRow = any> {
         }
 
         if (!Object.keys(this.params).length) {
-          resolve(text);
-
           this.client.query<R>(text, (error, result) => {
-            resolve(this.queryCallback(error, result));
+            if (error) {
+              resolve(false);
+            }
+
+            resolve(result.rows);
           });
           return;
         }
 
         const values = this.prepareParams(text);
 
-        resolve([name, text, values]);
-
         this.client.query<R, string[]>({ name, text, values }, (error, result) => {
-          resolve(this.queryCallback(error, result));
+          if (error) {
+            resolve(false);
+          }
+
+          resolve(result.rows);
         });
       } catch (error) {
         reject(error);
       }
     });
-  }
-
-  connect() {
-    return this.client.connect();
-  }
-
-  end() {
-    return this.client.end();
   }
 }

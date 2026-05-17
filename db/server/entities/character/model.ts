@@ -5,12 +5,14 @@ import {
   FaceFeaturesModel,
   HeadBlendsModel,
   HeadOverlaysModel,
+  PlayerModel,
+  Relations,
   SkillsModel,
 } from "~/entities";
 
 export class CharacterModel extends BaseEntity<CharacterEntity> {
-  readonly tableName: string = "characters";
-  readonly relations = {
+  protected readonly tableName: string = "characters";
+  protected readonly relations: Relations = {
     belongsTo: [
       new HeadBlendsModel(),
       new FaceFeaturesModel(),
@@ -18,11 +20,8 @@ export class CharacterModel extends BaseEntity<CharacterEntity> {
       new ComponentVariationsModel(),
       new HeadOverlaysModel(),
     ],
-    belongsToMany: [],
-    hasOne: [],
-    hasMany: [],
+    belongsToMany: [new PlayerModel()],
   };
-
   readonly fillableFields: (keyof CharacterEntity)[] = [
     "firstname",
     "lastname",
@@ -39,7 +38,6 @@ export class CharacterModel extends BaseEntity<CharacterEntity> {
     "knockdown",
     "active",
   ];
-
   readonly outputFields: (keyof CharacterEntity)[] = [
     "id",
     "firstname",

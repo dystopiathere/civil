@@ -1,8 +1,9 @@
 import { SkillsEntity } from "types/civil";
-import { BaseEntity } from "../base-entity";
+import { BaseEntity, CharacterModel, Relations } from "~/entities";
 
 export class SkillsModel extends BaseEntity<SkillsEntity> {
-  constructor() {
-    super("skills");
-  }
+  protected readonly tableName: string = "skills";
+  protected readonly relations: Relations = {
+    hasMany: [new CharacterModel()],
+  };
 }

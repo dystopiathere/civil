@@ -1,8 +1,9 @@
 import { HeadOverlaysEntity } from "types/civil";
-import { BaseEntity } from "../base-entity";
+import { BaseEntity, CharacterModel, Relations } from "~/entities";
 
 export class HeadOverlaysModel extends BaseEntity<HeadOverlaysEntity> {
-  constructor() {
-    super("head_overlays");
-  }
+  protected readonly tableName: string = "head_overlays";
+  protected readonly relations: Relations = {
+    hasMany: [new CharacterModel()],
+  };
 }

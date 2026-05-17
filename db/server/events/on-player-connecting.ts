@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
-import { ConnectionModel, PlayerModel } from "../entities";
-import { tempIdsMapping } from "../mappings";
-import { Deferrals, Identifiers } from "../types";
+import { ConnectionModel, PlayerModel } from "~/entities";
+import { tempIdsMapping } from "~/mappings";
+import { Deferrals, Identifiers } from "~/types";
 
 export function onPlayerConnecting(name: string, setKickReason: (reason: string) => void, deferrals: Deferrals) {
   deferrals.defer();
@@ -49,9 +49,9 @@ export function onPlayerConnecting(name: string, setKickReason: (reason: string)
 
       const playerModel = new PlayerModel();
 
-      let p = await playerModel.getByIdentifiers(identifiers);
+      let player: Partial<PlayerModel> = await playerModel.getByIdentifiers(identifiers);
 
-      if (!p) {
+      if (!player) {
         const newPlayer = await playerModel.create(identifiers);
 
         if (!newPlayer) {
@@ -59,7 +59,7 @@ export function onPlayerConnecting(name: string, setKickReason: (reason: string)
           return;
         }
 
-        p = newPlayer;
+        player = newPlayer;
       }
 
       if (p.banned) {

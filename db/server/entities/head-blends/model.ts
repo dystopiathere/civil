@@ -1,8 +1,9 @@
 import { HeadBlendsEntity } from "types/civil";
-import { BaseEntity } from "~/entities";
+import { BaseEntity, CharacterModel, Relations } from "~/entities";
 
 export class HeadBlendsModel extends BaseEntity<HeadBlendsEntity> {
-  constructor() {
-    super("head_blends");
-  }
+  protected readonly tableName: string = "head_blends";
+  protected readonly relations: Relations = {
+    hasMany: [new CharacterModel()],
+  };
 }

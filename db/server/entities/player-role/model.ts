@@ -1,8 +1,6 @@
 import { PlayerRoleEntity } from "types/civil";
-import { BaseEntity } from "../base-entity";
+import { BaseEntity } from "~/entities";
 
 export class PlayerRoleModel extends BaseEntity<PlayerRoleEntity> {
-  constructor() {
-    super("player_roles");
-  }
+  protected tableName: string = "player_roles";
 }

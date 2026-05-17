@@ -1,72 +1,27 @@
-import { CharacterEntity, ConnectionEntity, PlayerEntity } from "types/civil";
-import { BaseEntity } from "../base-entity";
-import { Identifiers } from "../../types";
+import { PlayerEntity } from "types/civil";
+import { BaseEntity, CharacterModel, ConnectionModel, Relations } from "~/entities";
+import { QueryBuilder } from "~/helpers";
+import { Identifiers } from "~/types";
 
 export class PlayerModel extends BaseEntity<PlayerEntity> {
-  constructor() {
-    super("players");
-  }
+  protected readonly tableName: string = "players";
+  protected readonly relations: Relations = {
+    hasMany: [new ConnectionModel()],
+    belongsToMany: [new CharacterModel()],
+  };
 
-  async getByIdentifiers(identifiers: Identifiers): Promise<PlayerEntity | null> {
-    const conditions = Object.keys(identifiers)
-      .map((field, key) => {
-        if (key === 0) {
-          return `${field} = $${key + 1}`;
-        }
-
-        return `OR ${field} = $${key + 1}`;
-      })
-      .join(" ");
-
-    const sql = `SELECT *
-                 FROM players
-                 WHERE ${conditions}`;
-
-    const client = await this.pool.connect();
-
-    const result = await client.query<PlayerEntity>(sql, Object.values(identifiers));
-
-    return result.rows[0] ?? null;
-  }
-
-  async getCharacters(id: number): Promise<CharacterEntity[]> {
-    const sql = `SELECT c.*
-                 FROM players p
-                          JOIN players_characters pc ON pc.player_id = p.id
-                          JOIN characters c ON c.id = pc.character_id
-                 WHERE p.id = $1`;
-
-    const client = await this.pool.connect();
-
-    const result = await client.query<CharacterEntity>(sql, [id]);
-
-    return result.rows;
-  }
-
-  async getActiveCharacter(id: number): Promise<CharacterEntity | null> {
-    const sql = `SELECT c.*
-                 FROM players p
-                          JOIN players_characters pc ON pc.player_id = p.id
-                          JOIN characters c ON c.id = pc.character_id
-                 WHERE p.id = $1
-                   AND pc.active = true`;
-
-    const client = await this.pool.connect();
-
-    const result = await client.query<CharacterEntity>(sql, [id]);
-
-    return result.rows[0] ?? null;
-  }
-
-  async getConnections(id: number): Promise<ConnectionEntity[]> {
-    const sql = `SELECT *
-                 FROM connections
-                 WHERE player_id = $1`;
-
-    const client = await this.pool.connect();
-
-    const result = await client.query<ConnectionEntity>(sql, [id]);
-
-    return result.rows;
+  async getByIdentifiers(identifiers: Identifiers): Promise<PlayerEntity[] | false> {
+    const query = new QueryBuilder<PlayerEntity>();
+    query.action = "select";
+    query.table = this.tableName;
+    query.criteria = {
+      unionType: "or",
+      criteria: Object.entries(identifiers).map(([identifier, value]) => ({
+        leftParameter: identifier,
+        operator: "=",
+        rightParameter: value,
+      })),
+    };
+    return query.send();
   }
 }

@@ -1,8 +1,9 @@
 import { FaceFeaturesEntity } from "types/civil";
-import { BaseEntity } from "../base-entity";
+import { BaseEntity, Relations, CharacterModel } from "~/entities";
 
 export class FaceFeaturesModel extends BaseEntity<FaceFeaturesEntity> {
-  constructor() {
-    super("face_features");
-  }
+  protected readonly tableName: string = "face_features";
+  protected readonly relations: Relations = {
+    hasMany: [new CharacterModel()],
+  };
 }

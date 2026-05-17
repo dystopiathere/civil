@@ -1,8 +1,9 @@
 import { ComponentVariationsEntity } from "types/civil";
-import { BaseEntity } from "../base-entity";
+import { BaseEntity, CharacterModel, Relations } from "~/entities";
 
 export class ComponentVariationsModel extends BaseEntity<ComponentVariationsEntity> {
-  constructor() {
-    super("component_variations");
-  }
+  protected readonly tableName: string = "component_variations";
+  protected readonly relations: Relations = {
+    hasMany: [new CharacterModel()],
+  };
 }

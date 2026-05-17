@@ -1,8 +1,9 @@
 import { ConnectionEntity } from "types/civil";
-import { BaseEntity } from "../base-entity";
+import { BaseEntity, PlayerModel, Relations } from "~/entities";
 
 export class ConnectionModel extends BaseEntity<ConnectionEntity> {
-  constructor() {
-    super("connections");
-  }
+  protected readonly tableName: string = "connections";
+  protected readonly relations: Relations = {
+    belongsTo: [new PlayerModel()],
+  };
 }
