@@ -1,5 +1,7 @@
 import dayjs from "dayjs";
-import { ConnectionModel, PlayerModel } from "~/entities";
+import { CivilDataSource } from "~/data-source";
+import { Connection } from "~/entities/Connection";
+import { Player } from "~/entities/Player";
 import { tempIdsMapping } from "~/mappings";
 import { Deferrals, Identifiers } from "~/types";
 
@@ -47,42 +49,42 @@ export function onPlayerConnecting(name: string, setKickReason: (reason: string)
         return;
       }
 
-      const playerModel = new PlayerModel();
+      const playerRepository = CivilDataSource.getRepository(Player);
 
-      let player: Partial<PlayerModel> = await playerModel.getByIdentifiers(identifiers);
+      let player: Player | null = await playerRepository.findOneBy(identifiers);
 
       if (!player) {
-        const newPlayer = await playerModel.create(identifiers);
-
-        if (!newPlayer) {
+        try {
+          player = new Player();
+          Object.assign(player, identifiers);
+          player = await playerRepository.save(player);
+        } catch {
           deferrals.done("Failed to create database record");
           return;
         }
-
-        player = newPlayer;
       }
 
-      if (p.banned) {
-        deferrals.done(`You are banned with reason: ${p.ban_reason}.`);
+      if (player.banned) {
+        deferrals.done(`You are banned with reason: ${player.ban_reason}.`);
         return;
       }
 
-      if (!p.whitelisted) {
-        deferrals.done(`You are not whitelisted. Request whitelist using your ID: ${p.id}.`);
+      if (!player.whitelisted) {
+        deferrals.done(`You are not whitelisted. Request whitelist using your ID: ${player.id}.`);
         return;
       }
 
-      const connectionModel = new ConnectionModel();
+      try {
+        const connectionRepository = CivilDataSource.getRepository(Connection);
+        const connection = new Connection();
+        connection.identifiers = allIdentifiers;
+        connection.player = Promise.resolve(player);
+        connectionRepository.save(connection);
+      } catch (err) {
+        console.error(err);
+      }
 
-      await connectionModel.create({
-        player_id: p.id,
-        identifiers: allIdentifiers,
-      });
-      await playerModel.update(p.id, {
-        last_connection_at: dayjs().toISOString(),
-      });
-
-      Object.assign(tempIdsMapping, { [playerTempId]: p.id });
+      Object.assign(tempIdsMapping, { [playerTempId]: player.id });
 
       deferrals.done();
     }, 0);

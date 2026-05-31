@@ -1,19 +1,12 @@
-import { FullCharacterEntity } from "types/civil";
-import { CharacterModel } from "../entities";
+import { CharacterEntity } from "types/civil";
+import { CivilDataSource } from "~/data-source";
+import { Character } from "~/entities/Character";
 
-export async function syncData(_: FullCharacterEntity) {
-  const characterModel = new CharacterModel();
-  const promises = [];
-  for (const relation of characterModel.relations) {
-    promises.push(async () => {
-      const relationData = data[relation.tableName as keyof FullCharacterEntity] as Record<string, any>;
-      const relationModel = await characterModel.belongsToRelation(relation, relationData.id);
-      if (!relationModel || !relationModel.length) {
-        return;
-      }
-      await relation.update(relationModel[0].id, relationData);
-    });
+export async function syncData(data: CharacterEntity) {
+  try {
+    const characterRepository = CivilDataSource.getRepository(Character);
+    await characterRepository.update(data.id, data);
+  } catch (err) {
+    console.error(err);
   }
-  await Promise.all(promises);
-  await characterModel.update(data.id, data);
 }

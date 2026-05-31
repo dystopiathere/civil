@@ -1,3 +1,16 @@
 {
-    "svg.preview.background": "editor"
+    "svg.preview.background": "editor",
+    "sqltools.connections": [
+        {
+            "ssh": "Disabled",
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "civil_db",
+            "group": "fivem",
+            "database": "civil",
+            "username": "civil"
+        }
+    ]
 }

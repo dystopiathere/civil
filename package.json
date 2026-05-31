@@ -9,10 +9,11 @@
     "front-dev": "cd ./nui/frontend && vite",
     "front-build": "cd ./nui/frontend && tsc -b && vite build",
     "front-lint": "cd ./nui/frontend && eslint ..",
-    "front-preview": "cd ./nui/frontend && vite preview"
+    "front-preview": "cd ./nui/frontend && vite preview",
+    "typeorm": "typeorm-ts-node-commonjs"
   },
+  "@citizenfx/client": "2.0.28108-1",
   "devDependencies": {
-    "@citizenfx/client": "2.0.28108-1",
     "@citizenfx/server": "2.0.28108-1",
     "@eslint/js": "^10.0.1",
     "@types/node": "latest",

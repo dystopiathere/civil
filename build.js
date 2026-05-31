@@ -1,6 +1,6 @@
-const { build } = require("esbuild");
-const { copy } = require("esbuild-plugin-copy");
-const fs = require("node:fs");
+import { build } from "esbuild";
+import { copy } from "esbuild-plugin-copy";
+import fs from "node:fs";
 
 const production = process.argv.findIndex((argItem) => argItem === "--mode=production") >= 0;
 

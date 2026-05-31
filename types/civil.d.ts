@@ -251,11 +251,11 @@ declare module "types/civil" {
     max_armour: number;
     eye_color: number;
     hair_first_color: number;
-    head_blends_id: number;
-    face_features_id: number;
-    skills_id: number;
-    component_variations_id: number;
-    head_overlays_id: number;
+    head_blends: HeadBlendsEntity;
+    face_features: FaceFeaturesEntity;
+    skills: SkillsEntity;
+    component_variations: ComponentVariationsEntity;
+    head_overlays: HeadOverlaysEntity;
     last_position: {
       x: number;
       y: number;
@@ -264,30 +264,10 @@ declare module "types/civil" {
     };
     model: string;
     knockdown: boolean;
-    active: boolean;
     created_at: string;
     updated_at: string;
+    deleted_at: string;
   };
-
-  export type FullCharacterEntity = CharacterEntity & {
-    head_blends: HeadBlendsEntity;
-    face_features: FaceFeaturesEntity;
-    head_overlays: HeadOverlaysEntity;
-    component_variations: ComponentVariationsEntity;
-    skills: SkillsEntity;
-  };
-
-  export type FullCharacterDto = Omit<
-    FullCharacterEntity,
-    | "active"
-    | "head_blends_id"
-    | "face_features_id"
-    | "skills_id"
-    | "component_variations_id"
-    | "head_overlays_id"
-    | "created_at"
-    | "updated_at"
-  >;
 
   export type ConnectionEntity = {
     id: number;
@@ -351,6 +331,8 @@ declare module "types/civil" {
     flying_ability: number;
     shooting_ability: number;
     stealth_ability: number;
+    created_at: string;
+    updated_at: string;
   };
 
   export type HeadOverlaysEntity = {

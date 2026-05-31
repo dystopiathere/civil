@@ -1,4 +1,4 @@
-import { FullCharacterDto } from "types/civil";
+import { CharacterEntity } from "types/civil";
 import { syncData } from "../lib";
 
 export async function onPlayerDropped(reason: string, _: string, clientDropReason: number) {
@@ -6,7 +6,7 @@ export async function onPlayerDropped(reason: string, _: string, clientDropReaso
 
   console.log(`Player ${localPlayer.state.player_id} dropped with reason: ${reason} (Code ${clientDropReason})`);
 
-  const data: FullCharacterDto = {
+  const data: CharacterEntity = {
     id: localPlayer.state.id,
     firstname: localPlayer.state.firstname,
     lastname: localPlayer.state.lastname,
@@ -26,6 +26,9 @@ export async function onPlayerDropped(reason: string, _: string, clientDropReaso
     last_position: localPlayer.state.last_position,
     model: localPlayer.state.model,
     knockdown: localPlayer.state.knockdown,
+    created_at: localPlayer.state.created_at,
+    updated_at: localPlayer.state.updated_at,
+    deleted_at: localPlayer.state.deleted_at,
   };
 
   await syncData(data);

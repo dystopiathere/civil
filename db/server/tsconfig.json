@@ -10,6 +10,7 @@
     "noEmit": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
     "types": ["@types/node", "@citizenfx/server", "types"],
     "paths": {
       "~/*": ["./*"]
