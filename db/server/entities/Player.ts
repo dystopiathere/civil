@@ -28,11 +28,11 @@ export class Player implements PlayerEntity {
   @Column({ name: "ban_reason", type: "varchar", length: 255, nullable: true })
   banReason: string;
 
-  @OneToMany(() => Character, (character) => character.player, { cascade: true, lazy: true })
-  characters: Promise<Character[]>;
+  @OneToMany(() => Character, (character) => character.player, { cascade: true, eager: true })
+  characters: Character[];
 
-  @OneToMany(() => Connection, (connection) => connection.player, { cascade: true, lazy: true })
-  connections: Promise<Connection[]>;
+  @OneToMany(() => Connection, (connection) => connection.player, { cascade: true, eager: true })
+  connections: Connection[];
 
   @CreateDateColumn({ name: "created_at", type: "timestamp" })
   createdAt: Date;

@@ -229,8 +229,8 @@ declare module "types/civil" {
     whitelisted: boolean;
     banned: boolean;
     banReason: string;
-    characters: Promise<CharacterEntity[]>;
-    connections: Promise<ConnectionEntity[]>;
+    characters: CharacterEntity[];
+    connections: ConnectionEntity[];
     createdAt: Date;
     updatedAt: Date;
   };

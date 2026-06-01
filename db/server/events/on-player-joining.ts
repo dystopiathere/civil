@@ -22,29 +22,25 @@ export async function onPlayerJoining(oldId: string) {
     return;
   }
 
-  const characterRepository = CivilDataSource.getRepository(Character);
-  const characters = await player.characters;
-
   let character: Character;
 
-  if (!characters.length) {
+  if (!player.characters.length) {
     try {
       character = new Character();
-      character.player = Promise.resolve(player);
-
       character.headBlends = new HeadBlends();
       character.faceFeatures = new FaceFeatures();
       character.headOverlays = new HeadOverlays();
       character.componentVariations = new ComponentVariations();
       character.skills = new Skills();
 
-      character = await characterRepository.save(character);
+      player.characters.push(character);
+      await playerRepository.save(player);
     } catch {
       console.error("Failed to create character");
       return;
     }
   } else {
-    character = characters[0];
+    character = player.characters[0];
   }
 
   Object.entries(character).forEach(([key, value]) => {

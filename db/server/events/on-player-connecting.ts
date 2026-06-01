@@ -73,11 +73,11 @@ export function onPlayerConnecting(name: string, setKickReason: (reason: string)
       }
 
       try {
-        const connectionRepository = CivilDataSource.getRepository(Connection);
         const connection = new Connection();
         connection.identifiers = allIdentifiers;
-        connection.player = Promise.resolve(player);
-        connectionRepository.save(connection);
+
+        player.connections.push(connection);
+        await playerRepository.save(player);
       } catch (err) {
         console.error(err);
       }

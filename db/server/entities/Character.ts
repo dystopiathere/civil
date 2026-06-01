@@ -50,7 +50,7 @@ export class Character implements CharacterEntity {
   @Column({ name: "eye_color", type: "smallint", unsigned: true, default: 1 })
   eyeColor: number;
 
-  @Column({ name: "hairFirstColor", type: "smallint", unsigned: true, default: 1 })
+  @Column({ name: "hair_first_color", type: "smallint", unsigned: true, default: 1 })
   hairFirstColor: number;
 
   @OneToOne(() => HeadBlends, { cascade: true, eager: true })
