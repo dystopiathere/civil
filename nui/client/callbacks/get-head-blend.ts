@@ -1,3 +1,3 @@
 export function getHeadBlend(data: {}, cb: CallableFunction) {
-  cb([(global.LocalPlayer as LocalPlayerInterface).state.head_blends, false]);
+  cb([(globalThis.LocalPlayer).state.head_blends, false]);
 }

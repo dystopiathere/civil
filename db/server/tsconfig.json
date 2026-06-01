@@ -11,6 +11,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
+    "skipLibCheck": true,
     "types": ["@types/node", "@citizenfx/server", "types"],
     "paths": {
       "~/*": ["./*"]

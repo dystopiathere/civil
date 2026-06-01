@@ -11,5 +11,5 @@ export function updateFreemodeModel(data: Partial<FullCharacterEntity> = {}) {
   setPedFaceFeatureData(ped, data.face_features);
   setPedHeadOverlayData(ped, data.head_overlays);
   setPedComponentVariationData(ped, data.component_variations);
-  SetPedEyeColor(ped, (global.LocalPlayer as LocalPlayerInterface).state.eye_color);
+  SetPedEyeColor(ped, (globalThis.LocalPlayer).state.eye_color);
 }

@@ -1,5 +1,5 @@
 export function respawn(source: number, args: string[], raw: string) {
-  const player = global.LocalPlayer as LocalPlayerInterface;
+  const player = globalThis.LocalPlayer;
 
   const ped = GetPlayerPed(-1);
 

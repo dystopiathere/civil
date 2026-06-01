@@ -1,14 +1,12 @@
-import dayjs from "dayjs";
 import { CivilDataSource } from "~/data-source";
-import { Connection } from "~/entities/Connection";
-import { Player } from "~/entities/Player";
+import { Connection, Player } from "~/entities";
 import { tempIdsMapping } from "~/mappings";
 import { Deferrals, Identifiers } from "~/types";
 
 export function onPlayerConnecting(name: string, setKickReason: (reason: string) => void, deferrals: Deferrals) {
   deferrals.defer();
 
-  const playerTempId = global.source.toString();
+  const playerTempId = globalThis.source.toString();
 
   setTimeout(() => {
     deferrals.update(`Hello ${name}. We are validating your credentials now.`);
@@ -65,7 +63,7 @@ export function onPlayerConnecting(name: string, setKickReason: (reason: string)
       }
 
       if (player.banned) {
-        deferrals.done(`You are banned with reason: ${player.ban_reason}.`);
+        deferrals.done(`You are banned with reason: ${player.banReason}.`);
         return;
       }
 

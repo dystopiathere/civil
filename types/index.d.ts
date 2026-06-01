@@ -1,4 +1,4 @@
-import { MapManager, SpawnManager, FullCharacterEntity } from "types/civil";
+import { MapManager, SpawnManager, CharacterEntity } from "types/civil";
 
 declare global {
   interface CitizenExports {
@@ -8,7 +8,7 @@ declare global {
     spawnmanager: SpawnManager;
   }
 
-  interface LocalPlayerStateBagInterface extends FullCharacterEntity {
+  interface LocalPlayerStateBagInterface extends CharacterEntity {
     set(key: keyof LocalPlayerStateBagInterface, value: any, replicated: boolean): void;
 
     player_id: number;

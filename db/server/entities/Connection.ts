@@ -1,17 +1,18 @@
 import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Player } from "./Player";
+import { ConnectionEntity } from "types/civil";
+import { Player } from "~/entities";
 
 @Entity()
-export class Connection {
-  @PrimaryGeneratedColumn()
+export class Connection implements ConnectionEntity {
+  @PrimaryGeneratedColumn("increment")
   id: number;
 
-  @ManyToOne(() => Player, (player) => player.connections, { cascade: true, lazy: true })
+  @ManyToOne(() => Player, (player) => player.connections, { lazy: true })
   player: Promise<Player>;
 
-  @Column()
+  @Column({ type: "json" })
   identifiers: Record<string, string | number>;
 
-  @CreateDateColumn()
-  created_at: string;
+  @CreateDateColumn({ name: "created_at", type: "timestamp" })
+  createdAt: Date;
 }

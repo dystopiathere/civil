@@ -1,73 +1,74 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { FaceFeaturesEntity } from "types/civil";
 
 @Entity()
-export class FaceFeatures {
-  @PrimaryGeneratedColumn()
+export class FaceFeatures implements FaceFeaturesEntity {
+  @PrimaryGeneratedColumn("increment")
   id: number;
 
-  @Column("double")
-  nose_width: number = 1.0;
+  @Column({ name: "nose_width", type: "real", default: 1.0 })
+  noseWidth: number;
 
-  @Column("double")
-  nose_peak: number = 1.0;
+  @Column({ name: "nose_peak", type: "real", default: 1.0 })
+  nosePeak: number;
 
-  @Column("double")
-  nose_length: number = 1.0;
+  @Column({ name: "nose_length", type: "real", default: 1.0 })
+  noseLength: number;
 
-  @Column("double")
-  nose_bone_curveness: number = 1.0;
+  @Column({ name: "nose_bone_curveness", type: "real", default: 1.0 })
+  noseBoneCurveness: number;
 
-  @Column("double")
-  nose_tip: number = 1.0;
+  @Column({ name: "nose_tip", type: "real", default: 1.0 })
+  noseTip: number;
 
-  @Column("double")
-  nose_bone_twist: number = 1.0;
+  @Column({ name: "nose_bone_twist", type: "real", default: 1.0 })
+  noseBoneTwist: number;
 
-  @Column("double")
-  eyebrow_up_down: number = 1.0;
+  @Column({ name: "eyebrow_up_down", type: "real", default: 1.0 })
+  eyebrowUpDown: number;
 
-  @Column("double")
-  eyebrow_in_out: number = 1.0;
+  @Column({ name: "eyebrow_in_out", type: "real", default: 1.0 })
+  eyebrowInOut: number;
 
-  @Column("double")
-  cheek_bones: number = 1.0;
+  @Column({ name: "cheek_bones", type: "real", default: 1.0 })
+  cheekBones: number;
 
-  @Column("double")
-  cheek_sideways_bone_size: number = 1.0;
+  @Column({ name: "cheek_sideways_bone_size", type: "real", default: 1.0 })
+  cheekSidewaysBoneSize: number;
 
-  @Column("double")
-  cheek_bones_width: number = 1.0;
+  @Column({ name: "cheek_bones_width", type: "real", default: 1.0 })
+  cheekBonesWidth: number;
 
-  @Column("double")
-  eye_opening: number = 1.0;
+  @Column({ name: "eye_opening", type: "real", default: 1.0 })
+  eyeOpening: number;
 
-  @Column("double")
-  lip_thickness: number = 1.0;
+  @Column({ name: "lip_thickness", type: "real", default: 1.0 })
+  lipThickness: number;
 
-  @Column("double")
-  jaw_bone_width: number = 1.0;
+  @Column({ name: "jaw_bone_width", type: "real", default: 1.0 })
+  jawBoneWidth: number;
 
-  @Column("double")
-  jaw_bone_shape: number = 1.0;
+  @Column({ name: "jaw_bone_shape", type: "real", default: 1.0 })
+  jawBoneShape: number;
 
-  @Column("double")
-  chin_bone: number = 1.0;
+  @Column({ name: "chin_bone", type: "real", default: 1.0 })
+  chinBone: number;
 
-  @Column("double")
-  chin_bone_length: number = 1.0;
+  @Column({ name: "chin_bone_length", type: "real", default: 1.0 })
+  chinBoneLength: number;
 
-  @Column("double")
-  chin_bone_shape: number = 1.0;
+  @Column({ name: "chin_bone_shape", type: "real", default: 1.0 })
+  chinBoneShape: number;
 
-  @Column("double")
-  chin_hole: number = 1.0;
+  @Column({ name: "chin_hole", type: "real", default: 1.0 })
+  chinHole: number;
 
-  @Column("double")
-  neck_thickness: number = 1.0;
+  @Column({ name: "neck_thickness", type: "real", default: 1.0 })
+  neckThickness: number;
 
-  @CreateDateColumn()
-  created_at: string;
+  @CreateDateColumn({ name: "created_at", type: "timestamp" })
+  createdAt: Date;
 
-  @UpdateDateColumn()
-  updated_at: string;
+  @UpdateDateColumn({ name: "updated_at", type: "timestamp" })
+  updatedAt: Date;
 }

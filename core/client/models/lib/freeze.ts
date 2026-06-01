@@ -1,7 +1,7 @@
 import { delay } from "~/helpers";
 
 export async function freeze(state: boolean): Promise<void> {
-  const localPlayer = global.LocalPlayer;
+  const localPlayer = globalThis.LocalPlayer;
 
   localPlayer.state.set("frozen", state, true);
 

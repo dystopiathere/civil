@@ -1,7 +1,7 @@
 import { HeadBlendsEntity } from "types/civil";
 
 export function setPedHeadBlendData(ped: number, data: Partial<HeadBlendsEntity> = {}) {
-  const localData = { ...(global.LocalPlayer as LocalPlayerInterface).state.head_blends };
+  const localData = { ...(globalThis.LocalPlayer).state.head_blends };
 
   Object.assign(localData, data);
 

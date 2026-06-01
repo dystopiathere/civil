@@ -1,5 +1,5 @@
 export function onPlayerSpawned() {
-  const localPlayer = global.LocalPlayer as LocalPlayerInterface;
+  const localPlayer = globalThis.LocalPlayer;
 
   StatSetInt("MP0_STAMINA", localPlayer.state.skills.stamina, true);
   StatSetInt("MP0_STRENGTH", localPlayer.state.skills.strength, true);

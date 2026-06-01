@@ -2102,7 +2102,7 @@ packages:
         optional: true
 
   types@file:types/types-1.0.0.tgz:
-    resolution: {integrity: sha512-YvFXvqSei/aidnLDHjbXcaJY+7uSAUsUSpf/gV/LTXObtS7UASQG/8O0KsP2LnrxcoWkQCQBAMyBYzySqwl4Mg==, tarball: file:types/types-1.0.0.tgz}
+    resolution: {integrity: sha512-rZFODgwXx4UTYycJ9Wk38kB2IjJSh28Hq2AbKeOVEuc0AzYOqxdcbKhlmOnyk6tt/t1d+mUXutV+U8xQ8yaCLQ==, tarball: file:types/types-1.0.0.tgz}
     version: 1.0.0
 
   typescript-eslint@8.59.1:

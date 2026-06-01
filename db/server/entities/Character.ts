@@ -10,93 +10,89 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { HeadBlends } from "./HeadBlends";
-import { FaceFeatures } from "./FaceFeatures";
-import { Skills } from "./Skills";
-import { ComponentVariations } from "./ComponentVariations";
-import { HeadOverlays } from "./HeadOverlays";
-import { Player } from "./Player";
+import { CharacterEntity } from "types/civil";
+import { ComponentVariations, FaceFeatures, HeadBlends, HeadOverlays, Player, Skills } from "~/entities";
 
 @Entity()
-export class Character {
-  @PrimaryGeneratedColumn()
+export class Character implements CharacterEntity {
+  @PrimaryGeneratedColumn("increment")
   id: number;
 
-  @ManyToOne(() => Player, (player) => player.characters, { cascade: true, lazy: true })
+  @ManyToOne(() => Player, (player) => player.characters, { lazy: true })
   player: Promise<Player>;
 
-  @Column({ length: 15 })
+  @Column({ type: "varchar", length: 15, default: "John" })
   @Index({ fulltext: true })
-  firstname: string = "John";
+  firstname: string;
 
-  @Column({ length: 20 })
+  @Column({ type: "varchar", length: 20, default: "Doe" })
   @Index({ fulltext: true })
-  lastname: string = "Doe";
+  lastname: string;
 
-  @Column()
-  age: number = 18;
+  @Column({ type: "smallint", unsigned: true, default: 18 })
+  age: number;
 
-  @Column()
-  sex: boolean = true;
+  @Column({ type: "boolean", default: true })
+  sex: boolean;
 
-  @Column()
-  health: number = 500;
+  @Column({ type: "smallint", unsigned: true, default: 500 })
+  health: number;
 
-  @Column()
-  max_health: number = 500;
+  @Column({ name: "max_health", type: "smallint", unsigned: true, default: 500 })
+  maxHealth: number;
 
-  @Column()
-  armour: number = 100;
+  @Column({ type: "smallint", unsigned: true, default: 100 })
+  armour: number;
 
-  @Column()
-  max_armour: number = 100;
+  @Column({ name: "max_armour", type: "smallint", unsigned: true, default: 100 })
+  maxArmour: number;
 
-  @Column()
-  eye_color: number = 1;
+  @Column({ name: "eye_color", type: "smallint", unsigned: true, default: 1 })
+  eyeColor: number;
 
-  @Column()
-  hair_first_color: number = 1;
+  @Column({ name: "hairFirstColor", type: "smallint", unsigned: true, default: 1 })
+  hairFirstColor: number;
 
   @OneToOne(() => HeadBlends, { cascade: true, eager: true })
-  @JoinColumn()
-  head_blends: HeadBlends;
+  @JoinColumn({ name: "head_blends_id" })
+  headBlends: HeadBlends;
 
   @OneToOne(() => FaceFeatures, { cascade: true, eager: true })
-  @JoinColumn()
-  face_features: FaceFeatures;
+  @JoinColumn({ name: "face_features_id" })
+  faceFeatures: FaceFeatures;
 
   @OneToOne(() => Skills, { cascade: true, eager: true })
-  @JoinColumn()
+  @JoinColumn({ name: "skills_id" })
   skills: Skills;
 
   @OneToOne(() => ComponentVariations, { cascade: true, eager: true })
-  @JoinColumn()
-  component_variations: ComponentVariations;
+  @JoinColumn({ name: "component_variations_id" })
+  componentVariations: ComponentVariations;
 
   @OneToOne(() => HeadOverlays, { cascade: true, eager: true })
-  @JoinColumn()
-  head_overlays: HeadOverlays;
+  @JoinColumn({ name: "head_overlays_id" })
+  headOverlays: HeadOverlays;
 
-  @Column({ nullable: true })
-  last_position: {
+  @Column({ name: "last_position", type: "json", nullable: true })
+  lastPosition: {
     x: number;
     y: number;
     z: number;
     heading: number;
   };
 
-  @Column()
-  model: string = "mp_m_freemode_01";
+  @Column({ type: "varchar", length: 255, default: "mp_m_freemode_01" })
+  model: string;
 
-  @Column()
-  knockdown: boolean = false;
+  @Column({ type: "boolean", default: false })
+  knockdown: boolean;
 
-  @CreateDateColumn()
-  created_at: string;
+  @CreateDateColumn({ name: "created_at", type: "timestamp" })
+  createdAt: Date;
 
-  @UpdateDateColumn()
-  updated_at: string;
+  @UpdateDateColumn({ name: "updated_at", type: "timestamp" })
+  updatedAt: Date;
 
-  @DeleteDateColumn()
-  deleted_at: string;
+  @DeleteDateColumn({ name: "deleted_at", type: "timestamp", nullable: true })
+  deletedAt: Date;
 }

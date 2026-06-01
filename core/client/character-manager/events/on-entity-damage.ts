@@ -8,7 +8,7 @@ export function onEntityDamage(args: any[]) {
     return;
   }
 
-  const localPlayer = global.LocalPlayer as LocalPlayerInterface;
+  const localPlayer = globalThis.LocalPlayer;
   localPlayer.state.set("health", GetEntityHealth(ped), true);
   localPlayer.state.set("armour", GetPedArmour(ped), true);
 

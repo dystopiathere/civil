@@ -1,6 +1,6 @@
 export function collectPedPosition() {
   setInterval(() => {
-    const player = global.LocalPlayer as LocalPlayerInterface;
+    const player = globalThis.LocalPlayer;
 
     const ped = GetPlayerPed(-1);
     const [x, y, z] = GetEntityCoords(ped, false);

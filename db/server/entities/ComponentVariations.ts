@@ -1,121 +1,122 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { ComponentVariationsEntity } from "types/civil";
 
 @Entity()
-export class ComponentVariations {
-  @PrimaryGeneratedColumn()
+export class ComponentVariations implements ComponentVariationsEntity {
+  @PrimaryGeneratedColumn("increment")
   id: number;
 
-  @Column()
-  face_drawable: number = 0;
+  @Column({ name: "face_drawable", type: "smallint", unsigned: true, default: 0 })
+  faceDrawable: number;
 
-  @Column()
-  face_texture: number = 0;
+  @Column({ name: "face_texture", type: "smallint", unsigned: true, default: 0 })
+  faceTexture: number;
 
-  @Column()
-  face_palette: number = 0;
+  @Column({ name: "face_palette", type: "smallint", unsigned: true, default: 0 })
+  facePalette: number;
 
-  @Column()
-  mask_drawable: number = 0;
+  @Column({ name: "mask_drawable", type: "smallint", unsigned: true, default: 0 })
+  maskDrawable: number;
 
-  @Column()
-  mask_texture: number = 0;
+  @Column({ name: "mask_texture", type: "smallint", unsigned: true, default: 0 })
+  maskTexture: number;
 
-  @Column()
-  mask_palette: number = 0;
+  @Column({ name: "mask_palette", type: "smallint", unsigned: true, default: 0 })
+  maskPalette: number;
 
-  @Column()
-  hair_drawable: number = 0;
+  @Column({ name: "hair_drawable", type: "smallint", unsigned: true, default: 0 })
+  hairDrawable: number;
 
-  @Column()
-  hair_texture: number = 0;
+  @Column({ name: "hair_texture", type: "smallint", unsigned: true, default: 0 })
+  hairTexture: number;
 
-  @Column()
-  hair_palette: number = 0;
+  @Column({ name: "hair_palette", type: "smallint", unsigned: true, default: 0 })
+  hairPalette: number;
 
-  @Column()
-  torso_drawable: number = 0;
+  @Column({ name: "torso_drawable", type: "smallint", unsigned: true, default: 0 })
+  torsoDrawable: number;
 
-  @Column()
-  torso_texture: number = 0;
+  @Column({ name: "torso_texture", type: "smallint", unsigned: true, default: 0 })
+  torsoTexture: number;
 
-  @Column()
-  torso_palette: number = 0;
+  @Column({ name: "torso_palette", type: "smallint", unsigned: true, default: 0 })
+  torsoPalette: number;
 
-  @Column()
-  leg_drawable: number = 0;
+  @Column({ name: "leg_drawable", type: "smallint", unsigned: true, default: 0 })
+  legDrawable: number;
 
-  @Column()
-  leg_texture: number = 0;
+  @Column({ name: "leg_texture", type: "smallint", unsigned: true, default: 0 })
+  legTexture: number;
 
-  @Column()
-  leg_palette: number = 0;
+  @Column({ name: "leg_palette", type: "smallint", unsigned: true, default: 0 })
+  legPalette: number;
 
-  @Column()
-  bag_drawable: number = 0;
+  @Column({ name: "bag_drawable", type: "smallint", unsigned: true, default: 0 })
+  bagDrawable: number;
 
-  @Column()
-  bag_texture: number = 0;
+  @Column({ name: "bag_texture", type: "smallint", unsigned: true, default: 0 })
+  bagTexture: number;
 
-  @Column()
-  bag_palette: number = 0;
+  @Column({ name: "bag_palette", type: "smallint", unsigned: true, default: 0 })
+  bagPalette: number;
 
-  @Column()
-  shoes_drawable: number = 0;
+  @Column({ name: "shoes_drawable", type: "smallint", unsigned: true, default: 0 })
+  shoesDrawable: number;
 
-  @Column()
-  shoes_texture: number = 0;
+  @Column({ name: "shoes_texture", type: "smallint", unsigned: true, default: 0 })
+  shoesTexture: number;
 
-  @Column()
-  shoes_palette: number = 0;
+  @Column({ name: "shoes_palette", type: "smallint", unsigned: true, default: 0 })
+  shoesPalette: number;
 
-  @Column()
-  accessory_drawable: number = 0;
+  @Column({ name: "accessory_drawable", type: "smallint", unsigned: true, default: 0 })
+  accessoryDrawable: number;
 
-  @Column()
-  accessory_texture: number = 0;
+  @Column({ name: "accessory_texture", type: "smallint", unsigned: true, default: 0 })
+  accessoryTexture: number;
 
-  @Column()
-  accessory_palette: number = 0;
+  @Column({ name: "accessory_palette", type: "smallint", unsigned: true, default: 0 })
+  accessoryPalette: number;
 
-  @Column()
-  undershirt_drawable: number = 0;
+  @Column({ name: "undershirt_drawable", type: "smallint", unsigned: true, default: 0 })
+  undershirtDrawable: number;
 
-  @Column()
-  undershirt_texture: number = 0;
+  @Column({ name: "undershirt_texture", type: "smallint", unsigned: true, default: 0 })
+  undershirtTexture: number;
 
-  @Column()
-  undershirt_palette: number = 0;
+  @Column({ name: "undershirt_palette", type: "smallint", unsigned: true, default: 0 })
+  undershirtPalette: number;
 
-  @Column()
-  kevlar_drawable: number = 0;
+  @Column({ name: "kevlar_drawable", type: "smallint", unsigned: true, default: 0 })
+  kevlarDrawable: number;
 
-  @Column()
-  kevlar_texture: number = 0;
+  @Column({ name: "kevlar_texture", type: "smallint", unsigned: true, default: 0 })
+  kevlarTexture: number;
 
-  @Column()
-  kevlar_palette: number = 0;
+  @Column({ name: "kevlar_palette", type: "smallint", unsigned: true, default: 0 })
+  kevlarPalette: number;
 
-  @Column()
-  badge_drawable: number = 0;
+  @Column({ name: "badge_drawable", type: "smallint", unsigned: true, default: 0 })
+  badgeDrawable: number;
 
-  @Column()
-  badge_texture: number = 0;
+  @Column({ name: "badge_texture", type: "smallint", unsigned: true, default: 0 })
+  badgeTexture: number;
 
-  @Column()
-  badge_palette: number = 0;
+  @Column({ name: "badge_palette", type: "smallint", unsigned: true, default: 0 })
+  badgePalette: number;
 
-  @Column()
-  torso_second_drawable: number = 0;
+  @Column({ name: "torso_second_drawable", type: "smallint", unsigned: true, default: 0 })
+  torsoSecondDrawable: number;
 
-  @Column()
-  torso_second_texture: number = 0;
+  @Column({ name: "torso_second_texture", type: "smallint", unsigned: true, default: 0 })
+  torsoSecondTexture: number;
 
-  @Column()
-  torso_second_palette: number = 0;
+  @Column({ name: "torso_second_palette", type: "smallint", unsigned: true, default: 0 })
+  torsoSecondPalette: number;
 
-  @CreateDateColumn()
-  created_at: string;
+  @CreateDateColumn({ name: "created_at", type: "timestamp" })
+  createdAt: Date;
 
-  @UpdateDateColumn()
-  updated_at: string;
+  @UpdateDateColumn({ name: "updated_at", type: "timestamp" })
+  updatedAt: Date;
 }

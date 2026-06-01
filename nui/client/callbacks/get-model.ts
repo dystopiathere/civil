@@ -1,3 +1,3 @@
 export function getModel(data: {}, cb: CallableFunction) {
-  cb([(global.LocalPlayer as LocalPlayerInterface).state.model, false]);
+  cb([(globalThis.LocalPlayer).state.model, false]);
 }

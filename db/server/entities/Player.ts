@@ -1,32 +1,32 @@
 import { Column, CreateDateColumn, Entity, Index, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { Character } from "./Character";
-import { Connection } from "./Connection";
+import { PlayerEntity } from "types/civil";
+import { Character, Connection } from "~/entities";
 
 @Entity()
-export class Player {
-  @PrimaryGeneratedColumn()
+export class Player implements PlayerEntity {
+  @PrimaryGeneratedColumn("increment")
   id: number;
 
-  @Column()
+  @Column({ type: "varchar", length: 255 })
   @Index({ unique: true })
   steam: string;
 
-  @Column()
+  @Column({ type: "varchar", length: 255 })
   @Index({ unique: true })
   discord: string;
 
-  @Column()
+  @Column({ type: "varchar", length: 255 })
   @Index({ unique: true })
   license: string;
 
-  @Column()
-  whitelisted: boolean = false;
+  @Column({ type: "boolean", default: false })
+  whitelisted: boolean;
 
-  @Column()
-  banned: boolean = false;
+  @Column({ type: "boolean", default: false })
+  banned: boolean;
 
-  @Column({ nullable: true })
-  ban_reason: string;
+  @Column({ name: "ban_reason", type: "varchar", length: 255, nullable: true })
+  banReason: string;
 
   @OneToMany(() => Character, (character) => character.player, { cascade: true, lazy: true })
   characters: Promise<Character[]>;
@@ -34,9 +34,9 @@ export class Player {
   @OneToMany(() => Connection, (connection) => connection.player, { cascade: true, lazy: true })
   connections: Promise<Connection[]>;
 
-  @CreateDateColumn()
-  created_at: string;
+  @CreateDateColumn({ name: "created_at", type: "timestamp" })
+  createdAt: Date;
 
-  @UpdateDateColumn()
-  updated_at: string;
+  @UpdateDateColumn({ name: "updated_at", type: "timestamp" })
+  updatedAt: Date;
 }

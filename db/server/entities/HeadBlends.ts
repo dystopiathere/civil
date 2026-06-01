@@ -1,40 +1,41 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { HeadBlendsEntity } from "types/civil";
 
 @Entity()
-export class HeadBlends {
-  @PrimaryGeneratedColumn()
+export class HeadBlends implements HeadBlendsEntity {
+  @PrimaryGeneratedColumn("increment")
   id: number;
 
-  @Column()
-  shape_first_id: number = 1;
+  @Column({ name: "shape_first_id", type: "smallint", unsigned: true, default: 1 })
+  shapeFirstId: number;
 
-  @Column()
-  shape_second_id: number = 1;
+  @Column({ name: "shape_second_id", type: "smallint", unsigned: true, default: 1 })
+  shapeSecondId: number;
 
-  @Column()
-  shape_third_id: number = 1;
+  @Column({ name: "shape_third_id", type: "smallint", unsigned: true, default: 1 })
+  shapeThirdId: number;
 
-  @Column()
-  skin_first_id: number = 1;
+  @Column({ name: "skin_first_id", type: "smallint", unsigned: true, default: 1 })
+  skinFirstId: number;
 
-  @Column()
-  skin_second_id: number = 1;
+  @Column({ name: "skin_second_id", type: "smallint", unsigned: true, default: 1 })
+  skinSecondId: number;
 
-  @Column()
-  skin_third_id: number = 1;
+  @Column({ name: "skin_third_id", type: "smallint", unsigned: true, default: 1 })
+  skinThirdId: number;
 
-  @Column("double")
-  shape_mix: number = 1.0;
+  @Column({ name: "shape_mix", type: "real", default: 1.0 })
+  shape_mix: number;
 
-  @Column("double")
-  skin_mix: number = 1.0;
+  @Column({ name: "skin_mix", type: "real", default: 1.0 })
+  skin_mix: number;
 
-  @Column("double")
-  third_mix: number = 1.0;
+  @Column({ name: "third_mix", type: "real", default: 1.0 })
+  third_mix: number;
 
-  @CreateDateColumn()
-  created_at: string;
+  @CreateDateColumn({ name: "created_at", type: "timestamp" })
+  createdAt: Date;
 
-  @UpdateDateColumn()
-  updated_at: string;
+  @UpdateDateColumn({ name: "updated_at", type: "timestamp" })
+  updatedAt: Date;
 }

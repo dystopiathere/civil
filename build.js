@@ -42,6 +42,19 @@ const client = {
   format: "iife",
 };
 
+const banner = {
+  js: `
+      var _resPath = GetResourcePath(GetCurrentResourceName()) + '/server';
+      var __dirname = _resPath;
+      var __filename = _resPath + '/dist/server.js';
+      global.__dirname = __dirname;
+      global.__filename = __filename;
+      if (!global.require) global.require = require;
+      if (!process.mainModule) process.mainModule = { filename: __filename };
+      if (!require.main) require.main = { filename: __filename };
+    `,
+};
+
 Object.entries(resources).forEach(([resourceName, { clientExists, serverExists, frontendExists }]) => {
   const contexts = [];
 
@@ -65,31 +78,25 @@ Object.entries(resources).forEach(([resourceName, { clientExists, serverExists, 
         to: `${targetPath}/fxmanifest.lua`,
         watch: !production,
       },
-      {
-        from: `${resourcePath}/node_modules/**/*`,
-        to: `${targetPath}/node_modules/`,
-        watch: false,
-      },
     ];
 
     if (frontendExists) {
       assets.push({
-        from: `${resourcePath}/frontend/dist/**/*`,
-        to: `${targetPath}/dist/`,
+        from: `${resourcePath}/frontend/dist`,
+        to: `${targetPath}/dist`,
         watch: false,
       });
     }
 
     build({
       bundle: true,
-      entryPoints: [`${resourcePath}/${context}/index.ts`],
+      sourcemap: true,
+      keepNames: true,
       outfile: `${targetPath}/dist/${context}.js`,
-      watch: production
-        ? false
-        : {
-            onRebuild: onRebuild(resourceName, context),
-          },
+      entryPoints: [`${resourcePath}/${context}/index.ts`],
       plugins: [copy({ resolveFrom: "cwd", assets })],
+      watch: production ? false : { onRebuild: onRebuild(resourceName, context) },
+      banner: resourceName === "db" ? banner : undefined,
       ...(context === "client" ? client : server),
     })
       .then(() => {

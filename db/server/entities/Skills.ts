@@ -1,34 +1,35 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { SkillsEntity } from "types/civil";
 
 @Entity()
-export class Skills {
-  @PrimaryGeneratedColumn()
+export class Skills implements SkillsEntity {
+  @PrimaryGeneratedColumn("increment")
   id: number;
 
-  @Column()
-  stamina: number = 0;
+  @Column({ type: "smallint", unsigned: true, default: 0 })
+  stamina: number;
 
-  @Column()
-  strength: number = 0;
+  @Column({ type: "smallint", unsigned: true, default: 0 })
+  strength: number;
 
-  @Column()
-  lung_capacity: number = 0;
+  @Column({ name: "lung_capacity", type: "smallint", unsigned: true, default: 0 })
+  lungCapacity: number;
 
-  @Column()
-  wheelie_ability: number = 0;
+  @Column({ name: "wheelie_ability", type: "smallint", unsigned: true, default: 0 })
+  wheelieAbility: number;
 
-  @Column()
-  flying_ability: number = 0;
+  @Column({ name: "flying_ability", type: "smallint", unsigned: true, default: 0 })
+  flyingAbility: number;
 
-  @Column()
-  shooting_ability: number = 0;
+  @Column({ name: "shooting_ability", type: "smallint", unsigned: true, default: 0 })
+  shootingAbility: number;
 
-  @Column()
-  stealth_ability: number = 0;
+  @Column({ name: "stealth_ability", type: "smallint", unsigned: true, default: 0 })
+  stealthAbility: number;
 
-  @CreateDateColumn()
-  created_at: string;
+  @CreateDateColumn({ name: "created_at", type: "timestamp" })
+  createdAt: Date;
 
-  @UpdateDateColumn()
-  updated_at: string;
+  @UpdateDateColumn({ name: "updated_at", type: "timestamp" })
+  updatedAt: Date;
 }

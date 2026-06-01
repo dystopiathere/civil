@@ -1,4 +1,14 @@
 import { DataSource } from "typeorm";
+import {
+  Character,
+  ComponentVariations,
+  Connection,
+  FaceFeatures,
+  HeadBlends,
+  HeadOverlays,
+  Player,
+  Skills,
+} from "./entities";
 
 export const CivilDataSource = new DataSource({
   type: "postgres",
@@ -14,7 +24,7 @@ export const CivilDataSource = new DataSource({
   // database: "civil",
   synchronize: true,
   logging: true,
-  entities: ["entities/**/*.ts"],
-  migrations: ["migrations/**/*.ts"],
-  subscribers: ["subscribers/**/*.ts"],
+  entities: [Character, ComponentVariations, Connection, FaceFeatures, HeadBlends, HeadOverlays, Player, Skills],
+  migrations: [],
+  subscribers: [],
 });

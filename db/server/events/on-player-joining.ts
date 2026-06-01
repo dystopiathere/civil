@@ -1,15 +1,17 @@
 import { CivilDataSource } from "~/data-source";
 import { tempIdsMapping } from "../mappings";
-import { Player as PlayerEntity } from "~/entities/Player";
-import { Character } from "~/entities/Character";
-import { HeadBlends } from "~/entities/HeadBlends";
-import { FaceFeatures } from "~/entities/FaceFeatures";
-import { HeadOverlays } from "~/entities/HeadOverlays";
-import { ComponentVariations } from "~/entities/ComponentVariations";
-import { Skills } from "~/entities/Skills";
+import {
+  Character,
+  ComponentVariations,
+  FaceFeatures,
+  HeadBlends,
+  HeadOverlays,
+  Player as PlayerEntity,
+  Skills,
+} from "~/entities";
 
 export async function onPlayerJoining(oldId: string) {
-  const playerSource = global.source;
+  const playerSource = globalThis.source;
 
   const playerRepository = CivilDataSource.getRepository(PlayerEntity);
   const playerId = tempIdsMapping[oldId];
@@ -30,10 +32,10 @@ export async function onPlayerJoining(oldId: string) {
       character = new Character();
       character.player = Promise.resolve(player);
 
-      character.head_blends = new HeadBlends();
-      character.face_features = new FaceFeatures();
-      character.head_overlays = new HeadOverlays();
-      character.component_variations = new ComponentVariations();
+      character.headBlends = new HeadBlends();
+      character.faceFeatures = new FaceFeatures();
+      character.headOverlays = new HeadOverlays();
+      character.componentVariations = new ComponentVariations();
       character.skills = new Skills();
 
       character = await characterRepository.save(character);

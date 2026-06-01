@@ -1,5 +1,5 @@
 export function setEyeColor(data: string, cb: CallableFunction) {
-  (global.LocalPlayer as LocalPlayerInterface).state.set("eye_color", data, true);
+  (globalThis.LocalPlayer).state.set("eye_color", data, true);
 
   cb([{ status: true }, false]);
 }

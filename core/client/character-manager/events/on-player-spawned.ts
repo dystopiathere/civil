@@ -1,5 +1,5 @@
 export function onPlayerSpawned() {
-  const player = global.LocalPlayer as LocalPlayerInterface;
+  const player = globalThis.LocalPlayer;
 
   const ped = GetPlayerPed(-1);
 

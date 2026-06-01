@@ -1,6 +1,11 @@
+import "reflect-metadata";
+
 import { CivilDataSource } from "./data-source";
 import { registerEvents } from "./lib";
-import "reflect-metadata";
+
+if (typeof __dirname === "undefined") {
+  global.__dirname = GetResourcePath(GetCurrentResourceName()) + "/server/dist";
+}
 
 CivilDataSource.initialize()
   .then(() => {
