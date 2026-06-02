@@ -11,7 +11,7 @@ set onesync_population false
 
 sv_maxclients 48
 
-rcon_password REPLACE_WITH_YOUR_RCON_PASSWORD
+set rcon_password REPLACE_WITH_YOUR_RCON_PASSWORD
 
 exec variables.cfg
 exec resources/resources.cfg
