@@ -4,14 +4,16 @@
   "author": "Kirill Kuznetsov",
   "license": "MIT",
   "scripts": {
-    "build": "node build.js --mode=production",
-    "watch": "node build.js"
+    "build:resources": "node ./build/index.js",
+    "build:frontend": "pnpm --filter ./src/nui/frontend watch",
+    "dev": "concurrently --kill-others -n \"FRONTEND,RESOURCES\" -c \"cyan,magenta\" \"pnpm build:frontend\" \"pnpm build:resources\""
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@types/node": "latest",
+    "chokidar": "^5.0.0",
+    "concurrently": "^10.0.1",
     "esbuild": "^0.14.10",
-    "esbuild-plugin-copy": "^2.1.1",
     "eslint": "^10.2.1",
     "globals": "^17.5.0",
     "ts-node": "^10.9.2",
