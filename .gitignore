@@ -5,6 +5,5 @@ node_modules
 cache
 server.cfg
 variables.cfg
-vendor
 .replxx_history
 resources/\[base\]
