@@ -1,8 +1,8 @@
 # SERVER CONFIGURATION
 
 1. Get latest server artifact at:
-   1.2. Windows: https://runtime.fivem.net/artifacts/fivem/build_server_windows/master/
-   1.3. Linux: https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/
+   1. Windows: https://runtime.fivem.net/artifacts/fivem/build_server_windows/master/
+   2. Linux: https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/
 2. Extract archive data into ./artifact folder
 3. Copy ./server.cfg.example to ./server.cfg and configure sv_licenseKey property
 4. Copy ./variables.cfg.example to ./variables.cfg and configure steam web api key and database credentials
