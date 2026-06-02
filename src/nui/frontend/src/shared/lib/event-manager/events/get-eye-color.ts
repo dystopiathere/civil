@@ -1,14 +1,14 @@
-import type { CharacterEntity } from "@civil/types";
+import type { CharacterState } from "@civil/types";
 import { type EventSend, invoke } from "~/shared/lib";
 
 type EventRequestData = {
   nodata: null;
 };
 
-type EventResponseData = Pick<CharacterEntity, "eye_color">;
+type EventResponseData = Pick<CharacterState, "eyeColor">;
 
 const mockResponseData: EventResponseData = {
-  eye_color: 0,
+  eyeColor: 0,
 };
 
 export const getEyeColor: EventSend<EventRequestData, EventResponseData> = (data) => {

@@ -5,7 +5,7 @@ import { getFaceFeature, setFaceFeature as eventSetFaceFeature, renavigate } fro
 import { InputAxis, InputRange } from "~/widgets";
 
 export function CharacterCreatorFace() {
-  const { face_features, setFaceFeatures: stateSetFaceFeatures } = useCharacterStore();
+  const { faceFeatures, setFaceFeatures: stateSetFaceFeatures } = useCharacterStore();
 
   useEffect(() => {
     renavigate({ page: "characterCreatorFace" });
@@ -15,15 +15,15 @@ export function CharacterCreatorFace() {
         return;
       }
 
-      const [faceFeatures, error] = data;
+      const [result, error] = data;
 
       if (error) {
         console.error(error);
         return;
       }
 
-      if (faceFeatures) {
-        stateSetFaceFeatures(faceFeatures);
+      if (result) {
+        stateSetFaceFeatures(result);
       }
     });
   }, [stateSetFaceFeatures]);
@@ -37,190 +37,186 @@ export function CharacterCreatorFace() {
   );
 
   return (
-    face_features && (
+    faceFeatures && (
       <div className="character-creator-page">
         <InputAxis
           label="Ширина и высота носа"
           x={{
             label: "Ширина",
-            value: face_features.nose_width,
+            value: faceFeatures.noseWidth,
             min: { label: "Уже", value: -1 },
             max: { label: "Шире", value: 1 },
           }}
           y={{
             label: "Высота",
-            value: face_features.nose_peak,
+            value: faceFeatures.nosePeak,
             min: { label: "Ниже", value: -1 },
             max: { label: "Выше", value: 1 },
             reverse: true,
           }}
-          onChange={(nose_width: number, nose_peak: number) => setFaceFeature({ nose_width, nose_peak })}
+          onChange={(noseWidth: number, nosePeak: number) => setFaceFeature({ noseWidth, nosePeak })}
         />
         <InputAxis
           label="Искривление носа"
           x={{
             label: "Перегородка",
-            value: face_features.nose_bone_twist,
+            value: faceFeatures.noseBoneTwist,
             min: { label: "Левее", value: -1 },
             max: { label: "Правее", value: 1 },
           }}
           y={{
             label: "Горбинка",
-            value: face_features.nose_bone_curveness,
+            value: faceFeatures.noseBoneCurveness,
             min: { label: "Глубже", value: -1 },
             max: { label: "Выше", value: 1 },
             reverse: true,
           }}
-          onChange={(nose_bone_twist: number, nose_bone_curveness: number) =>
-            setFaceFeature({ nose_bone_twist, nose_bone_curveness })
+          onChange={(noseBoneTwist: number, noseBoneCurveness: number) =>
+            setFaceFeature({ noseBoneTwist, noseBoneCurveness })
           }
         />
         <InputAxis
           label="Длина носа"
           x={{
             label: "Длина",
-            value: face_features.nose_length,
+            value: faceFeatures.noseLength,
             min: { label: "Короче", value: -1 },
             max: { label: "Длиннее", value: 1 },
             reverse: true,
           }}
           y={{
             label: "Кончик",
-            value: face_features.nose_tip,
+            value: faceFeatures.noseTip,
             min: { label: "Ниже", value: -1 },
             max: { label: "Выше", value: 1 },
             reverse: true,
           }}
-          onChange={(nose_length: number, nose_tip: number) => setFaceFeature({ nose_length, nose_tip })}
+          onChange={(noseLength: number, noseTip: number) => setFaceFeature({ noseLength, noseTip })}
         />
         <InputAxis
           label="Брови"
           x={{
             label: "Глубина",
-            value: face_features.eyebrow_in_out,
+            value: faceFeatures.eyebrowInOut,
             min: { label: "Глубже", value: -1 },
             max: { label: "Дальше", value: 1 },
           }}
           y={{
             label: "Высота",
-            value: face_features.eyebrow_up_down,
+            value: faceFeatures.eyebrowUpDown,
             min: { label: "Ниже", value: -1 },
             max: { label: "Выше", value: 1 },
             reverse: true,
           }}
-          onChange={(eyebrow_in_out: number, eyebrow_up_down: number) =>
-            setFaceFeature({ eyebrow_in_out, eyebrow_up_down })
-          }
+          onChange={(eyebrowInOut: number, eyebrowUpDown: number) => setFaceFeature({ eyebrowInOut, eyebrowUpDown })}
         />
         <InputAxis
           label="Щеки"
           x={{
             label: "Ширина",
-            value: face_features.cheek_sideways_bone_size,
+            value: faceFeatures.cheekSidewaysBoneSize,
             min: { label: "Уже", value: -1 },
             max: { label: "Шире", value: 1 },
           }}
           y={{
             label: "Глубина",
-            value: face_features.cheek_bones_width,
+            value: faceFeatures.cheekBonesWidth,
             min: { label: "Худее", value: -1 },
             max: { label: "Толще", value: 1 },
             reverse: true,
           }}
-          onChange={(cheek_sideways_bone_size: number, cheek_bones_width: number) =>
-            setFaceFeature({ cheek_sideways_bone_size, cheek_bones_width })
+          onChange={(cheekSidewaysBoneSize: number, cheekBonesWidth: number) =>
+            setFaceFeature({ cheekSidewaysBoneSize, cheekBonesWidth })
           }
         />
         <InputRange
           tabIndex={1}
           label="Высота щек"
-          value={face_features.cheek_bones}
+          value={faceFeatures.cheekBones}
           min={-1}
           max={1}
           step={0.001}
-          onChange={(cheek_bones) => setFaceFeature({ cheek_bones })}
+          onChange={(cheekBones) => setFaceFeature({ cheekBones })}
         />
         <InputRange
           tabIndex={2}
           label="Размер глаз"
-          value={face_features.eye_opening}
+          value={faceFeatures.eyeOpening}
           min={-1}
           max={1}
           step={0.001}
-          onChange={(eye_opening) => setFaceFeature({ eye_opening })}
+          onChange={(eyeOpening) => setFaceFeature({ eyeOpening })}
         />
         <InputRange
           tabIndex={3}
           label="Размер губ"
-          value={face_features.lip_thickness}
+          value={faceFeatures.lipThickness}
           min={-1}
           max={1}
           step={0.001}
-          onChange={(lip_thickness) => setFaceFeature({ lip_thickness })}
+          onChange={(lipThickness) => setFaceFeature({ lipThickness })}
         />
         <InputAxis
           label="Челюсть"
           x={{
             label: "Ширина",
-            value: face_features.jaw_bone_width,
+            value: faceFeatures.jawBoneWidth,
             min: { label: "Уже", value: -1 },
             max: { label: "Шире", value: 1 },
           }}
           y={{
             label: "Форма",
-            value: face_features.jaw_bone_shape,
+            value: faceFeatures.jawBoneShape,
             min: { label: "Ниже", value: -1 },
             max: { label: "Выше", value: 1 },
             reverse: true,
           }}
-          onChange={(jaw_bone_width: number, jaw_bone_shape: number) =>
-            setFaceFeature({ jaw_bone_width, jaw_bone_shape })
-          }
+          onChange={(jawBoneWidth: number, jawBoneShape: number) => setFaceFeature({ jawBoneWidth, jawBoneShape })}
         />
         <InputAxis
           label="Подбородок"
           x={{
             label: "Ширина",
-            value: face_features.chin_bone_shape,
+            value: faceFeatures.chinBoneShape,
             min: { label: "Уже", value: -1 },
             max: { label: "Шире", value: 1 },
           }}
           y={{
             label: "Длина",
-            value: face_features.chin_bone_length,
+            value: faceFeatures.chinBoneLength,
             min: { label: "Короче", value: -1 },
             max: { label: "Длиннее", value: 1 },
           }}
-          onChange={(chin_bone_shape: number, chin_bone_length: number) =>
-            setFaceFeature({ chin_bone_shape, chin_bone_length })
+          onChange={(chinBoneShape: number, chinBoneLength: number) =>
+            setFaceFeature({ chinBoneShape, chinBoneLength })
           }
         />
         <InputRange
           tabIndex={4}
           label="Высота подбородка"
-          value={face_features.chin_bone}
+          value={faceFeatures.chinBone}
           min={-1}
           max={1}
           step={0.001}
-          onChange={(chin_bone) => setFaceFeature({ chin_bone })}
+          onChange={(chinBone) => setFaceFeature({ chinBone })}
         />
         <InputRange
           tabIndex={5}
           label="Ямка подбородка"
-          value={face_features.chin_hole}
+          value={faceFeatures.chinHole}
           min={-1}
           max={1}
           step={0.001}
-          onChange={(chin_hole) => setFaceFeature({ chin_hole })}
+          onChange={(chinHole) => setFaceFeature({ chinHole })}
         />
         <InputRange
           tabIndex={6}
           label="Ширина шеи"
-          value={face_features.neck_thickness}
+          value={faceFeatures.neckThickness}
           min={-1}
           max={1}
           step={0.001}
-          onChange={(neck_thickness) => setFaceFeature({ neck_thickness })}
+          onChange={(neckThickness) => setFaceFeature({ neckThickness })}
         />
       </div>
     )

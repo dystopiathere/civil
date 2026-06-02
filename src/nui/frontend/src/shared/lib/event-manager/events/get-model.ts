@@ -1,11 +1,11 @@
-import type { CharacterEntity } from "@civil/types";
+import type { CharacterState } from "@civil/types";
 import { type EventSend, invoke } from "~/shared/lib";
 
 type EventRequestData = {
   nodata: null;
 };
 
-type EventResponseData = Pick<CharacterEntity, "model">;
+type EventResponseData = Pick<CharacterState, "model">;
 
 const mockResponseData: EventResponseData = {
   model: "mockModel",

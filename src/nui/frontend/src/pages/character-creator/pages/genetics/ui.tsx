@@ -6,7 +6,7 @@ import { InputRange, InputAxis } from "~/widgets";
 import { ancestors, fathers, mothers } from "./config";
 
 export function CharacterCreatorGenetics() {
-  const { head_blends, setHeadBlends: stateSetHeadBlends } = useCharacterStore();
+  const { headBlends, setHeadBlends: stateSetHeadBlends } = useCharacterStore();
 
   useEffect(() => {
     renavigate({ page: "characterCreatorGenetics" });
@@ -16,15 +16,15 @@ export function CharacterCreatorGenetics() {
         return;
       }
 
-      const [headBlends, error] = data;
+      const [result, error] = data;
 
       if (error) {
         console.error(error);
         return;
       }
 
-      if (headBlends) {
-        stateSetHeadBlends(headBlends);
+      if (result) {
+        stateSetHeadBlends(result);
       }
     });
   }, [stateSetHeadBlends]);
@@ -38,7 +38,7 @@ export function CharacterCreatorGenetics() {
   );
 
   return (
-    head_blends && (
+    headBlends && (
       <div className="character-creator-page">
         <InputRange
           tabIndex={1}
@@ -46,8 +46,8 @@ export function CharacterCreatorGenetics() {
           min={0}
           max={mothers}
           step={1}
-          value={head_blends.shape_first_id}
-          onChange={(shape_first_id) => setHeadBlends({ shape_first_id })}
+          value={headBlends.shapeFirstId}
+          onChange={(shapeFirstId) => setHeadBlends({ shapeFirstId })}
         />
 
         <InputRange
@@ -56,8 +56,8 @@ export function CharacterCreatorGenetics() {
           min={0}
           max={mothers}
           step={1}
-          value={head_blends.skin_first_id}
-          onChange={(skin_first_id) => setHeadBlends({ skin_first_id })}
+          value={headBlends.skinFirstId}
+          onChange={(skinFirstId) => setHeadBlends({ skinFirstId })}
         />
 
         <InputRange
@@ -66,8 +66,8 @@ export function CharacterCreatorGenetics() {
           min={0}
           max={fathers}
           step={1}
-          value={head_blends.shape_second_id}
-          onChange={(shape_second_id) => setHeadBlends({ shape_second_id })}
+          value={headBlends.shapeSecondId}
+          onChange={(shapeSecondId) => setHeadBlends({ shapeSecondId })}
         />
 
         <InputRange
@@ -76,25 +76,25 @@ export function CharacterCreatorGenetics() {
           min={0}
           max={fathers}
           step={1}
-          value={head_blends.skin_second_id}
-          onChange={(skin_second_id) => setHeadBlends({ skin_second_id })}
+          value={headBlends.skinSecondId}
+          onChange={(skinSecondId) => setHeadBlends({ skinSecondId })}
         />
 
         <InputAxis
           label="Микс родителей"
           x={{
             label: "Кожа",
-            value: head_blends.skin_mix,
+            value: headBlends.skinMix,
             min: { label: "Мать", value: 0 },
             max: { label: "Отец", value: 1 },
           }}
           y={{
             label: "Внешность",
-            value: head_blends.shape_mix,
+            value: headBlends.shapeMix,
             min: { label: "Мать", value: 0 },
             max: { label: "Отец", value: 1 },
           }}
-          onChange={(skin_mix: number, shape_mix: number) => setHeadBlends({ skin_mix, shape_mix })}
+          onChange={(skinMix: number, shapeMix: number) => setHeadBlends({ skinMix, shapeMix })}
         />
 
         <InputRange
@@ -103,8 +103,8 @@ export function CharacterCreatorGenetics() {
           min={0}
           max={ancestors}
           step={1}
-          value={head_blends.shape_third_id}
-          onChange={(shape_third_id) => setHeadBlends({ shape_third_id })}
+          value={headBlends.shapeThirdId}
+          onChange={(shapeThirdId) => setHeadBlends({ shapeThirdId })}
         />
 
         <InputRange
@@ -113,18 +113,18 @@ export function CharacterCreatorGenetics() {
           min={0}
           max={ancestors}
           step={1}
-          value={head_blends.skin_third_id}
-          onChange={(skin_third_id) => setHeadBlends({ skin_third_id })}
+          value={headBlends.skinThirdId}
+          onChange={(skinThirdId) => setHeadBlends({ skinThirdId })}
         />
 
         <InputRange
           tabIndex={7}
           label="Микс предка"
-          value={head_blends.third_mix}
+          value={headBlends.thirdMix}
           min={0}
           max={1}
           step={0.01}
-          onChange={(third_mix) => setHeadBlends({ third_mix })}
+          onChange={(thirdMix) => setHeadBlends({ thirdMix })}
         />
       </div>
     )

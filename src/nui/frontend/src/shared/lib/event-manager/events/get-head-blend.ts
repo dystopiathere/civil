@@ -9,17 +9,17 @@ type EventResponseData = HeadBlendsEntity;
 
 const mockResponseData: EventResponseData = {
   id: 1,
-  shape_first_id: 1,
-  shape_second_id: 1,
-  shape_mix: 1,
-  skin_first_id: 1,
-  skin_second_id: 1,
-  skin_mix: 1,
-  shape_third_id: 1,
-  skin_third_id: 1,
-  third_mix: 1,
-  created_at: "",
-  updated_at: "",
+  shapeFirstId: 1,
+  shapeSecondId: 1,
+  shapeThirdId: 1,
+  skinFirstId: 1,
+  skinSecondId: 1,
+  skinThirdId: 1,
+  shapeMix: 1,
+  skinMix: 1,
+  thirdMix: 1,
+  createdAt: new Date(),
+  updatedAt: new Date(),
 };
 
 export const getHeadBlendData: EventSend<EventRequestData, EventResponseData> = () => {

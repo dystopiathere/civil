@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "typeorm": "typeorm-ts-node-commonjs"
+  },
   "devDependencies": {
     "@civil/types": "workspace:*",
     "@types/pg": "^8.20.0"

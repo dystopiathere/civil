@@ -5,12 +5,7 @@
   "license": "MIT",
   "scripts": {
     "build": "node build.js --mode=production",
-    "watch": "node build.js",
-    "front-dev": "cd ./src/nui/frontend && vite",
-    "front-build": "cd ./src/nui/frontend && tsc -b && vite build",
-    "front-lint": "cd ./src/nui/frontend && eslint ..",
-    "front-preview": "cd ./src/nui/frontend && vite preview",
-    "typeorm": "typeorm-ts-node-commonjs"
+    "watch": "node build.js"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

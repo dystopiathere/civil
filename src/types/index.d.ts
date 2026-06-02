@@ -163,8 +163,10 @@ export type KeyboardKeys =
   | "F12";
 
 export interface CharacterState extends CharacterEntity {
-  player_id: number;
+  playerId: number;
   frozen: boolean;
+  breath: number;
+  isInWater: boolean;
 }
 
 export interface SpawnManager {

@@ -1,7 +1,7 @@
-import type { CharacterEntity } from "@civil/types";
+import type { CharacterState } from "@civil/types";
 import { type EventSend, invoke } from "~/shared/lib";
 
-type EventRequestData = Pick<CharacterEntity, "eye_color">;
+type EventRequestData = Pick<CharacterState, "eyeColor">;
 
 type EventResponseData = {
   status: boolean;

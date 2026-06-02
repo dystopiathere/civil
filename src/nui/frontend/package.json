@@ -1,4 +1,10 @@
 {
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
   "devDependencies": {
     "@civil/types": "workspace:*",
     "@types/react": "^19.2.14",

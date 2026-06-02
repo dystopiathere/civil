@@ -12,7 +12,7 @@ import { clothes } from "./config";
 import type { ComponentVariationsEntity } from "@civil/types";
 
 export function CharacterCreatorClothes() {
-  const { component_variations, setComponentVariations: stateSetComponentVariations } = useCharacterStore();
+  const { componentVariations, setComponentVariations: stateSetComponentVariations } = useCharacterStore();
 
   useEffect(() => {
     renavigate({ page: "characterCreatorClothes" });
@@ -22,15 +22,15 @@ export function CharacterCreatorClothes() {
         return;
       }
 
-      const [componentVariations, error] = data;
+      const [result, error] = data;
 
       if (error) {
         console.error(error);
         return;
       }
 
-      if (componentVariations) {
-        stateSetComponentVariations(componentVariations);
+      if (result) {
+        stateSetComponentVariations(result);
       }
     });
   }, [stateSetComponentVariations]);
@@ -86,11 +86,11 @@ export function CharacterCreatorClothes() {
   }, []);
 
   return (
-    component_variations && (
+    componentVariations && (
       <div className="character-creator-page">
         {clothes.map(({ componentId, title, drawableKey, textureKey }, key) => {
-          const drawableValue = component_variations[drawableKey] as number;
-          const textureValue = component_variations[textureKey] as number;
+          const drawableValue = componentVariations[drawableKey] as number;
+          const textureValue = componentVariations[textureKey] as number;
 
           const tabIndex = (key + 1) * 2;
 
