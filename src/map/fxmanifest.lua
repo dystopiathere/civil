@@ -7,9 +7,7 @@ version '1.0.0'
 node_version '22'
 
 resource_type 'gametype' {
-    name = 'Base gametype'
+    name = 'Civilization world'
 }
 
 client_script 'dist/client.js'
-
-dependencies {'core', 'nui'}
