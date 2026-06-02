@@ -1,13 +1,12 @@
 allowBuilds:
   "@parcel/watcher": true
-  "@swc/core": true
   esbuild: true
 
 packages:
-  - "core/client"
-  - "core/server"
-  - "db/server"
-  - "map/client"
-  - "nui/client"
-  - "nui/frontend"
-  - "types"
+  - "src/core/client"
+  - "src/core/server"
+  - "src/db/server"
+  - "src/map/client"
+  - "src/nui/client"
+  - "src/nui/frontend"
+  - "src/types"

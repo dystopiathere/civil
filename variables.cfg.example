@@ -1,0 +1,15 @@
+# Get your api key at https://steamcommunity.com/dev/apikey
+set steam_webApiKey YOUR_STEAM_KEY
+sv_tebexSecret ""
+
+set db_host DB_HOST
+set db_port 5432
+set db_user DB_USER
+set db_password DB_PASSWORD
+set db_name "civil"
+
+add_convar_permission db read db_host
+add_convar_permission db read db_port
+add_convar_permission db read db_user
+add_convar_permission db read db_password
+add_convar_permission db read db_name

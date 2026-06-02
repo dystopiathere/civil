@@ -1,3 +1,7 @@
 .idea
+.vscode
 .env
 node_modules
+cache
+server.cfg
+variables.cfg

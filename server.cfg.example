@@ -1,0 +1,15 @@
+endpoint_add_tcp "0.0.0.0:30120"
+endpoint_add_udp "0.0.0.0:30120"
+
+# Get your license key at https://portal.cfx.re/
+sv_licenseKey REPLACE_WITH_YOUR_LICENSE_KEY
+
+sv_hostname "civil"
+
+set onesync on
+set onesync_population false
+
+sv_maxclients 48
+
+exec variables.cfg
+exec resources/resources.cfg

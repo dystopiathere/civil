@@ -40,19 +40,19 @@ importers:
         specifier: ^8.58.2
         version: 8.59.1(eslint@10.2.1)(typescript@6.0.3)
 
-  core/client:
+  src/core/client:
     devDependencies:
       '@civil/types':
         specifier: workspace:*
         version: link:../../types
 
-  core/server:
+  src/core/server:
     devDependencies:
       '@civil/types':
         specifier: workspace:*
         version: link:../../types
 
-  db/server:
+  src/db/server:
     dependencies:
       pg:
         specifier: ^8.20.0
@@ -71,19 +71,19 @@ importers:
         specifier: ^8.20.0
         version: 8.20.0
 
-  map/client:
+  src/map/client:
     devDependencies:
       '@civil/types':
         specifier: workspace:*
         version: link:../../types
 
-  nui/client:
+  src/nui/client:
     devDependencies:
       '@civil/types':
         specifier: workspace:*
         version: link:../../types
 
-  nui/frontend:
+  src/nui/frontend:
     dependencies:
       '@dnd-kit/react':
         specifier: ^0.4.0
@@ -135,7 +135,7 @@ importers:
         specifier: ^0.5.2
         version: 0.5.2(eslint@10.2.1)
 
-  types:
+  src/types:
     dependencies:
       '@citizenfx/client':
         specifier: ^2.0.29753-1

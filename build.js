@@ -8,7 +8,7 @@ const resources = {};
 
 const modules = ["db", "core", "nui", "map"];
 
-const files = fs.readdirSync(".");
+const files = fs.readdirSync("./src");
 
 files.forEach((file) => {
   if (modules.includes(file)) {
@@ -68,8 +68,8 @@ Object.entries(resources).forEach(([resourceName, { clientExists, serverExists, 
 
   const targetResourceName = resourceName.replaceAll("-", "_");
 
-  const resourcePath = `./${resourceName}`;
-  const targetPath = `../resources/[main]/${targetResourceName}`;
+  const resourcePath = `./src/${resourceName}`;
+  const targetPath = `./resources/[main]/${targetResourceName}`;
 
   for (const context of contexts) {
     const assets = [
