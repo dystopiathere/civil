@@ -12,9 +12,9 @@ const files = fs.readdirSync("./src");
 
 files.forEach((file) => {
   if (modules.includes(file)) {
-    const clientExists = fs.existsSync(`./${file}/client`);
-    const serverExists = fs.existsSync(`./${file}/server`);
-    const frontendExists = fs.existsSync(`./${file}/frontend`);
+    const clientExists = fs.existsSync(`./src/${file}/client`);
+    const serverExists = fs.existsSync(`./src/${file}/server`);
+    const frontendExists = fs.existsSync(`./src/${file}/frontend`);
 
     resources[file] = { clientExists, serverExists, frontendExists };
   }
