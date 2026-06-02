@@ -7,7 +7,11 @@
 3. Copy ./server.cfg.example to ./server.cfg and configure sv_licenseKey and rcon_password properties
 4. Copy ./variables.cfg.example to ./variables.cfg and configure steam web api key and database credentials
 5. Copy ./.env.example to ./.env and configure database credentials
-6. Run pnpm install
-7. Run pnpm dev
-8. Run docker compose up -d
-9. Run start.cmd (for Windows)
+6. Run git submodule update --init
+7. Link submodule resources to [base] resource group
+   1. Windows: mklink /d resources\\[base] ..\vendor\server-data\resources
+   2. Linux: ln -s ../vendor/server-data/resources/ 'resources/[base]/'
+8. Run pnpm install
+9. Run pnpm dev
+10. Run docker compose up -d
+11. Run start.cmd (for Windows)
