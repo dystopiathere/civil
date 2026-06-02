@@ -1,10 +1,24 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  Relation,
+  UpdateDateColumn,
+} from "typeorm";
 import { HeadOverlaysEntity } from "@civil/types";
+import { Character } from "./Character";
 
 @Entity()
 export class HeadOverlays implements HeadOverlaysEntity {
   @PrimaryGeneratedColumn("increment")
   id: number;
+
+  @OneToOne(() => Character, (character) => character.headOverlays, { onDelete: "CASCADE" })
+  @JoinColumn({ name: "character_id" })
+  character: Relation<Character>;
 
   @Column({ type: "smallint", unsigned: true, default: 0 })
   blemishes: number;

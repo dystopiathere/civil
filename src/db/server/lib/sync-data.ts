@@ -14,7 +14,7 @@ export async function syncData(id: number, data: CharacterDto) {
       throw new Error("Character not found");
     }
 
-    Object.assign(character, data);
+    characterRepository.merge(character, data);
     await characterRepository.save(character);
   } catch (err) {
     console.error(err);

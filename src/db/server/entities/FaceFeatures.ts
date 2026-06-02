@@ -1,10 +1,24 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  Relation,
+  UpdateDateColumn,
+} from "typeorm";
 import { FaceFeaturesEntity } from "@civil/types";
+import { Character } from "./Character";
 
 @Entity()
 export class FaceFeatures implements FaceFeaturesEntity {
   @PrimaryGeneratedColumn("increment")
   id: number;
+
+  @OneToOne(() => Character, (character) => character.faceFeatures, { onDelete: "CASCADE" })
+  @JoinColumn({ name: "character_id" })
+  character: Relation<Character>;
 
   @Column({ name: "nose_width", type: "real", default: 1.0 })
   noseWidth: number;

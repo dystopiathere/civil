@@ -55,6 +55,7 @@ export function onPlayerConnecting(name: string, setKickReason: (reason: string)
         try {
           player = new Player();
           Object.assign(player, identifiers);
+          player.whitelisted = true;
           player = await playerRepository.save(player);
         } catch {
           deferrals.done("Failed to create database record");

@@ -24,26 +24,24 @@ export async function onPlayerJoining(oldId: string) {
     return;
   }
 
-  let character: Character;
-
   if (!player.characters.length) {
     try {
-      character = new Character();
+      const character = new Character();
       character.headBlends = new HeadBlends();
       character.faceFeatures = new FaceFeatures();
       character.headOverlays = new HeadOverlays();
       character.componentVariations = new ComponentVariations();
       character.skills = new Skills();
 
-      player.characters.push(character);
+      player.characters = [character];
       await playerRepository.save(player);
-    } catch {
-      console.error("Failed to create character");
+    } catch (err) {
+      console.error("Failed to create character", err);
       return;
     }
-  } else {
-    character = player.characters[0];
   }
+
+  const character = player.characters[0];
 
   const p = TypedPlayer(playerSource);
   p.state.set("playerId", playerId, true);

@@ -1,4 +1,13 @@
-import { Column, CreateDateColumn, Entity, Index, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  Index,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  Relation,
+  UpdateDateColumn,
+} from "typeorm";
 import { PlayerEntity } from "@civil/types";
 import { Character, Connection } from "~/entities";
 
@@ -29,10 +38,10 @@ export class Player implements PlayerEntity {
   banReason: string;
 
   @OneToMany(() => Character, (character) => character.player, { cascade: true, eager: true })
-  characters: Character[];
+  characters: Relation<Character>[];
 
   @OneToMany(() => Connection, (connection) => connection.player, { cascade: true, eager: true })
-  connections: Connection[];
+  connections: Relation<Connection>[];
 
   @CreateDateColumn({ name: "created_at", type: "timestamp" })
   createdAt: Date;

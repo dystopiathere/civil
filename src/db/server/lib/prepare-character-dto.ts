@@ -26,26 +26,31 @@ export function prepareCharacterDto(data: CharacterState): CharacterDto {
   delete headBlends.id;
   delete headBlends.createdAt;
   delete headBlends.updatedAt;
+  delete headBlends.character;
 
   const faceFeatures = dto.faceFeatures as Partial<FaceFeaturesEntity>;
   delete faceFeatures.id;
   delete faceFeatures.createdAt;
   delete faceFeatures.updatedAt;
+  delete faceFeatures.character;
 
   const skills = dto.skills as Partial<SkillsEntity>;
   delete skills.id;
   delete skills.createdAt;
   delete skills.updatedAt;
+  delete skills.character;
 
   const componentVariations = dto.componentVariations as Partial<ComponentVariationsEntity>;
   delete componentVariations.id;
   delete componentVariations.createdAt;
   delete componentVariations.updatedAt;
+  delete componentVariations.character;
 
   const headOverlays = dto.headOverlays as Partial<HeadOverlaysEntity>;
   delete headOverlays.id;
   delete headOverlays.createdAt;
   delete headOverlays.updatedAt;
+  delete headOverlays.character;
 
   return dto as CharacterDto;
 }

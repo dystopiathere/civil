@@ -7,7 +7,7 @@ export class Connection implements ConnectionEntity {
   @PrimaryGeneratedColumn("increment")
   id: number;
 
-  @ManyToOne(() => Player, (player) => player.connections, { lazy: true })
+  @ManyToOne(() => Player, (player) => player.connections, { lazy: true, onDelete: "CASCADE" })
   player: Promise<Player>;
 
   @Column({ type: "json" })

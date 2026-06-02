@@ -1,10 +1,24 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  Relation,
+  UpdateDateColumn,
+} from "typeorm";
 import { ComponentVariationsEntity } from "@civil/types";
+import { Character } from "./Character";
 
 @Entity()
 export class ComponentVariations implements ComponentVariationsEntity {
   @PrimaryGeneratedColumn("increment")
   id: number;
+
+  @OneToOne(() => Character, (character) => character.componentVariations, { onDelete: "CASCADE" })
+  @JoinColumn({ name: "character_id" })
+  character: Relation<Character>;
 
   @Column({ name: "face_drawable", type: "smallint", unsigned: true, default: 0 })
   faceDrawable: number;

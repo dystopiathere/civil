@@ -1,10 +1,24 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  Relation,
+  UpdateDateColumn,
+} from "typeorm";
 import { HeadBlendsEntity } from "@civil/types";
+import { Character } from "./Character";
 
 @Entity()
 export class HeadBlends implements HeadBlendsEntity {
   @PrimaryGeneratedColumn("increment")
   id: number;
+
+  @OneToOne(() => Character, (character) => character.headBlends, { onDelete: "CASCADE" })
+  @JoinColumn({ name: "character_id" })
+  character: Relation<Character>;
 
   @Column({ name: "shape_first_id", type: "smallint", unsigned: true, default: 1 })
   shapeFirstId: number;

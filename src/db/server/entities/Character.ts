@@ -8,6 +8,7 @@ import {
   ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
+  Relation,
   UpdateDateColumn,
 } from "typeorm";
 import { CharacterEntity } from "@civil/types";
@@ -18,8 +19,8 @@ export class Character implements CharacterEntity {
   @PrimaryGeneratedColumn("increment")
   id: number;
 
-  @ManyToOne(() => Player, (player) => player.characters, { lazy: true })
-  player: Promise<Player>;
+  @ManyToOne(() => Player, (player) => player.characters, { lazy: true, onDelete: "CASCADE" })
+  player: Promise<Relation<Player>>;
 
   @Column({ type: "varchar", length: 15, default: "John" })
   @Index({ fulltext: true })
@@ -53,25 +54,23 @@ export class Character implements CharacterEntity {
   @Column({ name: "hair_first_color", type: "smallint", unsigned: true, default: 1 })
   hairFirstColor: number;
 
-  @OneToOne(() => HeadBlends, { cascade: true, eager: true })
-  @JoinColumn({ name: "head_blends_id" })
-  headBlends: HeadBlends;
+  @OneToOne(() => HeadBlends, (headBlends) => headBlends.character, { cascade: true, eager: true })
+  headBlends: Relation<HeadBlends>;
 
-  @OneToOne(() => FaceFeatures, { cascade: true, eager: true })
-  @JoinColumn({ name: "face_features_id" })
-  faceFeatures: FaceFeatures;
+  @OneToOne(() => FaceFeatures, (faceFeatures) => faceFeatures.character, { cascade: true, eager: true })
+  faceFeatures: Relation<FaceFeatures>;
 
-  @OneToOne(() => Skills, { cascade: true, eager: true })
-  @JoinColumn({ name: "skills_id" })
-  skills: Skills;
+  @OneToOne(() => Skills, (skills) => skills.character, { cascade: true, eager: true })
+  skills: Relation<Skills>;
 
-  @OneToOne(() => ComponentVariations, { cascade: true, eager: true })
-  @JoinColumn({ name: "component_variations_id" })
-  componentVariations: ComponentVariations;
+  @OneToOne(() => ComponentVariations, (componentVariations) => componentVariations.character, {
+    cascade: true,
+    eager: true,
+  })
+  componentVariations: Relation<ComponentVariations>;
 
-  @OneToOne(() => HeadOverlays, { cascade: true, eager: true })
-  @JoinColumn({ name: "head_overlays_id" })
-  headOverlays: HeadOverlays;
+  @OneToOne(() => HeadOverlays, (headOverlays) => headOverlays.character, { cascade: true, eager: true })
+  headOverlays: Relation<HeadOverlays>;
 
   @Column({ name: "last_position", type: "json", nullable: true })
   lastPosition: {
