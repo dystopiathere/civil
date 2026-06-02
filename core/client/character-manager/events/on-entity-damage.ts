@@ -1,4 +1,4 @@
-import { random } from "~/helpers";
+import { random, TypedLocalPlayer } from "~/helpers";
 
 export function onEntityDamage(args: any[]) {
   const victim = args[0];
@@ -8,9 +8,9 @@ export function onEntityDamage(args: any[]) {
     return;
   }
 
-  const localPlayer = globalThis.LocalPlayer;
-  localPlayer.state.set("health", GetEntityHealth(ped), true);
-  localPlayer.state.set("armour", GetPedArmour(ped), true);
+  const player = TypedLocalPlayer();
+  player.state.set("health", GetEntityHealth(ped), true);
+  player.state.set("armour", GetPedArmour(ped), true);
 
   const shake = random(3, 7, 0.4);
 

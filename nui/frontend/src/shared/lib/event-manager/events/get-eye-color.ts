@@ -1,4 +1,4 @@
-import type { CharacterEntity } from "types/civil";
+import type { CharacterEntity } from "@civil/types";
 import { type EventSend, invoke } from "~/shared/lib";
 
 type EventRequestData = {

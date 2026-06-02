@@ -1,11 +1,13 @@
-export function onPlayerSpawned() {
-  const localPlayer = globalThis.LocalPlayer;
+import { TypedLocalPlayer } from "~/helpers";
 
-  StatSetInt("MP0_STAMINA", localPlayer.state.skills.stamina, true);
-  StatSetInt("MP0_STRENGTH", localPlayer.state.skills.strength, true);
-  StatSetInt("MP0_LUNG_CAPACITY", localPlayer.state.skills.lung_capacity, true);
-  StatSetInt("MP0_WHEELIE_ABILITY", localPlayer.state.skills.wheelie_ability, true);
-  StatSetInt("MP0_FLYING_ABILITY", localPlayer.state.skills.flying_ability, true);
-  StatSetInt("MP0_SHOOTING_ABILITY", localPlayer.state.skills.shooting_ability, true);
-  StatSetInt("MP0_STEALTH_ABILITY", localPlayer.state.skills.stealth_ability, true);
+export function onPlayerSpawned() {
+  const player = TypedLocalPlayer();
+
+  StatSetInt("MP0_STAMINA", player.state.skills.stamina, true);
+  StatSetInt("MP0_STRENGTH", player.state.skills.strength, true);
+  StatSetInt("MP0_LUNG_CAPACITY", player.state.skills.lungCapacity, true);
+  StatSetInt("MP0_WHEELIE_ABILITY", player.state.skills.wheelieAbility, true);
+  StatSetInt("MP0_FLYING_ABILITY", player.state.skills.flyingAbility, true);
+  StatSetInt("MP0_SHOOTING_ABILITY", player.state.skills.shootingAbility, true);
+  StatSetInt("MP0_STEALTH_ABILITY", player.state.skills.stealthAbility, true);
 }

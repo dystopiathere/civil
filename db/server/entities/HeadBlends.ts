@@ -1,5 +1,5 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { HeadBlendsEntity } from "types/civil";
+import { HeadBlendsEntity } from "@civil/types";
 
 @Entity()
 export class HeadBlends implements HeadBlendsEntity {
@@ -25,13 +25,13 @@ export class HeadBlends implements HeadBlendsEntity {
   skinThirdId: number;
 
   @Column({ name: "shape_mix", type: "real", default: 1.0 })
-  shape_mix: number;
+  shapeMix: number;
 
   @Column({ name: "skin_mix", type: "real", default: 1.0 })
-  skin_mix: number;
+  skinMix: number;
 
   @Column({ name: "third_mix", type: "real", default: 1.0 })
-  third_mix: number;
+  thirdMix: number;
 
   @CreateDateColumn({ name: "created_at", type: "timestamp" })
   createdAt: Date;

@@ -1,4 +1,5 @@
-import { ComponentVariationsEntity } from "types/civil";
+import { ComponentVariationsEntity } from "@civil/types";
+import { TypedLocalPlayer } from "~/helpers";
 
 type ComponentVariationsElement = {
   drawable: number;
@@ -7,70 +8,70 @@ type ComponentVariationsElement = {
 };
 
 export function setPedComponentVariationData(ped: number, data: Partial<ComponentVariationsEntity> = {}) {
-  const localData = { ...(globalThis.LocalPlayer).state.component_variations };
+  const localData = { ...TypedLocalPlayer().state.componentVariations };
 
   Object.assign(localData, data);
 
   const componentVariations: ComponentVariationsElement[] = [
     {
-      drawable: localData.face_drawable,
-      texture: localData.face_texture,
-      palette: localData.face_palette,
+      drawable: localData.faceDrawable,
+      texture: localData.faceTexture,
+      palette: localData.facePalette,
     },
     {
-      drawable: localData.mask_drawable,
-      texture: localData.mask_texture,
-      palette: localData.mask_palette,
+      drawable: localData.maskDrawable,
+      texture: localData.maskTexture,
+      palette: localData.maskPalette,
     },
     {
-      drawable: localData.hair_drawable,
-      texture: localData.hair_texture,
-      palette: localData.hair_palette,
+      drawable: localData.hairDrawable,
+      texture: localData.hairTexture,
+      palette: localData.hairPalette,
     },
     {
-      drawable: localData.torso_drawable,
-      texture: localData.torso_texture,
-      palette: localData.torso_palette,
+      drawable: localData.torsoDrawable,
+      texture: localData.torsoTexture,
+      palette: localData.torsoPalette,
     },
     {
-      drawable: localData.leg_drawable,
-      texture: localData.leg_texture,
-      palette: localData.leg_palette,
+      drawable: localData.legDrawable,
+      texture: localData.legTexture,
+      palette: localData.legPalette,
     },
     {
-      drawable: localData.bag_drawable,
-      texture: localData.bag_texture,
-      palette: localData.bag_palette,
+      drawable: localData.bagDrawable,
+      texture: localData.bagTexture,
+      palette: localData.bagPalette,
     },
     {
-      drawable: localData.shoes_drawable,
-      texture: localData.shoes_texture,
-      palette: localData.shoes_palette,
+      drawable: localData.shoesDrawable,
+      texture: localData.shoesTexture,
+      palette: localData.shoesPalette,
     },
     {
-      drawable: localData.accessory_drawable,
-      texture: localData.accessory_texture,
-      palette: localData.accessory_palette,
+      drawable: localData.accessoryDrawable,
+      texture: localData.accessoryTexture,
+      palette: localData.accessoryPalette,
     },
     {
-      drawable: localData.undershirt_drawable,
-      texture: localData.undershirt_texture,
-      palette: localData.undershirt_palette,
+      drawable: localData.undershirtDrawable,
+      texture: localData.undershirtTexture,
+      palette: localData.undershirtPalette,
     },
     {
-      drawable: localData.kevlar_drawable,
-      texture: localData.kevlar_texture,
-      palette: localData.kevlar_palette,
+      drawable: localData.kevlarDrawable,
+      texture: localData.kevlarTexture,
+      palette: localData.kevlarPalette,
     },
     {
-      drawable: localData.badge_drawable,
-      texture: localData.badge_texture,
-      palette: localData.badge_palette,
+      drawable: localData.badgeDrawable,
+      texture: localData.badgeTexture,
+      palette: localData.badgePalette,
     },
     {
-      drawable: localData.torso_second_drawable,
-      texture: localData.torso_second_texture,
-      palette: localData.torso_second_palette,
+      drawable: localData.torsoSecondDrawable,
+      texture: localData.torsoSecondTexture,
+      palette: localData.torsoSecondPalette,
     },
   ];
 

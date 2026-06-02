@@ -1,5 +1,7 @@
-export function setEyeColor(data: string, cb: CallableFunction) {
-  (globalThis.LocalPlayer).state.set("eye_color", data, true);
+import { TypedLocalPlayer } from "../lib/typed-local-player";
+
+export function setEyeColor(data: number, cb: CallableFunction) {
+  TypedLocalPlayer().state.set("eyeColor", data, true);
 
   cb([{ status: true }, false]);
 }

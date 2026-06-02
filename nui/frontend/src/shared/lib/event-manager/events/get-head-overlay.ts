@@ -1,4 +1,4 @@
-import type { HeadOverlaysEntity } from "types/civil";
+import type { HeadOverlaysEntity } from "@civil/types";
 import { type EventSend, invoke } from "~/shared/lib";
 
 type EventRequestData = {

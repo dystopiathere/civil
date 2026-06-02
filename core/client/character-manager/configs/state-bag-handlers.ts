@@ -3,8 +3,8 @@ import { Key } from "../types";
 
 export const stateBagHandlers: Record<Key, CallableFunction> = {
   health: onHealthChanged,
-  max_health: onMaxHealthChanged,
+  maxHealth: onMaxHealthChanged,
   armour: onArmourChanged,
-  max_armour: onMaxArmourChanged,
+  maxArmour: onMaxArmourChanged,
   knockdown: onKnockdownChanged,
 };

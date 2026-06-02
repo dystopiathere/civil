@@ -1,5 +1,5 @@
 export function weapons() {
-  const playerPed = GetPlayerPed(-1);
+  const ped = GetPlayerPed(-1);
 
   const guns = [
     "WEAPON_MINIGUN",
@@ -12,6 +12,6 @@ export function weapons() {
   ];
 
   guns.forEach((gun) => {
-    GiveWeaponToPed(playerPed, gun, 99999, false, false);
+    GiveWeaponToPed(ped, gun, 99999, false, false);
   });
 }

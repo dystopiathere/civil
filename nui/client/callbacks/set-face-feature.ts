@@ -1,11 +1,13 @@
-import { FaceFeaturesEntity } from "types/civil";
+import { FaceFeaturesEntity } from "@civil/types";
+import { TypedLocalPlayer } from "../lib/typed-local-player";
 
 export function setFaceFeature(data: Partial<FaceFeaturesEntity>, cb: CallableFunction) {
-  const faceFeatures = (globalThis.LocalPlayer as LocalPlayerInterface).state.face_features;
+  const player = TypedLocalPlayer();
 
+  const faceFeatures = { ...player.state.faceFeatures };
   Object.assign(faceFeatures, data);
 
-  (globalThis.LocalPlayer).state.set("face_features", faceFeatures, true);
+  player.state.set("faceFeatures", faceFeatures, true);
 
   cb([{ status: true }, false]);
 }

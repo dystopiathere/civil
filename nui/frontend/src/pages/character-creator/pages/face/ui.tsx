@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from "react";
-import type { FaceFeaturesEntity } from "types/civil";
+import type { FaceFeaturesEntity } from "@civil/types";
 import { useCharacterStore } from "~/entities";
 import { getFaceFeature, setFaceFeature as eventSetFaceFeature, renavigate } from "~/shared/lib";
 import { InputAxis, InputRange } from "~/widgets";

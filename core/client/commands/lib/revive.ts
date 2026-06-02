@@ -1,6 +1,8 @@
-export function revive(source: number, args: string[], raw: string) {
-  const localPlayer = globalThis.LocalPlayer;
+import { TypedLocalPlayer } from "~/helpers";
 
-  localPlayer.state.set("health", localPlayer.state.max_health, true);
-  localPlayer.state.set("knockdown", false, true);
+export function revive(source: number, args: string[], raw: string) {
+  const player = TypedLocalPlayer();
+
+  player.state.set("health", player.state.maxHealth, true);
+  player.state.set("knockdown", false, true);
 }

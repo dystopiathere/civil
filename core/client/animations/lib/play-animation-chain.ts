@@ -10,8 +10,7 @@ export async function playAnimationChain(ped: number, chainName: string): Promis
 
   const animDicts = new Set<string>();
 
-  // @ts-ignore
-  const sequence = OpenSequenceTask() as number;
+  const sequence = OpenSequenceTask();
 
   for (const { dictionary, name, flags, duration } of chain) {
     if (!animDicts.has(dictionary)) {

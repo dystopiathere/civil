@@ -1,6 +1,6 @@
 import { openPage } from "../lib";
 
-export function closeComponent(data: {}, cb: CallableFunction) {
+export function closeComponent(_: {}, cb: CallableFunction) {
   openPage("hud");
 
   cb([{ status: true }, false]);

@@ -9,9 +9,10 @@ import {
   Player as PlayerEntity,
   Skills,
 } from "~/entities";
+import { TypedPlayer } from "~/lib";
 
 export async function onPlayerJoining(oldId: string) {
-  const playerSource = globalThis.source;
+  const playerSource = global.source;
 
   const playerRepository = CivilDataSource.getRepository(PlayerEntity);
   const playerId = tempIdsMapping[oldId];
@@ -44,6 +45,6 @@ export async function onPlayerJoining(oldId: string) {
   }
 
   Object.entries(character).forEach(([key, value]) => {
-    Player(playerSource).state.set(key, value, true);
+    TypedPlayer(playerSource).state.set(key as keyof Character, value, true);
   });
 }

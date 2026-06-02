@@ -1,12 +1,12 @@
-import { CharacterEntity } from "types/civil";
-import { syncData } from "../lib";
+import { CharacterState } from "@civil/types";
+import { syncData, TypedPlayer } from "../lib";
 
 export async function onPlayerDropped(reason: string, _: string, clientDropReason: number) {
-  const localPlayer = Player(globalThis.source) as LocalPlayerInterface;
+  const localPlayer = TypedPlayer(global.source);
 
   console.log(`Player ${localPlayer.state.player_id} dropped with reason: ${reason} (Code ${clientDropReason})`);
 
-  const data: Partial<CharacterEntity> = {
+  const data: Partial<CharacterState> = {
     id: localPlayer.state.id,
     firstname: localPlayer.state.firstname,
     lastname: localPlayer.state.lastname,

@@ -1,3 +1,5 @@
-export function getEyeColor(data: {}, cb: CallableFunction) {
-  cb([(globalThis.LocalPlayer).state.eye_color, false]);
+import { TypedLocalPlayer } from "../lib/typed-local-player";
+
+export function getEyeColor(_: {}, cb: CallableFunction) {
+  cb([TypedLocalPlayer().state.eyeColor, false]);
 }

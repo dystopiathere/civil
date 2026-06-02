@@ -1,5 +1,7 @@
+import { TypedLocalPlayer } from "../lib/typed-local-player";
+
 export function setModel(data: string, cb: CallableFunction) {
-  (globalThis.LocalPlayer).state.set("model", data, true);
+  TypedLocalPlayer().state.set("model", data, true);
 
   cb([{ status: true }, false]);
 }

@@ -6,7 +6,7 @@ import { Deferrals, Identifiers } from "~/types";
 export function onPlayerConnecting(name: string, setKickReason: (reason: string) => void, deferrals: Deferrals) {
   deferrals.defer();
 
-  const playerTempId = globalThis.source.toString();
+  const playerTempId = global.source.toString();
 
   setTimeout(() => {
     deferrals.update(`Hello ${name}. We are validating your credentials now.`);

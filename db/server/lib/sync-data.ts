@@ -1,4 +1,4 @@
-import { CharacterEntity } from "types/civil";
+import { CharacterEntity } from "@civil/types";
 import { CivilDataSource } from "~/data-source";
 import { Character } from "~/entities/Character";
 

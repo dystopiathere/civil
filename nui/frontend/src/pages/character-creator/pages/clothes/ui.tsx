@@ -9,7 +9,7 @@ import {
 } from "~/shared/lib/event-manager";
 import { InputRange } from "~/widgets";
 import { clothes } from "./config";
-import type { ComponentVariationsEntity } from "types/civil";
+import type { ComponentVariationsEntity } from "@civil/types";
 
 export function CharacterCreatorClothes() {
   const { component_variations, setComponentVariations: stateSetComponentVariations } = useCharacterStore();

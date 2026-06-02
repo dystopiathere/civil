@@ -6,5 +6,5 @@ import "~/shared/main.scss";
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <Provider />
-  </React.StrictMode>
+  </React.StrictMode>,
 );

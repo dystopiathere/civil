@@ -1,21 +1,22 @@
-import { HeadBlendsEntity } from "types/civil";
+import { HeadBlendsEntity } from "@civil/types";
+import { TypedLocalPlayer } from "~/helpers";
 
 export function setPedHeadBlendData(ped: number, data: Partial<HeadBlendsEntity> = {}) {
-  const localData = { ...(globalThis.LocalPlayer).state.head_blends };
+  const localData = { ...TypedLocalPlayer().state.headBlends };
 
   Object.assign(localData, data);
 
   SetPedHeadBlendData(
     ped,
-    localData.shape_first_id,
-    localData.shape_second_id,
-    localData.shape_third_id,
-    localData.skin_first_id,
-    localData.skin_second_id,
-    localData.skin_third_id,
-    localData.shape_mix,
-    localData.skin_mix,
-    localData.third_mix,
+    localData.shapeFirstId,
+    localData.shapeSecondId,
+    localData.shapeThirdId,
+    localData.skinFirstId,
+    localData.skinSecondId,
+    localData.skinThirdId,
+    localData.shapeMix,
+    localData.skinMix,
+    localData.thirdMix,
     false,
   );
 }

@@ -1,13 +1,16 @@
 {
-  "name": "types",
+  "name": "@civil/types",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "private": true,
+  "types": "index.d.ts",
+  "exports": {
+    ".": "./index.d.ts",
+    "./client": "./client/index.d.ts",
+    "./server": "./server/index.d.ts"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "dependencies": {
+    "@citizenfx/client": "^2.0.29753-1",
+    "@citizenfx/server": "^2.0.29753-1"
+  },
   "packageManager": "pnpm@10.28.2"
 }

@@ -1,14 +1,15 @@
+import { TypedLocalPlayer } from "~/helpers";
 import { ADDITIONAL_PED_HEALTH } from "../configs";
 
 export function onHealthChanged(value: number) {
   const ped = GetPlayerPed(-1);
-  const localPlayer = globalThis.LocalPlayer;
+  const player = TypedLocalPlayer();
 
   if (value <= ADDITIONAL_PED_HEALTH) {
     value = ADDITIONAL_PED_HEALTH;
 
-    if (!localPlayer.state.knockdown) {
-      localPlayer.state.set("knockdown", true, true);
+    if (!player.state.knockdown) {
+      player.state.set("knockdown", true, true);
     }
   }
 

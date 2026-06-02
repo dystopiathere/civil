@@ -1,4 +1,4 @@
-import type { FaceFeaturesEntity } from "types/civil";
+import type { FaceFeaturesEntity } from "@civil/types";
 import { type EventSend, invoke } from "~/shared/lib";
 
 type EventRequestData = Partial<Omit<FaceFeaturesEntity, "id" | "created_at" | "updated_at">>;

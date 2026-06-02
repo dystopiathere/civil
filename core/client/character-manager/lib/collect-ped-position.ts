@@ -1,10 +1,12 @@
+import { TypedLocalPlayer } from "~/helpers";
+
 export function collectPedPosition() {
   setInterval(() => {
-    const player = globalThis.LocalPlayer;
+    const player = TypedLocalPlayer();
 
     const ped = GetPlayerPed(-1);
     const [x, y, z] = GetEntityCoords(ped, false);
     const heading = GetEntityHeading(ped);
-    player.state.set("last_position", { x, y, z, heading }, true);
+    player.state.set("lastPosition", { x, y, z, heading }, true);
   }, 100);
 }

@@ -1,4 +1,4 @@
-import type { ComponentVariationsEntity } from "types/civil";
+import type { ComponentVariationsEntity } from "@civil/types";
 import { type EventSend, invoke } from "~/shared/lib";
 
 type EventRequestData = Partial<Omit<ComponentVariationsEntity, "id" | "created_at" | "updated_at">>;

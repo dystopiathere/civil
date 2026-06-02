@@ -62,7 +62,6 @@ export async function placeMarkers() {
         true,
         2,
         false,
-        // @ts-ignore
         null,
         null,
         false,

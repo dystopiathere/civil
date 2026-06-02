@@ -1,4 +1,5 @@
-import { HeadOverlaysEntity } from "types/civil";
+import { HeadOverlaysEntity } from "@civil/types";
+import { TypedLocalPlayer } from "~/helpers";
 
 type HeadOverlayElement = {
   value: number;
@@ -9,83 +10,83 @@ type HeadOverlayElement = {
 };
 
 export function setPedHeadOverlayData(ped: number, data: Partial<HeadOverlaysEntity> = {}) {
-  const localData = { ...(globalThis.LocalPlayer).state.head_overlays };
+  const localData = { ...TypedLocalPlayer().state.headOverlays };
 
   Object.assign(localData, data);
 
   const headOverlay: HeadOverlayElement[] = [
     {
       value: localData.blemishes,
-      opacity: localData.blemishes_opacity,
+      opacity: localData.blemishesOpacity,
     },
     {
-      value: localData.facial_hair,
-      opacity: localData.facial_hair_opacity,
+      value: localData.facialHair,
+      opacity: localData.facialHairColor,
       colorType: 1,
-      color1: localData.facial_hair_color,
-      color2: localData.facial_hair_second_color,
+      color1: localData.facialHairSecondColor,
+      color2: localData.facialHairOpacity,
     },
     {
       value: localData.eyebrows,
-      opacity: localData.eyebrows_opacity,
+      opacity: localData.eyebrowsColor,
       colorType: 1,
-      color1: localData.eyebrows_color,
-      color2: localData.eyebrows_second_color,
+      color1: localData.eyebrowsSecondColor,
+      color2: localData.eyebrowsOpacity,
     },
     {
       value: localData.ageing,
-      opacity: localData.ageing_opacity,
+      opacity: localData.ageingOpacity,
     },
     {
       value: localData.makeup,
-      opacity: localData.makeup_opacity,
+      opacity: localData.makeupColor,
       colorType: 1,
-      color1: localData.makeup_color,
-      color2: localData.makeup_second_color,
+      color1: localData.makeupSecondColor,
+      color2: localData.makeupOpacity,
     },
     {
       value: localData.blush,
-      opacity: localData.blush_opacity,
+      opacity: localData.blushColor,
       colorType: 2,
-      color1: localData.blush_color,
-      color2: localData.blush_second_color,
+      color1: localData.blushSecondColor,
+      color2: localData.blushOpacity,
     },
     {
       value: localData.complexion,
-      opacity: localData.complexion_opacity,
+      opacity: localData.complexionOpacity,
     },
     {
-      value: localData.sun_damage,
-      opacity: localData.sun_damage_opacity,
+      value: localData.sunDamage,
+      opacity: localData.sunDamageOpacity,
     },
     {
       value: localData.lipstick,
-      opacity: localData.lipstick_opacity,
+      opacity: localData.lipstickColor,
       colorType: 2,
-      color1: localData.lipstick_color,
-      color2: localData.lipstick_second_color,
+      color1: localData.lipstickSecondColor,
+      color2: localData.lipstickOpacity,
     },
     {
-      value: localData.moles_freckles,
-      opacity: localData.moles_freckles_opacity,
+      value: localData.molesFreckles,
+      opacity: localData.molesFrecklesOpacity,
       colorType: 0,
-      color1: localData.moles_freckles_color,
-      color2: localData.moles_freckles_second_color,
+      color1: localData.molesFrecklesColor,
+      color2: localData.molesFrecklesSecondColor,
     },
     {
-      value: localData.chest_hair,
-      opacity: localData.chest_hair_opacity,
+      value: localData.chestHair,
+      opacity: localData.chestHairOpacity,
       colorType: 1,
-      color1: localData.chest_hair_color,
-      color2: localData.chest_hair_second_color,
+      color1: localData.chestHairColor,
+      color2: localData.chestHairSecondColor,
     },
     {
-      value: localData.body_blemishes,
-      opacity: localData.body_blemishes_opacity,
+      value: localData.bodyBlemishes,
+      opacity: localData.bodyBlemishesOpacity,
     },
     {
-      value: localData.add_body_blemishes,
-      opacity: localData.add_body_blemishes_opacity,
+      value: localData.addBodyBlemishes,
+      opacity: localData.addBodyBlemishesOpacity,
     },
   ];
 

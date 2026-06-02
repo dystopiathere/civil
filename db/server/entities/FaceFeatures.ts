@@ -1,5 +1,5 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { FaceFeaturesEntity } from "types/civil";
+import { FaceFeaturesEntity } from "@civil/types";
 
 @Entity()
 export class FaceFeatures implements FaceFeaturesEntity {

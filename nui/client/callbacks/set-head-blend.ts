@@ -1,11 +1,13 @@
-import { HeadBlendsEntity } from "types/civil";
+import { HeadBlendsEntity } from "@civil/types";
+import { TypedLocalPlayer } from "../lib/typed-local-player";
 
 export function setHeadBlend(data: Partial<HeadBlendsEntity>, cb: CallableFunction) {
-  const headBlends = (globalThis.LocalPlayer).state.head_blends;
+  const player = TypedLocalPlayer();
 
+  const headBlends = { ...player.state.headBlends };
   Object.assign(headBlends, data);
 
-  (globalThis.LocalPlayer).state.set("head_blends", headBlends, true);
+  player.state.set("headBlends", headBlends, true);
 
   cb([{ status: true }, false]);
 }

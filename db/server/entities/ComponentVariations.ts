@@ -1,5 +1,5 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { ComponentVariationsEntity } from "types/civil";
+import { ComponentVariationsEntity } from "@civil/types";
 
 @Entity()
 export class ComponentVariations implements ComponentVariationsEntity {

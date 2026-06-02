@@ -12,7 +12,7 @@
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
     "skipLibCheck": true,
-    "types": ["@types/node", "@citizenfx/server", "types"],
+    "types": ["node", "@civil/types/server"],
     "paths": {
       "~/*": ["./*"]
     }

@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from "react";
-import type { HeadBlendsEntity } from "types/civil";
+import type { HeadBlendsEntity } from "@civil/types";
 import { useCharacterStore } from "~/entities/character";
 import { getHeadBlendData, setHeadBlend as eventSetHeadBlends, renavigate } from "~/shared/lib";
 import { InputRange, InputAxis } from "~/widgets";

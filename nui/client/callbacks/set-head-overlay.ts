@@ -1,11 +1,13 @@
-import { HeadOverlaysEntity } from "types/civil";
+import { HeadOverlaysEntity } from "@civil/types";
+import { TypedLocalPlayer } from "../lib/typed-local-player";
 
 export function setHeadOverlay(data: Partial<HeadOverlaysEntity>, cb: CallableFunction) {
-  const headOverlays = (globalThis.LocalPlayer).state.head_overlays;
+  const player = TypedLocalPlayer();
 
+  const headOverlays = { ...player.state.headOverlays };
   Object.assign(headOverlays, data);
 
-  (globalThis.LocalPlayer).state.set("head_overlays", headOverlays, true);
+  player.state.set("headOverlays", headOverlays, true);
 
   cb([{ status: true }, false]);
 }

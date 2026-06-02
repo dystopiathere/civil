@@ -1,5 +1,5 @@
 import { Column, CreateDateColumn, Entity, Index, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { PlayerEntity } from "types/civil";
+import { PlayerEntity } from "@civil/types";
 import { Character, Connection } from "~/entities";
 
 @Entity()

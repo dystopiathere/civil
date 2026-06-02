@@ -1,11 +1,13 @@
-import { ComponentVariationsEntity } from "types/civil";
+import { ComponentVariationsEntity } from "@civil/types";
+import { TypedLocalPlayer } from "../lib/typed-local-player";
 
 export function setComponentVariation(data: Partial<ComponentVariationsEntity>, cb: CallableFunction) {
-  const componentVariations = (globalThis.LocalPlayer).state.component_variations;
+  const player = TypedLocalPlayer();
 
+  const componentVariations = { ...player.state.componentVariations };
   Object.assign(componentVariations, data);
 
-  (globalThis.LocalPlayer).state.set("component_variations", componentVariations, true);
+  player.state.set("componentVariations", componentVariations, true);
 
   cb([{ status: true }, false]);
 }

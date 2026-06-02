@@ -21,9 +21,9 @@ export const pages: Record<string, NuiPageData> = {
     setupCamera: () => {
       const camera = CreateCam("DEFAULT_SCRIPTED_CAMERA", true);
 
-      const playerPed = GetPlayerPed(-1);
-      const [pedRotX, pedRotY, pedRotZ] = GetEntityRotation(playerPed, 2);
-      const [camPosX, camPosY, camPosZ] = GetOffsetFromEntityInWorldCoords(playerPed, -0.12, 0.75, 0.6);
+      const ped = GetPlayerPed(-1);
+      const [pedRotX, pedRotY, pedRotZ] = GetEntityRotation(ped, 2);
+      const [camPosX, camPosY, camPosZ] = GetOffsetFromEntityInWorldCoords(ped, -0.12, 0.75, 0.6);
 
       SetCamRot(camera, pedRotX - 7, pedRotY, pedRotZ + 165, 2);
       SetCamCoord(camera, camPosX, camPosY, camPosZ);
@@ -40,9 +40,9 @@ export const pages: Record<string, NuiPageData> = {
     setupCamera: () => {
       const camera = CreateCam("DEFAULT_SCRIPTED_CAMERA", true);
 
-      const playerPed = GetPlayerPed(-1);
-      const [pedRotX, pedRotY, pedRotZ] = GetEntityRotation(playerPed, 2);
-      const [camPosX, camPosY, camPosZ] = GetOffsetFromEntityInWorldCoords(playerPed, -0.12, 0.75, 0.6);
+      const ped = GetPlayerPed(-1);
+      const [pedRotX, pedRotY, pedRotZ] = GetEntityRotation(ped, 2);
+      const [camPosX, camPosY, camPosZ] = GetOffsetFromEntityInWorldCoords(ped, -0.12, 0.75, 0.6);
 
       SetCamRot(camera, pedRotX - 7, pedRotY, pedRotZ + 165, 2);
       SetCamCoord(camera, camPosX, camPosY, camPosZ);
@@ -59,9 +59,9 @@ export const pages: Record<string, NuiPageData> = {
     setupCamera: () => {
       const camera = CreateCam("DEFAULT_SCRIPTED_CAMERA", true);
 
-      const playerPed = GetPlayerPed(-1);
-      const [pedRotX, pedRotY, pedRotZ] = GetEntityRotation(playerPed, 2);
-      const [camPosX, camPosY, camPosZ] = GetOffsetFromEntityInWorldCoords(playerPed, -0.12, 0.75, 0.6);
+      const ped = GetPlayerPed(-1);
+      const [pedRotX, pedRotY, pedRotZ] = GetEntityRotation(ped, 2);
+      const [camPosX, camPosY, camPosZ] = GetOffsetFromEntityInWorldCoords(ped, -0.12, 0.75, 0.6);
 
       SetCamRot(camera, pedRotX - 7, pedRotY, pedRotZ + 165, 2);
       SetCamCoord(camera, camPosX, camPosY, camPosZ);
@@ -78,9 +78,9 @@ export const pages: Record<string, NuiPageData> = {
     setupCamera: () => {
       const camera = CreateCam("DEFAULT_SCRIPTED_CAMERA", true);
 
-      const playerPed = GetPlayerPed(-1);
-      const [pedRotX, pedRotY, pedRotZ] = GetEntityRotation(playerPed, 2);
-      const [camPosX, camPosY, camPosZ] = GetOffsetFromEntityInWorldCoords(playerPed, -0.12, 1.4, 0.18);
+      const ped = GetPlayerPed(-1);
+      const [pedRotX, pedRotY, pedRotZ] = GetEntityRotation(ped, 2);
+      const [camPosX, camPosY, camPosZ] = GetOffsetFromEntityInWorldCoords(ped, -0.12, 1.4, 0.18);
 
       SetCamRot(camera, pedRotX - 10, pedRotY, pedRotZ + 165, 2);
       SetCamCoord(camera, camPosX, camPosY, camPosZ);

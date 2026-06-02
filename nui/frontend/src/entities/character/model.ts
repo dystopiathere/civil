@@ -5,7 +5,7 @@ import type {
   HeadBlendsEntity,
   HeadOverlaysEntity,
   SkillsEntity,
-} from "types/civil";
+} from "@civil/types";
 import { create, type StoreApi, type UseBoundStore } from "zustand";
 import type { AdditionalCharacterData } from "./types";
 

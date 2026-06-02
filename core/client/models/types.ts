@@ -1,1 +1,5 @@
-export type Key = "eye_color" | "head_blends" | "face_features" | "component_variations" | "head_overlays" | "model";
+import { CharacterState } from "@civil/types";
+
+export type Key = "eyeColor" | "headBlends" | "faceFeatures" | "componentVariations" | "headOverlays" | "model";
+
+export type AppearanceData = Pick<CharacterState, Key>;

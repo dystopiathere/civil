@@ -12,40 +12,18 @@
     "front-preview": "cd ./nui/frontend && vite preview",
     "typeorm": "typeorm-ts-node-commonjs"
   },
-  "@citizenfx/client": "2.0.28108-1",
   "devDependencies": {
-    "@citizenfx/server": "2.0.28108-1",
     "@eslint/js": "^10.0.1",
     "@types/node": "latest",
-    "@types/react": "^19.2.14",
-    "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^6.0.1",
     "esbuild": "^0.14.10",
     "esbuild-plugin-copy": "^2.1.1",
     "eslint": "^10.2.1",
-    "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^7.1.1",
-    "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.5.0",
     "ts-node": "^10.9.2",
-    "types": "file:types\\types-1.0.0.tgz",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.58.2",
-    "vite": "^8.0.8"
+    "typescript-eslint": "^8.58.2"
   },
   "dependencies": {
-    "@dnd-kit/react": "^0.4.0",
-    "@types/pg": "^8.20.0",
-    "classnames": "^2.5.1",
-    "dayjs": "^1.11.20",
-    "framer-motion": "^12.38.0",
-    "pg": "^8.20.0",
-    "react": "^19.2.5",
-    "react-dom": "^19.2.5",
-    "react-router-dom": "^7.14.1",
-    "reflect-metadata": "^0.2.2",
-    "sass": "^1.99.0",
-    "typeorm": "^0.3.29",
-    "zustand": "^5.0.12"
+    "dayjs": "^1.11.20"
   }
 }

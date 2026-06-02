@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import type { FullCharacterEntity } from "types/civil";
+import type { FullCharacterEntity } from "@civil/types";
 import { type MessageEventData, pathKeys } from "~/shared/lib";
 import { useCharacterStore, useWorldStore, type AdditionalCharacterData, type World } from "~/entities";
 

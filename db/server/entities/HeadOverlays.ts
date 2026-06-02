@@ -1,5 +1,5 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { HeadOverlaysEntity } from "types/civil";
+import { HeadOverlaysEntity } from "@civil/types";
 
 @Entity()
 export class HeadOverlays implements HeadOverlaysEntity {

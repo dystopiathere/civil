@@ -8,64 +8,16 @@ importers:
 
   .:
     dependencies:
-      '@dnd-kit/react':
-        specifier: ^0.4.0
-        version: 0.4.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
-      '@types/pg':
-        specifier: ^8.20.0
-        version: 8.20.0
-      classnames:
-        specifier: ^2.5.1
-        version: 2.5.1
       dayjs:
         specifier: ^1.11.20
         version: 1.11.20
-      framer-motion:
-        specifier: ^12.38.0
-        version: 12.38.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
-      pg:
-        specifier: ^8.20.0
-        version: 8.20.0
-      react:
-        specifier: ^19.2.5
-        version: 19.2.5
-      react-dom:
-        specifier: ^19.2.5
-        version: 19.2.5(react@19.2.5)
-      react-router-dom:
-        specifier: ^7.14.1
-        version: 7.14.2(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
-      reflect-metadata:
-        specifier: ^0.2.2
-        version: 0.2.2
-      sass:
-        specifier: ^1.99.0
-        version: 1.99.0
-      typeorm:
-        specifier: ^0.3.29
-        version: 0.3.29(pg@8.20.0)(ts-node@10.9.2(@types/node@25.9.1)(typescript@6.0.3))
-      zustand:
-        specifier: ^5.0.12
-        version: 5.0.12(@types/react@19.2.14)(react@19.2.5)
     devDependencies:
-      '@citizenfx/server':
-        specifier: 2.0.28108-1
-        version: 2.0.28108-1
       '@eslint/js':
         specifier: ^10.0.1
         version: 10.0.1(eslint@10.2.1)
       '@types/node':
         specifier: latest
         version: 25.9.1
-      '@types/react':
-        specifier: ^19.2.14
-        version: 19.2.14
-      '@types/react-dom':
-        specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.14)
-      '@vitejs/plugin-react':
-        specifier: ^6.0.1
-        version: 6.0.1(vite@8.0.10(@types/node@25.9.1)(esbuild@0.14.54)(sass@1.99.0))
       esbuild:
         specifier: ^0.14.10
         version: 0.14.54
@@ -75,6 +27,104 @@ importers:
       eslint:
         specifier: ^10.2.1
         version: 10.2.1
+      globals:
+        specifier: ^17.5.0
+        version: 17.5.0
+      ts-node:
+        specifier: ^10.9.2
+        version: 10.9.2(@types/node@25.9.1)(typescript@6.0.3)
+      typescript:
+        specifier: ^6.0.3
+        version: 6.0.3
+      typescript-eslint:
+        specifier: ^8.58.2
+        version: 8.59.1(eslint@10.2.1)(typescript@6.0.3)
+
+  core/client:
+    devDependencies:
+      '@civil/types':
+        specifier: workspace:*
+        version: link:../../types
+
+  core/server:
+    devDependencies:
+      '@civil/types':
+        specifier: workspace:*
+        version: link:../../types
+
+  db/server:
+    dependencies:
+      pg:
+        specifier: ^8.20.0
+        version: 8.20.0
+      reflect-metadata:
+        specifier: ^0.2.2
+        version: 0.2.2
+      typeorm:
+        specifier: ^0.3.29
+        version: 0.3.29(pg@8.20.0)(ts-node@10.9.2(@types/node@25.9.1)(typescript@6.0.3))
+    devDependencies:
+      '@civil/types':
+        specifier: workspace:*
+        version: link:../../types
+      '@types/pg':
+        specifier: ^8.20.0
+        version: 8.20.0
+
+  map/client:
+    devDependencies:
+      '@civil/types':
+        specifier: workspace:*
+        version: link:../../types
+
+  nui/client:
+    devDependencies:
+      '@civil/types':
+        specifier: workspace:*
+        version: link:../../types
+
+  nui/frontend:
+    dependencies:
+      '@dnd-kit/react':
+        specifier: ^0.4.0
+        version: 0.4.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+      classnames:
+        specifier: ^2.5.1
+        version: 2.5.1
+      framer-motion:
+        specifier: ^12.38.0
+        version: 12.38.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+      react:
+        specifier: ^19.2.5
+        version: 19.2.5
+      react-dom:
+        specifier: ^19.2.5
+        version: 19.2.5(react@19.2.5)
+      react-router-dom:
+        specifier: ^7.14.1
+        version: 7.14.2(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+      sass:
+        specifier: ^1.99.0
+        version: 1.99.0
+      vite:
+        specifier: ^8.0.8
+        version: 8.0.10(@types/node@25.9.1)(esbuild@0.14.54)(sass@1.99.0)
+      zustand:
+        specifier: ^5.0.12
+        version: 5.0.12(@types/react@19.2.14)(react@19.2.5)
+    devDependencies:
+      '@civil/types':
+        specifier: workspace:*
+        version: link:../../types
+      '@types/react':
+        specifier: ^19.2.14
+        version: 19.2.14
+      '@types/react-dom':
+        specifier: ^19.2.3
+        version: 19.2.3(@types/react@19.2.14)
+      '@vitejs/plugin-react':
+        specifier: ^6.0.1
+        version: 6.0.1(vite@8.0.10(@types/node@25.9.1)(esbuild@0.14.54)(sass@1.99.0))
       eslint-plugin-react:
         specifier: ^7.37.5
         version: 7.37.5(eslint@10.2.1)
@@ -84,24 +134,15 @@ importers:
       eslint-plugin-react-refresh:
         specifier: ^0.5.2
         version: 0.5.2(eslint@10.2.1)
-      globals:
-        specifier: ^17.5.0
-        version: 17.5.0
-      ts-node:
-        specifier: ^10.9.2
-        version: 10.9.2(@types/node@25.9.1)(typescript@6.0.3)
-      types:
-        specifier: file:types\types-1.0.0.tgz
-        version: file:types/types-1.0.0.tgz
-      typescript:
-        specifier: ^6.0.3
-        version: 6.0.3
-      typescript-eslint:
-        specifier: ^8.58.2
-        version: 8.59.1(eslint@10.2.1)(typescript@6.0.3)
-      vite:
-        specifier: ^8.0.8
-        version: 8.0.10(@types/node@25.9.1)(esbuild@0.14.54)(sass@1.99.0)
+
+  types:
+    dependencies:
+      '@citizenfx/client':
+        specifier: ^2.0.29753-1
+        version: 2.0.29753-1
+      '@citizenfx/server':
+        specifier: ^2.0.29753-1
+        version: 2.0.29753-1
 
 packages:
 
@@ -172,8 +213,11 @@ packages:
     resolution: {integrity: sha512-LwdZHpScM4Qz8Xw2iKSzS+cfglZzJGvofQICy7W7v4caru4EaAmyUuO6BGrbyQ2mYV11W0U8j5mBhd14dd3B0A==}
     engines: {node: '>=6.9.0'}
 
-  '@citizenfx/server@2.0.28108-1':
-    resolution: {integrity: sha512-Rr8oqmWWRebVVW4NWrHClfSiKEaCIBiHYuSPwvnVmNwZF/v8KHlIMchYwgyZAP7fkEEIdAntj52fCKePJ5bN6A==}
+  '@citizenfx/client@2.0.29753-1':
+    resolution: {integrity: sha512-URClf2sMjFFQeUc7C4r2JmeiW4XvDbxwnmmZ4qYsVJQJaFk2DBMSWlc0qJRGx6UNPSs5drwjaZp5E8SbPXCUPQ==}
+
+  '@citizenfx/server@2.0.29753-1':
+    resolution: {integrity: sha512-+hbgy6keD4W9W9loF8+W8ZA4mccMNI9yGEEBzy87JS9bWWXd0R3C6z0XpKdC2/kKLBDgpr290eWpP7uMqHbvoA==}
 
   '@cspotcode/source-map-support@0.8.1':
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
@@ -2101,10 +2145,6 @@ packages:
       typeorm-aurora-data-api-driver:
         optional: true
 
-  types@file:types/types-1.0.0.tgz:
-    resolution: {integrity: sha512-OcMwqmGcn1Nvf+Iu0PerFyv9N+XsHQpklzjOIUZGq29AzMzsGzgSEaI4sNJs+o3DDRXpEVDNhFzArAuEVhhV4A==, tarball: file:types/types-1.0.0.tgz}
-    version: 1.0.0
-
   typescript-eslint@8.59.1:
     resolution: {integrity: sha512-xqDcFVBmlrltH64lklOVp1wYxgJr6LVdg3NamBgH2OOQDLFdTKfIZXF5PfghrnXQKXZGTQs8tr1vL7fJvq8CTQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
@@ -2376,7 +2416,9 @@ snapshots:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.28.5
 
-  '@citizenfx/server@2.0.28108-1': {}
+  '@citizenfx/client@2.0.29753-1': {}
+
+  '@citizenfx/server@2.0.29753-1': {}
 
   '@cspotcode/source-map-support@0.8.1':
     dependencies:
@@ -4370,8 +4412,6 @@ snapshots:
     transitivePeerDependencies:
       - babel-plugin-macros
       - supports-color
-
-  types@file:types/types-1.0.0.tgz: {}
 
   typescript-eslint@8.59.1(eslint@10.2.1)(typescript@6.0.3):
     dependencies:

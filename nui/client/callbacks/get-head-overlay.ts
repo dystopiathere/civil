@@ -1,3 +1,5 @@
-export function getHeadOverlay(data: {}, cb: CallableFunction) {
-  cb([(globalThis.LocalPlayer).state.head_overlays, false]);
+import { TypedLocalPlayer } from "../lib/typed-local-player";
+
+export function getHeadOverlay(_: {}, cb: CallableFunction) {
+  cb([TypedLocalPlayer().state.headOverlays, false]);
 }

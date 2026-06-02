@@ -1,4 +1,4 @@
-import type { ComponentVariationsEntity } from "types/civil";
+import type { ComponentVariationsEntity } from "@civil/types";
 
 type ClothesData = {
   title: {

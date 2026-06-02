@@ -1,3 +1,5 @@
-export function getFaceFeature(data: {}, cb: CallableFunction) {
-  cb([(globalThis.LocalPlayer).state.face_features, false]);
+import { TypedLocalPlayer } from "../lib/typed-local-player";
+
+export function getFaceFeature(_: {}, cb: CallableFunction) {
+  cb([TypedLocalPlayer().state.faceFeatures, false]);
 }

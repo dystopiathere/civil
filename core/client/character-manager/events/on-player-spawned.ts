@@ -1,12 +1,14 @@
+import { TypedLocalPlayer } from "~/helpers";
+
 export function onPlayerSpawned() {
-  const player = globalThis.LocalPlayer;
+  const player = TypedLocalPlayer();
 
   const ped = GetPlayerPed(-1);
 
-  SetEntityMaxHealth(ped, player.state.max_health);
-  SetPedMaxHealth(ped, player.state.max_health);
+  SetEntityMaxHealth(ped, player.state.maxHealth);
+  SetPedMaxHealth(ped, player.state.maxHealth);
   SetEntityHealth(ped, player.state.health);
-  SetPlayerMaxArmour(PlayerId(), player.state.max_armour);
+  SetPlayerMaxArmour(PlayerId(), player.state.maxArmour);
   SetPedArmour(ped, player.state.armour);
 
   SetPedConfigFlag(ped, 149, true);

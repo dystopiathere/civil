@@ -10,7 +10,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { CharacterEntity } from "types/civil";
+import { CharacterEntity } from "@civil/types";
 import { ComponentVariations, FaceFeatures, HeadBlends, HeadOverlays, Player, Skills } from "~/entities";
 
 @Entity()

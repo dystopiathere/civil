@@ -1,5 +1,5 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { SkillsEntity } from "types/civil";
+import { SkillsEntity } from "@civil/types";
 
 @Entity()
 export class Skills implements SkillsEntity {

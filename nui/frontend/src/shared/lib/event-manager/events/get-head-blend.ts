@@ -1,4 +1,4 @@
-import type { HeadBlendsEntity } from "types/civil";
+import type { HeadBlendsEntity } from "@civil/types";
 import { type EventSend, invoke } from "~/shared/lib";
 
 type EventRequestData = {

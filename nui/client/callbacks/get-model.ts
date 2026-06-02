@@ -1,3 +1,5 @@
-export function getModel(data: {}, cb: CallableFunction) {
-  cb([(globalThis.LocalPlayer).state.model, false]);
+import { TypedLocalPlayer } from "../lib/typed-local-player";
+
+export function getModel(_: {}, cb: CallableFunction) {
+  cb([TypedLocalPlayer().state.model, false]);
 }
