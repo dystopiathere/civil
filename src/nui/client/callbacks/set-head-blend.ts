@@ -1,5 +1,5 @@
 import { HeadBlendsEntity } from "@civil/types";
-import { TypedLocalPlayer } from "../lib/typed-local-player";
+import { TypedLocalPlayer } from "@civil/typed-helpers/client";
 
 export function setHeadBlend(data: Partial<HeadBlendsEntity>, cb: CallableFunction) {
   const player = TypedLocalPlayer();

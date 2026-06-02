@@ -1,4 +1,5 @@
-import { random, TypedLocalPlayer } from "~/helpers";
+import { TypedLocalPlayer } from "@civil/typed-helpers/client";
+import { random } from "~/helpers";
 
 export function onEntityDamage(args: any[]) {
   const victim = args[0];

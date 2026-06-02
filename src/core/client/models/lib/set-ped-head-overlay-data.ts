@@ -1,5 +1,5 @@
 import { HeadOverlaysEntity } from "@civil/types";
-import { TypedLocalPlayer } from "~/helpers";
+import { TypedLocalPlayer } from "@civil/typed-helpers/client";
 
 type HeadOverlayElement = {
   value: number;

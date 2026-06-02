@@ -1,5 +1,5 @@
 import { FaceFeaturesEntity } from "@civil/types";
-import { TypedLocalPlayer } from "../lib/typed-local-player";
+import { TypedLocalPlayer } from "@civil/typed-helpers/client";
 
 export function setFaceFeature(data: Partial<FaceFeaturesEntity>, cb: CallableFunction) {
   const player = TypedLocalPlayer();

@@ -1,0 +1,18 @@
+{
+  "name": "@civil/typed-helpers",
+  "version": "1.0.0",
+  "private": true,
+  "exports": {
+    ".": "./index.ts",
+    "./client": "./client/index.ts",
+    "./server": "./server/index.ts"
+  },
+  "dependencies": {
+    "@citizenfx/client": "^2.0.29753-1",
+    "@citizenfx/server": "^2.0.29753-1"
+  },
+  "devDependencies": {
+    "@civil/types": "workspace:*"
+  },
+  "packageManager": "pnpm@10.28.2"
+}

@@ -1,5 +1,5 @@
 import { HeadBlendsEntity } from "@civil/types";
-import { TypedLocalPlayer } from "~/helpers";
+import { TypedLocalPlayer } from "@civil/typed-helpers/client";
 
 export function setPedHeadBlendData(ped: number, data: Partial<HeadBlendsEntity> = {}) {
   const localData = { ...TypedLocalPlayer().state.headBlends };

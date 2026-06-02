@@ -4,6 +4,7 @@
   },
   "devDependencies": {
     "@civil/types": "workspace:*",
+    "@civil/typed-helpers": "workspace:*",
     "@types/pg": "^8.20.0"
   },
   "dependencies": {

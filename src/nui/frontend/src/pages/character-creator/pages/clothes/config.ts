@@ -1,6 +1,6 @@
 import type { ComponentVariationsEntity } from "@civil/types";
 
-type ClothesData = {
+export type ClothesData = {
   title: {
     drawable: string;
     texture: string;

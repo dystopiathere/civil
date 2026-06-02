@@ -1,15 +1,8 @@
-import { Fragment, useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import { useCharacterStore } from "~/entities/character";
-import {
-  getComponentVariation,
-  setComponentVariation as eventSetComponentVariation,
-  getDrawablesList as eventGetDrawablesList,
-  getTexturesList as eventGetTexturesList,
-  renavigate,
-} from "~/shared/lib/event-manager";
-import { InputRange } from "~/widgets";
+import { getComponentVariation, renavigate } from "~/shared/lib/event-manager";
 import { clothes } from "./config";
-import type { ComponentVariationsEntity } from "@civil/types";
+import { ClothesInputGroup } from "~/widgets/clothes-input-group";
 
 export function CharacterCreatorClothes() {
   const { componentVariations, setComponentVariations: stateSetComponentVariations } = useCharacterStore();
@@ -35,89 +28,11 @@ export function CharacterCreatorClothes() {
     });
   }, [stateSetComponentVariations]);
 
-  const setComponentVariation = useCallback(
-    (data: Partial<ComponentVariationsEntity>) => {
-      stateSetComponentVariations(data);
-      eventSetComponentVariation(data);
-    },
-    [stateSetComponentVariations],
-  );
-
-  const getDrawablesList = useCallback(async (componentId: number) => {
-    const data = await eventGetDrawablesList({ componentId });
-
-    if (!data) {
-      return [];
-    }
-
-    const [result, error] = data;
-
-    if (error) {
-      console.error(error);
-      return [];
-    }
-
-    if (!result) {
-      return [];
-    }
-
-    return result.list;
-  }, []);
-
-  const getTexturesList = useCallback(async (componentId: number, drawableId: number) => {
-    const data = await eventGetTexturesList({ componentId, drawableId });
-
-    if (!data) {
-      return [];
-    }
-
-    const [result, error] = data;
-
-    if (error) {
-      console.error(error);
-      return [];
-    }
-
-    if (!result) {
-      return [];
-    }
-
-    return result.list;
-  }, []);
-
   return (
     componentVariations && (
       <div className="character-creator-page">
-        {clothes.map(({ componentId, title, drawableKey, textureKey }, key) => {
-          const drawableValue = componentVariations[drawableKey] as number;
-          const textureValue = componentVariations[textureKey] as number;
-
-          const tabIndex = (key + 1) * 2;
-
-          return (
-            <Fragment key={componentId}>
-              <InputRange
-                tabIndex={tabIndex - 1}
-                label={title.drawable}
-                min={0}
-                max={getDrawablesList(componentId)}
-                step={1}
-                value={drawableValue}
-                disabledOnMaxValue={1}
-                onChange={(value) => setComponentVariation({ [drawableKey]: value, [textureKey]: 0 })}
-              />
-              <InputRange
-                tabIndex={tabIndex}
-                label={title.texture}
-                min={0}
-                max={getTexturesList(componentId, drawableValue)}
-                step={1}
-                value={textureValue}
-                disabledOnMaxValue={1}
-                onChange={(value) => setComponentVariation({ [textureKey]: value })}
-              />
-            </Fragment>
-          );
+        {clothes.map((data, key) => {
+          return <ClothesInputGroup key={key} id={key} data={data} />;
         })}
       </div>
     )

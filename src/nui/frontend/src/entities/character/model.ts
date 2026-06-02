@@ -177,48 +177,23 @@ export const useCharacterStore: UseBoundStore<StoreApi<CharacterStoreState>> = c
   setPlayerInWater: (isInWater) => set({ isInWater }),
 
   setFaceFeatures: (data: Partial<FaceFeaturesEntity>) =>
-    set((state) => {
-      const faceFeatures = { ...state.faceFeatures };
-      Object.assign(faceFeatures, data);
-      const newState = { ...state };
-      Object.assign(newState, { faceFeatures });
-
-      return newState;
-    }),
+    set(({ faceFeatures: oldData }) => ({
+      faceFeatures: { ...oldData!, ...data },
+    })),
   setSkills: (data: Partial<SkillsEntity>) =>
-    set((state) => {
-      const skills = { ...state.skills };
-      Object.assign(skills, data);
-      const newState = { ...state };
-      Object.assign(newState, { skills });
-
-      return newState;
-    }),
+    set(({ skills: oldData }) => ({
+      skills: { ...oldData!, ...data },
+    })),
   setHeadOverlays: (data: Partial<HeadOverlaysEntity>) =>
-    set((state) => {
-      const headOverlays = { ...state.headOverlays };
-      Object.assign(headOverlays, data);
-      const newState = { ...state };
-      Object.assign(newState, { headOverlays });
-
-      return newState;
-    }),
+    set(({ headOverlays: oldData }) => ({
+      headOverlays: { ...oldData!, ...data },
+    })),
   setComponentVariations: (data: Partial<ComponentVariationsEntity>) =>
-    set((state) => {
-      const componentVariations = { ...state.componentVariations };
-      Object.assign(componentVariations, data);
-      const newState = { ...state };
-      Object.assign(newState, { componentVariations });
-
-      return newState;
-    }),
+    set(({ componentVariations: oldData }) => ({
+      componentVariations: { ...oldData!, ...data },
+    })),
   setHeadBlends: (data: Partial<HeadBlendsEntity>) =>
-    set((state) => {
-      const headBlends = { ...state.headBlends };
-      Object.assign(headBlends, data);
-      const newState = { ...state };
-      Object.assign(newState, { headBlends });
-
-      return newState;
-    }),
+    set(({ headBlends: oldData }) => ({
+      headBlends: { ...oldData!, ...data },
+    })),
 }));

@@ -1,3 +1,5 @@
+import "@citizenfx/client";
+
 import { CharacterState, TypedEntityInterface } from "@civil/types";
 
 export function TypedLocalPlayer(): TypedEntityInterface<CharacterState> {

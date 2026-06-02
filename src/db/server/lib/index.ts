@@ -1,3 +1,3 @@
 export * from "./sync-data";
 export * from "./register-events";
-export * from "./typed-player";
+export * from "./prepare-character-dto";

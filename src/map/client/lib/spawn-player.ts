@@ -1,4 +1,4 @@
-import { TypedLocalPlayer } from "./typed-local-player";
+import { TypedLocalPlayer } from "@civil/typed-helpers/client";
 
 export async function spawnPlayer() {
   const player = TypedLocalPlayer();

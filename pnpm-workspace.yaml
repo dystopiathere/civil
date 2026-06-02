@@ -3,10 +3,10 @@ allowBuilds:
   esbuild: true
 
 packages:
-  - "src/core/client"
-  - "src/core/server"
-  - "src/db/server"
-  - "src/map/client"
-  - "src/nui/client"
+  - "src/core"
+  - "src/db"
+  - "src/map"
+  - "src/nui"
   - "src/nui/frontend"
   - "src/types"
+  - "src/typed-helpers"

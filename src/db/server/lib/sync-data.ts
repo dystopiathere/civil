@@ -1,15 +1,21 @@
-import { CharacterEntity } from "@civil/types";
+import { CharacterDto } from "@civil/types";
 import { CivilDataSource } from "~/data-source";
 import { Character } from "~/entities/Character";
 
-export async function syncData(data: Partial<CharacterEntity>) {
+export async function syncData(id: number, data: CharacterDto) {
   try {
-    if (!data.id) {
+    if (!id) {
       throw new Error("Character ID not provided");
     }
 
     const characterRepository = CivilDataSource.getRepository(Character);
-    await characterRepository.update(data.id, data);
+    const character = await characterRepository.findOneBy({ id });
+    if (!character) {
+      throw new Error("Character not found");
+    }
+
+    Object.assign(character, data);
+    await characterRepository.save(character);
   } catch (err) {
     console.error(err);
   }

@@ -1,4 +1,4 @@
-import { TypedLocalPlayer } from "~/helpers";
+import { TypedLocalPlayer } from "@civil/typed-helpers/client";
 
 export function respawn(source: number, args: string[], raw: string) {
   const player = TypedLocalPlayer();

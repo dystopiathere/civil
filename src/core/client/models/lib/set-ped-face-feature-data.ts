@@ -1,5 +1,5 @@
 import { FaceFeaturesEntity } from "@civil/types";
-import { TypedLocalPlayer } from "~/helpers";
+import { TypedLocalPlayer } from "@civil/typed-helpers/client";
 
 export function setPedFaceFeatureData(ped: number, data: Partial<FaceFeaturesEntity> = {}) {
   const localData = { ...TypedLocalPlayer().state.faceFeatures };

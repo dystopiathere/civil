@@ -6,7 +6,7 @@ type InputRangeProps = {
   label: string;
   value: number;
   min: number;
-  max: (number | number[]) | Promise<number | number[]>;
+  max: number | number[];
   step: number;
   tabIndex?: number;
   disabledOnMaxValue?: number;
@@ -25,30 +25,25 @@ export function InputRange({
   onChange,
   onFocus,
 }: InputRangeProps) {
-  const [maxValue, setMaxValue] = useState<number | number[]>(1);
+  const [localValue, setLocalValue] = useState<number>(value);
 
   const changeTimeout = useRef<number>(null);
 
   useEffect(() => {
-    if (max instanceof Promise) {
-      max.then((value) => {
-        setMaxValue(value);
-      });
-    } else {
-      setMaxValue(max);
-    }
-  }, [max]);
+    setLocalValue(value);
+  }, [value]);
+
+  const computedValue = Array.isArray(max)
+    ? max.findIndex((val) => Math.abs(val - localValue) < Number.EPSILON)
+    : localValue;
+
+  const rangeValue = Array.isArray(max) ? (computedValue === -1 ? 0 : computedValue) : computedValue;
 
   return (
-    <div
-      className={cn(
-        "input-range",
-        (Array.isArray(maxValue) ? maxValue.length : maxValue) === disabledOnMaxValue && "disabled",
-      )}
-    >
+    <div className={cn("input-range", (Array.isArray(max) ? max.length : max) === disabledOnMaxValue && "disabled")}>
       <div className="input-range__header">
         {label && <div className="input-range__label">{label}</div>}
-        <div className="input-range__value">{value}</div>
+        <div className="input-range__value">{localValue}</div>
       </div>
 
       <input
@@ -58,15 +53,17 @@ export function InputRange({
         className="input-range__control"
         type="range"
         min={min}
-        max={Array.isArray(maxValue) ? maxValue.length - 1 : maxValue}
+        max={Array.isArray(max) ? max.length - 1 : max}
         step={step}
-        value={Array.isArray(maxValue) ? maxValue.findIndex((val) => val === value) : value}
+        value={rangeValue}
         onChange={(event) => {
           let newValue = Number(event.currentTarget.value);
 
-          if (Array.isArray(maxValue)) {
-            newValue = maxValue[newValue];
+          if (Array.isArray(max)) {
+            newValue = max[newValue] ?? newValue;
           }
+
+          setLocalValue(newValue);
 
           if (changeTimeout.current) {
             clearTimeout(changeTimeout.current);
@@ -74,8 +71,7 @@ export function InputRange({
 
           changeTimeout.current = setTimeout(() => {
             onChange(newValue);
-            changeTimeout.current = null;
-          }, 15);
+          }, 30);
         }}
         onFocus={onFocus}
       />

@@ -1,5 +1,5 @@
 import { HeadOverlaysEntity } from "@civil/types";
-import { TypedLocalPlayer } from "../lib/typed-local-player";
+import { TypedLocalPlayer } from "@civil/typed-helpers/client";
 
 export function setHeadOverlay(data: Partial<HeadOverlaysEntity>, cb: CallableFunction) {
   const player = TypedLocalPlayer();

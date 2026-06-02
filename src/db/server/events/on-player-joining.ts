@@ -1,5 +1,6 @@
+import { CharacterEntity } from "@civil/types";
+import { TypedPlayer } from "@civil/typed-helpers/server";
 import { CivilDataSource } from "~/data-source";
-import { tempIdsMapping } from "../mappings";
 import {
   Character,
   ComponentVariations,
@@ -9,7 +10,7 @@ import {
   Player as PlayerEntity,
   Skills,
 } from "~/entities";
-import { TypedPlayer } from "~/lib";
+import { tempIdsMapping } from "../mappings";
 
 export async function onPlayerJoining(oldId: string) {
   const playerSource = global.source;
@@ -44,7 +45,9 @@ export async function onPlayerJoining(oldId: string) {
     character = player.characters[0];
   }
 
+  const p = TypedPlayer(playerSource);
+  p.state.set("playerId", playerId, true);
   Object.entries(character).forEach(([key, value]) => {
-    TypedPlayer(playerSource).state.set(key as keyof Character, value, true);
+    p.state.set(key as keyof CharacterEntity, value, true);
   });
 }

@@ -1,4 +1,5 @@
-import { delay, TypedLocalPlayer } from "~/helpers";
+import { TypedLocalPlayer } from "@civil/typed-helpers/client";
+import { delay } from "~/helpers";
 
 export async function freeze(state: boolean): Promise<void> {
   const player = TypedLocalPlayer();

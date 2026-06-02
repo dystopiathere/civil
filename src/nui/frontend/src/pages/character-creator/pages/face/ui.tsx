@@ -135,7 +135,7 @@ export function CharacterCreatorFace() {
           value={faceFeatures.cheekBones}
           min={-1}
           max={1}
-          step={0.001}
+          step={0.01}
           onChange={(cheekBones) => setFaceFeature({ cheekBones })}
         />
         <InputRange
@@ -144,7 +144,7 @@ export function CharacterCreatorFace() {
           value={faceFeatures.eyeOpening}
           min={-1}
           max={1}
-          step={0.001}
+          step={0.01}
           onChange={(eyeOpening) => setFaceFeature({ eyeOpening })}
         />
         <InputRange
@@ -153,7 +153,7 @@ export function CharacterCreatorFace() {
           value={faceFeatures.lipThickness}
           min={-1}
           max={1}
-          step={0.001}
+          step={0.01}
           onChange={(lipThickness) => setFaceFeature({ lipThickness })}
         />
         <InputAxis
@@ -197,7 +197,7 @@ export function CharacterCreatorFace() {
           value={faceFeatures.chinBone}
           min={-1}
           max={1}
-          step={0.001}
+          step={0.01}
           onChange={(chinBone) => setFaceFeature({ chinBone })}
         />
         <InputRange
@@ -206,7 +206,7 @@ export function CharacterCreatorFace() {
           value={faceFeatures.chinHole}
           min={-1}
           max={1}
-          step={0.001}
+          step={0.01}
           onChange={(chinHole) => setFaceFeature({ chinHole })}
         />
         <InputRange
@@ -215,7 +215,7 @@ export function CharacterCreatorFace() {
           value={faceFeatures.neckThickness}
           min={-1}
           max={1}
-          step={0.001}
+          step={0.01}
           onChange={(neckThickness) => setFaceFeature({ neckThickness })}
         />
       </div>

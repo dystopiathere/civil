@@ -1,5 +1,5 @@
 import { ComponentVariationsEntity } from "@civil/types";
-import { TypedLocalPlayer } from "~/helpers";
+import { TypedLocalPlayer } from "@civil/typed-helpers/client";
 
 type ComponentVariationsElement = {
   drawable: number;

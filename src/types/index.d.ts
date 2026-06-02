@@ -480,3 +480,19 @@ export type ComponentVariationsEntity = {
   createdAt: Date;
   updatedAt: Date;
 };
+
+export type ExcludeDTOFields = "id" | "player" | "createdAt" | "updatedAt" | "deletedAt";
+
+export type HeadBlendsDto = Omit<HeadBlendsEntity, ExcludeDTOFields>;
+export type FaceFeaturesDto = Omit<FaceFeaturesEntity, ExcludeDTOFields>;
+export type SkillsDto = Omit<SkillsEntity, ExcludeDTOFields>;
+export type ComponentVariationsDto = Omit<ComponentVariationsEntity, ExcludeDTOFields>;
+export type HeadOverlaysDto = Omit<HeadOverlaysEntity, ExcludeDTOFields>;
+
+export type CharacterDto = Omit<CharacterEntity, ExcludeDTOFields> & {
+  headBlends: HeadBlendsDto;
+  faceFeatures: FaceFeaturesDto;
+  skills: SkillsDto;
+  componentVariations: ComponentVariationsDto;
+  headOverlays: HeadOverlaysDto;
+};
