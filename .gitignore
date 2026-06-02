@@ -3,7 +3,6 @@
 .env
 node_modules
 cache
-server.cfg
 variables.cfg
 .replxx_history
 resources/\[base\]

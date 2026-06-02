@@ -4,14 +4,13 @@
    1. Windows: https://runtime.fivem.net/artifacts/fivem/build_server_windows/master/
    2. Linux: https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/
 2. Extract archive data into ./artifact folder
-3. Copy ./server.cfg.example to ./server.cfg and configure sv_licenseKey and rcon_password properties
-4. Copy ./variables.cfg.example to ./variables.cfg and configure steam web api key and database credentials
-5. Copy ./.env.example to ./.env and configure database credentials
-6. Run git submodule update --init
-7. Link submodule resources to [base] resource group
+3. Copy ./variables.cfg.example to ./variables.cfg and configure license key, steam web api key, database credentials and rcon password
+4. Copy ./.env.example to ./.env and configure database credentials
+5. Run git submodule update --init
+6. Link submodule resources to [base] resource group
    1. Windows: mklink /d resources\\[base] ..\vendor\server-data\resources
    2. Linux: ln -s ../vendor/server-data/resources/ 'resources/[base]/'
-8. Run pnpm install
-9. Run pnpm dev
-10. Run docker compose up -d
-11. Run start.cmd (for Windows)
+7. Run pnpm install
+8. Run pnpm dev
+9. Run docker compose up -d
+10. Run start.cmd (for Windows)
