@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { useCallback, useEffect, useRef, useState } from "react";
+import classNames from "classnames";
 import "./styles.scss";
 
 type AxisData = {
@@ -11,7 +11,7 @@ type AxisData = {
   };
   max: {
     label?: string;
-    value: number | Promise<number>;
+    value: number;
   };
   reverse?: boolean;
 };
@@ -25,56 +25,128 @@ type InputRangeProps = {
 };
 
 export function InputAxis({ label, x, y, onChange, onFocus }: InputRangeProps) {
-  const [maxValueX, setMaxValueX] = useState<number>(1);
-  const [maxValueY, setMaxValueY] = useState<number>(1);
+  const [moving, setMoving] = useState<boolean>(false);
 
-  const contraintsRef = useRef<HTMLDivElement>(null);
+  const constraintsRef = useRef<HTMLDivElement>(null);
   const thumbRef = useRef<HTMLDivElement>(null);
   const dragStateTimeout = useRef<number>(null);
 
+  const valuesToPoints = useCallback(
+    (valueX: number, valueY: number) => {
+      if (!constraintsRef.current) return;
+
+      const rect = constraintsRef.current.getBoundingClientRect();
+
+      const ratioX = (valueX - x.min.value) / (x.max.value - x.min.value);
+      const ratioY = (valueY - y.min.value) / (y.max.value - y.min.value);
+
+      let posX = rect.width * ratioX;
+      let posY = rect.height * ratioY;
+
+      if (x.reverse) posX = rect.width - posX;
+      if (!y.reverse) posY = rect.height - posY;
+
+      return { x: posX, y: posY };
+    },
+    [x.min.value, x.max.value, y.min.value, y.max.value],
+  );
+
+  const pointsToValues = useCallback(
+    (pointX: number, pointY: number) => {
+      if (!constraintsRef.current) return;
+
+      const rect = constraintsRef.current.getBoundingClientRect();
+
+      if (x.reverse) pointX = rect.width - pointX;
+      if (!y.reverse) pointY = rect.height - pointY;
+
+      const ratioX = pointX / rect.width;
+      const ratioY = pointY / rect.height;
+
+      const valueX = x.min.value + (x.max.value - x.min.value) * ratioX;
+      const valueY = y.min.value + (y.max.value - y.min.value) * ratioY;
+
+      return {
+        x: Number(valueX.toFixed(2)),
+        y: Number(valueY.toFixed(2)),
+      };
+    },
+    [x.min.value, x.max.value, y.min.value, y.max.value],
+  );
+
+  const updateThumbPosition = useCallback((x: number, y: number) => {
+    if (!thumbRef.current) return;
+    thumbRef.current.style.left = `${x}px`;
+    thumbRef.current.style.top = `${y}px`;
+  }, []);
+
+  const move = useCallback(
+    (clientX: number, clientY: number) => {
+      if (!constraintsRef.current) return;
+
+      const rect = constraintsRef.current.getBoundingClientRect();
+
+      let posX = clientX - rect.left;
+      let posY = clientY - rect.top;
+
+      if (posX < 0) posX = 0;
+      if (posX > rect.width) posX = rect.width;
+      if (posY < 0) posY = 0;
+      if (posY > rect.height) posY = rect.height;
+
+      updateThumbPosition(posX, posY);
+
+      const values = pointsToValues(posX, posY);
+      if (!values) return;
+
+      if (dragStateTimeout.current) return;
+      dragStateTimeout.current = setTimeout(() => (dragStateTimeout.current = null), 10);
+
+      onChange(values.x, values.y);
+    },
+    [pointsToValues, updateThumbPosition, onChange],
+  );
+
   useEffect(() => {
-    [x, y].forEach(({ value, min, max, reverse }, key) => {
-      const setMaxValue = key === 0 ? setMaxValueX : setMaxValueY;
+    const points = valuesToPoints(x.value, y.value);
+    if (!points) return;
 
-      let result = 1;
+    updateThumbPosition(points.x, points.y);
+  }, [x.value, y.value, valuesToPoints, updateThumbPosition]);
 
-      if (max.value instanceof Promise) {
-        max.value.then((value) => {
-          result = value;
-          setMaxValue(result);
-        });
-      } else {
-        result = max.value;
-        setMaxValue(result);
-      }
+  useEffect(() => {
+    if (!constraintsRef.current) return;
 
-      if (!thumbRef.current) {
-        return;
-      }
+    constraintsRef.current.onmousemove = (event) => {
+      if (!moving) return;
+      move(event.screenX, event.screenY);
+    };
+    constraintsRef.current.onmouseup = () => setMoving(false);
+    constraintsRef.current.onmouseleave = () => setMoving(false);
 
-      let offsetPercentage = ((value - min.value) / (result - min.value)) * 100;
+    return () => {
+      if (!constraintsRef.current) return;
 
-      if (key === 0) {
-        if (reverse) {
-          offsetPercentage = 100 - offsetPercentage;
-        }
-
-        thumbRef.current.style.left = `${offsetPercentage}%`;
-      } else {
-        if (!reverse) {
-          offsetPercentage = 100 - offsetPercentage;
-        }
-
-        thumbRef.current.style.top = `${offsetPercentage}%`;
-      }
-    });
-  }, [JSON.stringify(x), JSON.stringify(y)]);
+      constraintsRef.current.onmousemove = null;
+      constraintsRef.current.onmouseup = null;
+      constraintsRef.current.onmouseleave = null;
+    };
+  }, [moving, move]);
 
   return (
     <div className="input-axis">
       <div className="input-axis__label">{label}</div>
 
-      <div ref={contraintsRef} className="input-axis__container" onFocus={onFocus}>
+      <div
+        ref={constraintsRef}
+        className={classNames("input-axis__container", moving && "active")}
+        onFocus={onFocus}
+        onMouseDown={(event) => {
+          if (moving) return;
+          setMoving(true);
+          move(event.screenX, event.screenY);
+        }}
+      >
         {Object.entries({ x, y }).map(([axis, { label, min, max }]) => (
           <div key={axis} className={`input-axis__${axis}`}>
             {Array.from({ length: 11 }).map((_, key) => (
@@ -89,69 +161,11 @@ export function InputAxis({ label, x, y, onChange, onFocus }: InputRangeProps) {
             )}
 
             <div className="input-axis__min">{min.label ?? min.value}</div>
-            <div className="input-axis__max">{max.label ?? (axis === "x" ? maxValueX : maxValueY)}</div>
+            <div className="input-axis__max">{max.label ?? (axis === "x" ? x.max.value : y.max.value)}</div>
           </div>
         ))}
 
-        <motion.div
-          ref={thumbRef}
-          className="input-axis__thumb"
-          drag
-          dragMomentum={false}
-          dragConstraints={contraintsRef}
-          dragElastic={0}
-          onDrag={(_, info) => {
-            if (dragStateTimeout.current) {
-              return;
-            }
-
-            dragStateTimeout.current = setTimeout(() => (dragStateTimeout.current = null), 10);
-
-            if (contraintsRef.current) {
-              const rect = contraintsRef.current.getBoundingClientRect();
-
-              let pointX = info.point.x - rect.left;
-              if (pointX < 0) {
-                pointX = 0;
-              }
-              if (pointX > rect.width) {
-                pointX = rect.width;
-              }
-              if (x.reverse) {
-                pointX = rect.width - pointX;
-              }
-
-              let pointY = info.point.y - rect.top;
-              if (pointY < 0) {
-                pointY = 0;
-              }
-              if (pointY > rect.height) {
-                pointY = rect.height;
-              }
-              if (!y.reverse) {
-                pointY = rect.height - pointY;
-              }
-
-              const xPercentage = pointX / rect.width;
-              const yPercentage = pointY / rect.height;
-
-              const deltaX = Math.abs(x.min.value) + maxValueX;
-              const deltaY = Math.abs(y.min.value) + maxValueY;
-
-              const offsetX = deltaX * xPercentage;
-              const offsetY = deltaY * yPercentage;
-
-              const resX = Number((x.min.value + offsetX).toFixed(2));
-              const resY = Number((y.min.value + offsetY).toFixed(2));
-
-              if (resX === x.min.value && resY === y.min.value) {
-                return;
-              }
-
-              onChange(x.min.value + offsetX, y.min.value + offsetY);
-            }
-          }}
-        />
+        <div ref={thumbRef} className="input-axis__thumb" />
       </div>
     </div>
   );

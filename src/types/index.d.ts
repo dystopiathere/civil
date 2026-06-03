@@ -341,7 +341,7 @@ export type CharacterRoleEntity = {
 
 export type HeadBlendsEntity = {
   id: number;
-  character: CharacterEntity;
+  character?: CharacterEntity;
   shapeFirstId: number;
   shapeSecondId: number;
   shapeThirdId: number;
@@ -357,7 +357,7 @@ export type HeadBlendsEntity = {
 
 export type FaceFeaturesEntity = {
   id: number;
-  character: CharacterEntity;
+  character?: CharacterEntity;
   noseWidth: number;
   nosePeak: number;
   noseLength: number;
@@ -384,7 +384,7 @@ export type FaceFeaturesEntity = {
 
 export type SkillsEntity = {
   id: number;
-  character: CharacterEntity;
+  character?: CharacterEntity;
   stamina: number;
   strength: number;
   lungCapacity: number;
@@ -398,7 +398,7 @@ export type SkillsEntity = {
 
 export type HeadOverlaysEntity = {
   id: number;
-  character: CharacterEntity;
+  character?: CharacterEntity;
   blemishes: number;
   blemishesOpacity: number;
   facialHair: number;
@@ -445,7 +445,7 @@ export type HeadOverlaysEntity = {
 
 export type ComponentVariationsEntity = {
   id: number;
-  character: CharacterEntity;
+  character?: CharacterEntity;
   faceDrawable: number;
   faceTexture: number;
   facePalette: number;
