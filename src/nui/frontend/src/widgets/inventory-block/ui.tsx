@@ -1,5 +1,4 @@
-import { useDroppable } from "@dnd-kit/react";
-import { InventoryCell } from "../inventory-cell";
+import { InventoryCell, type CellData } from "../inventory-cell";
 import "./styles.scss";
 
 export type BlockData = {
@@ -13,22 +12,28 @@ export type BlockData = {
 type InventoryBlockProps = {
   place: string;
   block: BlockData;
-  highlightCells: { place: string; id: number; row: number }[];
+  highlightCells: Partial<CellData>[];
 };
 
 export function InventoryBlock({ place, block, highlightCells }: InventoryBlockProps) {
-  const { ref } = useDroppable({ id: `block:${place}|${block.size.x}|${block.size.y}` });
-
   return (
-    <div className="inventory-block" data-block={place}>
+    <div className="inventory-block">
       <div className="inventory-block__title">{block.title}</div>
-      <div className="inventory-block__container" ref={ref}>
+      <div
+        className="inventory-block__container"
+        data-place={place}
+        data-size-x={block.size.x}
+        data-size-y={block.size.y}
+      >
         {Array.from({ length: block.size.y }).map((_, y) => (
           <div key={y} className="inventory-block__row">
             {Array.from({ length: block.size.x }).map((_, x) => {
               const highlight =
                 highlightCells.findIndex(
-                  (highlightCell) => highlightCell.id === x && highlightCell.place === place && highlightCell.row === y,
+                  (highlightCell) =>
+                    highlightCell?.position?.x === x &&
+                    highlightCell?.place === place &&
+                    highlightCell?.position?.y === y,
                 ) >= 0;
 
               return <InventoryCell key={`${place}${y}${x}`} place={place} position={{ x, y }} highlight={highlight} />;

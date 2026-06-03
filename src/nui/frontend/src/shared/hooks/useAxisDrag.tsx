@@ -75,13 +75,13 @@ export function useAxisDrag(
   }, []);
 
   const move = useCallback(
-    (clientX: number, clientY: number) => {
+    (x: number, y: number) => {
       if (!constraintsRef.current) return;
 
       const rect = constraintsRef.current.getBoundingClientRect();
 
-      let posX = clientX - rect.left;
-      let posY = clientY - rect.top;
+      let posX = x - rect.left;
+      let posY = y - rect.top;
 
       if (posX < 0) posX = 0;
       if (posX > rect.width) posX = rect.width;

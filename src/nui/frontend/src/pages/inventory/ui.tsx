@@ -1,5 +1,4 @@
 import { useRef } from "react";
-import { DragDropProvider } from "@dnd-kit/react";
 import { CharacterAppearence, InventoryBlock, InventoryItem, type BlockData, type ItemData } from "~/widgets";
 import { useInventoryDrag } from "~/shared/hooks";
 import "./styles.scss";
@@ -66,29 +65,27 @@ const TEST_ITEMS: ItemData[] = [
 const inventory = { pockets, bag };
 
 export function Inventory() {
-  const { items, highlightCells, onStart, onStop, onCollision } = useInventoryDrag(TEST_ITEMS);
+  const inventoryRef = useRef<HTMLDivElement>(null);
 
-  const ref = useRef<HTMLDivElement>(null);
+  const { highlightCells } = useInventoryDrag(inventoryRef);
 
   return (
-    <DragDropProvider onDragStart={onStart} onDragEnd={onStop} onCollision={onCollision}>
-      <div className="inventory" id="inventory" ref={ref}>
-        <CharacterAppearence />
+    <div className="inventory" ref={inventoryRef}>
+      <CharacterAppearence />
 
-        <div className="inventory__group horizontal">
-          <InventoryBlock place="trunk" block={trunk} highlightCells={highlightCells} />
+      <div className="inventory__group horizontal">
+        <InventoryBlock place="trunk" block={trunk} highlightCells={highlightCells} />
 
-          <div className="inventory__group">
-            {Object.entries(inventory).map(([place, block]) => (
-              <InventoryBlock key={place} place={place} block={block} highlightCells={highlightCells} />
-            ))}
-          </div>
+        <div className="inventory__group">
+          {Object.entries(inventory).map(([place, block]) => (
+            <InventoryBlock key={place} place={place} block={block} highlightCells={[]} />
+          ))}
         </div>
-
-        {items.map((item) => (
-          <InventoryItem key={item.id} item={item} inventoryRef={ref} />
-        ))}
       </div>
-    </DragDropProvider>
+
+      {TEST_ITEMS.map((item) => (
+        <InventoryItem key={item.id} item={item} />
+      ))}
+    </div>
   );
 }
