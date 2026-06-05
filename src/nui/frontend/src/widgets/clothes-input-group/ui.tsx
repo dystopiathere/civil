@@ -1,13 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
+import type { CollectionData, ComponentVariationsEntity } from "@civil/types";
 import { useCharacterStore } from "~/entities";
 import {
   setComponentVariation as eventSetComponentVariation,
-  getDrawablesList as eventGetDrawablesList,
-  getTexturesList as eventGetTexturesList,
+  getDrawableData as eventGetDrawableData,
 } from "~/shared/lib/event-manager";
 import type { ClothesData } from "~/pages/character-creator/pages/clothes/config";
-import type { ComponentVariationsEntity } from "@civil/types";
-import { InputRange } from "../input-range";
+import { InputRange, InputClothesRange } from "~/widgets";
 
 type ClothesInputGroupProps = {
   id: number;
@@ -17,15 +16,17 @@ type ClothesInputGroupProps = {
 export function ClothesInputGroup({ id, data }: ClothesInputGroupProps) {
   const { componentVariations, setComponentVariations: stateSetComponentVariations } = useCharacterStore();
 
-  const [drawablesList, setDrawablesList] = useState<number[]>([]);
-  const [texturesList, setTexturesList] = useState<number[]>([]);
+  const [drawableData, setDrawableData] = useState<CollectionData>({});
 
-  const { componentId, drawableKey, textureKey, title } = data;
+  const { componentId, collectionKey, drawableKey, textureKey, title } = data;
+  const collection = componentVariations![collectionKey] as string;
   const drawableId = componentVariations![drawableKey] as number;
   const textureId = componentVariations![textureKey] as number;
 
-  const getDrawablesList = useCallback(async () => {
-    const data = await eventGetDrawablesList({ componentId });
+  const drawables = drawableData[collection] ?? [];
+
+  const getDrawableData = useCallback(async () => {
+    const data = await eventGetDrawableData({ componentId });
 
     if (!data) {
       return [];
@@ -42,29 +43,8 @@ export function ClothesInputGroup({ id, data }: ClothesInputGroupProps) {
       return [];
     }
 
-    setDrawablesList(result.list);
-  }, [data.componentId]);
-
-  const getTexturesList = useCallback(async () => {
-    const data = await eventGetTexturesList({ componentId, drawableId });
-
-    if (!data) {
-      return [];
-    }
-
-    const [result, error] = data;
-
-    if (error) {
-      console.error(error);
-      return [];
-    }
-
-    if (!result) {
-      return [];
-    }
-
-    setTexturesList(result.list);
-  }, [componentId, drawableId]);
+    setDrawableData(result.data);
+  }, [componentId]);
 
   const setComponentVariation = useCallback(
     (data: Partial<ComponentVariationsEntity>) => {
@@ -75,29 +55,29 @@ export function ClothesInputGroup({ id, data }: ClothesInputGroupProps) {
   );
 
   useEffect(() => {
-    getDrawablesList();
-    getTexturesList();
-  }, [getDrawablesList, getTexturesList]);
+    getDrawableData();
+  }, [getDrawableData]);
 
   const tabIndex = (id + 1) * 2;
 
   return (
     <>
-      <InputRange
+      <InputClothesRange
         tabIndex={tabIndex - 1}
         label={title.drawable}
         min={0}
-        max={drawablesList}
-        step={1}
-        value={drawableId}
-        disabledOnMaxValue={1}
-        onChange={(value) => setComponentVariation({ [drawableKey]: value, [textureKey]: 0 })}
+        data={drawableData}
+        collection={collection}
+        drawable={drawableId}
+        onChange={(collection, drawable) => {
+          setComponentVariation({ [collectionKey]: collection, [drawableKey]: drawable, [textureKey]: 0 });
+        }}
       />
       <InputRange
         tabIndex={tabIndex}
         label={title.texture}
         min={0}
-        max={texturesList}
+        max={drawables[drawableId] ?? []}
         step={1}
         value={textureId}
         disabledOnMaxValue={1}

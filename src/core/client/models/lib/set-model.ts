@@ -5,7 +5,7 @@ export async function setModel(model: string) {
     console.error(`Bad model: ${model}`);
   }
 
-  if (GetEntityArchetypeName(GetPlayerPed(-1)) === model) {
+  if (GetEntityArchetypeName(PlayerPedId()) === model) {
     return;
   }
 

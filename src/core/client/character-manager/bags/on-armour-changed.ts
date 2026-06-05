@@ -1,5 +1,5 @@
 export function onArmourChanged(value: number) {
-  const ped = GetPlayerPed(-1);
+  const ped = PlayerPedId();
 
   SetPedArmour(ped, value);
 }

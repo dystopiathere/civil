@@ -7,3 +7,4 @@ export * from "./world-data";
 export * from "./character-appearence";
 export * from "./inventory-block";
 export * from "./inventory-item";
+export * from "./input-clothes-range";

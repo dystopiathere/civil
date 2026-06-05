@@ -2,9 +2,9 @@ import { ComponentVariationsEntity } from "@civil/types";
 import { TypedLocalPlayer } from "@civil/typed-helpers/client";
 
 type ComponentVariationsElement = {
+  collection: string;
   drawable: number;
   texture: number;
-  palette: number;
 };
 
 export function setPedComponentVariationData(ped: number, data: Partial<ComponentVariationsEntity> = {}) {
@@ -14,68 +14,68 @@ export function setPedComponentVariationData(ped: number, data: Partial<Componen
 
   const componentVariations: ComponentVariationsElement[] = [
     {
+      collection: localData.faceCollection,
       drawable: localData.faceDrawable,
       texture: localData.faceTexture,
-      palette: localData.facePalette,
     },
     {
+      collection: localData.maskCollection,
       drawable: localData.maskDrawable,
       texture: localData.maskTexture,
-      palette: localData.maskPalette,
     },
     {
+      collection: localData.hairCollection,
       drawable: localData.hairDrawable,
       texture: localData.hairTexture,
-      palette: localData.hairPalette,
     },
     {
+      collection: localData.torsoCollection,
       drawable: localData.torsoDrawable,
       texture: localData.torsoTexture,
-      palette: localData.torsoPalette,
     },
     {
+      collection: localData.legCollection,
       drawable: localData.legDrawable,
       texture: localData.legTexture,
-      palette: localData.legPalette,
     },
     {
+      collection: localData.bagCollection,
       drawable: localData.bagDrawable,
       texture: localData.bagTexture,
-      palette: localData.bagPalette,
     },
     {
+      collection: localData.shoesCollection,
       drawable: localData.shoesDrawable,
       texture: localData.shoesTexture,
-      palette: localData.shoesPalette,
     },
     {
+      collection: localData.accessoryCollection,
       drawable: localData.accessoryDrawable,
       texture: localData.accessoryTexture,
-      palette: localData.accessoryPalette,
     },
     {
+      collection: localData.undershirtCollection,
       drawable: localData.undershirtDrawable,
       texture: localData.undershirtTexture,
-      palette: localData.undershirtPalette,
     },
     {
+      collection: localData.kevlarCollection,
       drawable: localData.kevlarDrawable,
       texture: localData.kevlarTexture,
-      palette: localData.kevlarPalette,
     },
     {
+      collection: localData.badgeCollection,
       drawable: localData.badgeDrawable,
       texture: localData.badgeTexture,
-      palette: localData.badgePalette,
     },
     {
+      collection: localData.torsoSecondCollection,
       drawable: localData.torsoSecondDrawable,
       texture: localData.torsoSecondTexture,
-      palette: localData.torsoSecondPalette,
     },
   ];
 
-  componentVariations.forEach(({ drawable, texture, palette }, key) => {
-    SetPedComponentVariation(ped, key, drawable, texture, palette);
+  componentVariations.forEach(({ collection, drawable, texture }, key) => {
+    SetPedCollectionComponentVariation(ped, key, collection, drawable, texture, GetPedPaletteVariation(ped, key));
   });
 }

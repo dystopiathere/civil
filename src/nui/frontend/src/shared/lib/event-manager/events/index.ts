@@ -1,5 +1,4 @@
-export * from "./get-drawables-list";
-export * from "./get-textures-list";
+export * from "./get-drawable-data";
 export * from "./get-component-variation";
 export * from "./set-component-variation";
 export * from "./get-head-blend";

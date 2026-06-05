@@ -17,7 +17,7 @@ export async function car(source: number, args: string[], raw: string) {
     await delay(500);
   }
 
-  const ped = GetPlayerPed(-1);
+  const ped = PlayerPedId();
   const coords = GetEntityCoords(ped, true);
   const vehicle = CreateVehicle(model, coords[0], coords[1], coords[2], GetEntityHeading(ped), true, false);
 

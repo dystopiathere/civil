@@ -1,5 +1,5 @@
 export function onMaxHealthChanged(value: number) {
-  const ped = GetPlayerPed(-1);
+  const ped = PlayerPedId();
 
   SetEntityMaxHealth(ped, value);
   SetPedMaxHealth(ped, value);

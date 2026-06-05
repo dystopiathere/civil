@@ -20,14 +20,17 @@ export class ComponentVariations implements ComponentVariationsEntity {
   @JoinColumn({ name: "character_id" })
   character: Relation<Character>;
 
+  @Column({ name: "face_collection", type: "varchar", unsigned: true, default: "" })
+  faceCollection: string;
+
   @Column({ name: "face_drawable", type: "smallint", unsigned: true, default: 0 })
   faceDrawable: number;
 
   @Column({ name: "face_texture", type: "smallint", unsigned: true, default: 0 })
   faceTexture: number;
 
-  @Column({ name: "face_palette", type: "smallint", unsigned: true, default: 0 })
-  facePalette: number;
+  @Column({ name: "mask_collection", type: "varchar", unsigned: true, default: "" })
+  maskCollection: string;
 
   @Column({ name: "mask_drawable", type: "smallint", unsigned: true, default: 0 })
   maskDrawable: number;
@@ -35,8 +38,8 @@ export class ComponentVariations implements ComponentVariationsEntity {
   @Column({ name: "mask_texture", type: "smallint", unsigned: true, default: 0 })
   maskTexture: number;
 
-  @Column({ name: "mask_palette", type: "smallint", unsigned: true, default: 0 })
-  maskPalette: number;
+  @Column({ name: "hair_collection", type: "varchar", unsigned: true, default: "" })
+  hairCollection: string;
 
   @Column({ name: "hair_drawable", type: "smallint", unsigned: true, default: 0 })
   hairDrawable: number;
@@ -44,8 +47,8 @@ export class ComponentVariations implements ComponentVariationsEntity {
   @Column({ name: "hair_texture", type: "smallint", unsigned: true, default: 0 })
   hairTexture: number;
 
-  @Column({ name: "hair_palette", type: "smallint", unsigned: true, default: 0 })
-  hairPalette: number;
+  @Column({ name: "torso_collection", type: "varchar", unsigned: true, default: "" })
+  torsoCollection: string;
 
   @Column({ name: "torso_drawable", type: "smallint", unsigned: true, default: 0 })
   torsoDrawable: number;
@@ -53,8 +56,8 @@ export class ComponentVariations implements ComponentVariationsEntity {
   @Column({ name: "torso_texture", type: "smallint", unsigned: true, default: 0 })
   torsoTexture: number;
 
-  @Column({ name: "torso_palette", type: "smallint", unsigned: true, default: 0 })
-  torsoPalette: number;
+  @Column({ name: "leg_collection", type: "varchar", unsigned: true, default: "" })
+  legCollection: string;
 
   @Column({ name: "leg_drawable", type: "smallint", unsigned: true, default: 0 })
   legDrawable: number;
@@ -62,8 +65,8 @@ export class ComponentVariations implements ComponentVariationsEntity {
   @Column({ name: "leg_texture", type: "smallint", unsigned: true, default: 0 })
   legTexture: number;
 
-  @Column({ name: "leg_palette", type: "smallint", unsigned: true, default: 0 })
-  legPalette: number;
+  @Column({ name: "bag_collection", type: "varchar", unsigned: true, default: "" })
+  bagCollection: string;
 
   @Column({ name: "bag_drawable", type: "smallint", unsigned: true, default: 0 })
   bagDrawable: number;
@@ -71,8 +74,8 @@ export class ComponentVariations implements ComponentVariationsEntity {
   @Column({ name: "bag_texture", type: "smallint", unsigned: true, default: 0 })
   bagTexture: number;
 
-  @Column({ name: "bag_palette", type: "smallint", unsigned: true, default: 0 })
-  bagPalette: number;
+  @Column({ name: "shoes_collection", type: "varchar", unsigned: true, default: "" })
+  shoesCollection: string;
 
   @Column({ name: "shoes_drawable", type: "smallint", unsigned: true, default: 0 })
   shoesDrawable: number;
@@ -80,8 +83,8 @@ export class ComponentVariations implements ComponentVariationsEntity {
   @Column({ name: "shoes_texture", type: "smallint", unsigned: true, default: 0 })
   shoesTexture: number;
 
-  @Column({ name: "shoes_palette", type: "smallint", unsigned: true, default: 0 })
-  shoesPalette: number;
+  @Column({ name: "accessory_collection", type: "varchar", unsigned: true, default: "" })
+  accessoryCollection: string;
 
   @Column({ name: "accessory_drawable", type: "smallint", unsigned: true, default: 0 })
   accessoryDrawable: number;
@@ -89,8 +92,8 @@ export class ComponentVariations implements ComponentVariationsEntity {
   @Column({ name: "accessory_texture", type: "smallint", unsigned: true, default: 0 })
   accessoryTexture: number;
 
-  @Column({ name: "accessory_palette", type: "smallint", unsigned: true, default: 0 })
-  accessoryPalette: number;
+  @Column({ name: "undershirt_collection", type: "varchar", unsigned: true, default: "" })
+  undershirtCollection: string;
 
   @Column({ name: "undershirt_drawable", type: "smallint", unsigned: true, default: 0 })
   undershirtDrawable: number;
@@ -98,8 +101,8 @@ export class ComponentVariations implements ComponentVariationsEntity {
   @Column({ name: "undershirt_texture", type: "smallint", unsigned: true, default: 0 })
   undershirtTexture: number;
 
-  @Column({ name: "undershirt_palette", type: "smallint", unsigned: true, default: 0 })
-  undershirtPalette: number;
+  @Column({ name: "kevlar_collection", type: "varchar", unsigned: true, default: "" })
+  kevlarCollection: string;
 
   @Column({ name: "kevlar_drawable", type: "smallint", unsigned: true, default: 0 })
   kevlarDrawable: number;
@@ -107,8 +110,8 @@ export class ComponentVariations implements ComponentVariationsEntity {
   @Column({ name: "kevlar_texture", type: "smallint", unsigned: true, default: 0 })
   kevlarTexture: number;
 
-  @Column({ name: "kevlar_palette", type: "smallint", unsigned: true, default: 0 })
-  kevlarPalette: number;
+  @Column({ name: "badge_collection", type: "varchar", unsigned: true, default: "" })
+  badgeCollection: string;
 
   @Column({ name: "badge_drawable", type: "smallint", unsigned: true, default: 0 })
   badgeDrawable: number;
@@ -116,17 +119,14 @@ export class ComponentVariations implements ComponentVariationsEntity {
   @Column({ name: "badge_texture", type: "smallint", unsigned: true, default: 0 })
   badgeTexture: number;
 
-  @Column({ name: "badge_palette", type: "smallint", unsigned: true, default: 0 })
-  badgePalette: number;
+  @Column({ name: "torso_second_collection", type: "varchar", unsigned: true, default: "" })
+  torsoSecondCollection: string;
 
   @Column({ name: "torso_second_drawable", type: "smallint", unsigned: true, default: 0 })
   torsoSecondDrawable: number;
 
   @Column({ name: "torso_second_texture", type: "smallint", unsigned: true, default: 0 })
   torsoSecondTexture: number;
-
-  @Column({ name: "torso_second_palette", type: "smallint", unsigned: true, default: 0 })
-  torsoSecondPalette: number;
 
   @CreateDateColumn({ name: "created_at", type: "timestamp" })
   createdAt: Date;

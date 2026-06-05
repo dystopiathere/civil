@@ -80,7 +80,7 @@ const trunk: BlockData = {
   ],
 };
 
-const inventory = { trunk, pockets };
+const inventory = { trunk, bag, pockets };
 
 export function Inventory() {
   const inventoryRef = useRef<HTMLDivElement>(null);

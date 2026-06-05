@@ -1,0 +1,70 @@
+.input-range {
+  user-select: none;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  padding: 0.25rem 0.5rem 0.5rem 0.5rem;
+  margin-bottom: 0.5rem;
+
+  background-color: #00000000;
+  border-radius: 0.25rem;
+
+  transition: background-color 0.2s;
+
+  &.disabled {
+    pointer-events: none;
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  &:hover,
+  &:focus-within {
+    background-color: #00000080;
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+  }
+
+  &__label {
+    text-align: left;
+  }
+
+  &__group {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  &__value {
+    padding: 0.25rem 0.75rem;
+
+    border-radius: 0.25rem;
+
+    background-color: #00000080;
+
+    font-size: 0.8rem;
+  }
+
+  &__control {
+    height: 1rem;
+
+    opacity: 0.8;
+
+    transition: 0.2s;
+
+    accent-color: #ffffff;
+
+    cursor: pointer;
+
+    outline: none;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}

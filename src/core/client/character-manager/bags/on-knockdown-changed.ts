@@ -6,7 +6,7 @@ export function onKnockdownChanged(value: boolean) {
     knockdownTick = undefined;
   }
 
-  const ped = GetPlayerPed(-1);
+  const ped = PlayerPedId();
 
   SetEntityInvincible(ped, !!value);
 

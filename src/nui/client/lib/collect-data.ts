@@ -10,9 +10,9 @@ import {
 } from "../messages";
 
 export function collectData() {
-  const ped = GetPlayerPed(-1);
+  const ped = PlayerPedId();
 
-  if (IsPedSwimmingUnderWater(GetPlayerPed(-1))) {
+  if (IsPedSwimmingUnderWater(ped)) {
     sendPlayerUnderwater(true);
   } else {
     sendPlayerUnderwater(false);

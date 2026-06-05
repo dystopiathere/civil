@@ -2,7 +2,7 @@ import { TypedLocalPlayer } from "@civil/typed-helpers/client";
 import { ADDITIONAL_PED_HEALTH } from "../configs";
 
 export function onHealthChanged(value: number) {
-  const ped = GetPlayerPed(-1);
+  const ped = PlayerPedId();
   const player = TypedLocalPlayer();
 
   if (value <= ADDITIONAL_PED_HEALTH) {

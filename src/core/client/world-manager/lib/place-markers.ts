@@ -28,7 +28,7 @@ export async function placeMarkers() {
   }
 
   setTick(async () => {
-    const ped = GetPlayerPed(-1);
+    const ped = PlayerPedId();
     const [pedX, pedY, pedZ] = GetEntityCoords(ped, false);
 
     markers.forEach((marker) => {

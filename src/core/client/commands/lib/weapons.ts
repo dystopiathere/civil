@@ -1,5 +1,5 @@
 export function weapons() {
-  const ped = GetPlayerPed(-1);
+  const ped = PlayerPedId();
 
   const guns = [
     "WEAPON_MINIGUN",

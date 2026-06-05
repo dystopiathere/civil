@@ -3,7 +3,7 @@ import { TypedLocalPlayer } from "@civil/typed-helpers/client";
 export function onPlayerSpawned() {
   const player = TypedLocalPlayer();
 
-  const ped = GetPlayerPed(-1);
+  const ped = PlayerPedId();
 
   SetEntityMaxHealth(ped, player.state.maxHealth);
   SetPedMaxHealth(ped, player.state.maxHealth);

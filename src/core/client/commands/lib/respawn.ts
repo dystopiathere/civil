@@ -3,7 +3,7 @@ import { TypedLocalPlayer } from "@civil/typed-helpers/client";
 export function respawn(source: number, args: string[], raw: string) {
   const player = TypedLocalPlayer();
 
-  const ped = GetPlayerPed(-1);
+  const ped = PlayerPedId();
 
   const [x, y, z] = GetEntityCoords(ped, true);
 

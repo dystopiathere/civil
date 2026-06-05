@@ -6,7 +6,7 @@ import { setPedComponentVariationData } from "./set-ped-component-variation-data
 import { AppearanceData } from "../types";
 
 export function updateFreemodeModel(data: Partial<AppearanceData> = {}) {
-  const ped = GetPlayerPed(-1);
+  const ped = PlayerPedId();
 
   setPedHeadBlendData(ped, data.headBlends);
   setPedFaceFeatureData(ped, data.faceFeatures);

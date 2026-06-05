@@ -1,8 +1,7 @@
 export type NUIResponse<R extends object> = [R | null, string | false];
 
 export type Event =
-  | "getDrawablesList"
-  | "getTexturesList"
+  | "getDrawableData"
   | "getModel"
   | "setModel"
   | "getHeadBlend"

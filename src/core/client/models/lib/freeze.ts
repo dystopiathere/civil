@@ -6,7 +6,7 @@ export async function freeze(state: boolean): Promise<void> {
 
   player.state.set("frozen", state, true);
 
-  const ped = GetPlayerPed(-1);
+  const ped = PlayerPedId();
 
   const animDict = "nm";
   RequestAnimDict(animDict);

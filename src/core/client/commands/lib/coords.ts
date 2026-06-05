@@ -1,5 +1,5 @@
 export function coords(source: number, args: string[], raw: string) {
-  const ped = GetPlayerPed(-1);
+  const ped = PlayerPedId();
 
   console.log(...GetEntityCoords(ped, false));
 }

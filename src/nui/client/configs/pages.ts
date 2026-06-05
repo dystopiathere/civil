@@ -21,7 +21,7 @@ export const pages: Record<string, NuiPageData> = {
     setupCamera: () => {
       const camera = CreateCam("DEFAULT_SCRIPTED_CAMERA", true);
 
-      const ped = GetPlayerPed(-1);
+      const ped = PlayerPedId();
       const [pedRotX, pedRotY, pedRotZ] = GetEntityRotation(ped, 2);
       const [camPosX, camPosY, camPosZ] = GetOffsetFromEntityInWorldCoords(ped, -0.12, 0.75, 0.6);
 
@@ -40,7 +40,7 @@ export const pages: Record<string, NuiPageData> = {
     setupCamera: () => {
       const camera = CreateCam("DEFAULT_SCRIPTED_CAMERA", true);
 
-      const ped = GetPlayerPed(-1);
+      const ped = PlayerPedId();
       const [pedRotX, pedRotY, pedRotZ] = GetEntityRotation(ped, 2);
       const [camPosX, camPosY, camPosZ] = GetOffsetFromEntityInWorldCoords(ped, -0.12, 0.75, 0.6);
 
@@ -59,7 +59,7 @@ export const pages: Record<string, NuiPageData> = {
     setupCamera: () => {
       const camera = CreateCam("DEFAULT_SCRIPTED_CAMERA", true);
 
-      const ped = GetPlayerPed(-1);
+      const ped = PlayerPedId();
       const [pedRotX, pedRotY, pedRotZ] = GetEntityRotation(ped, 2);
       const [camPosX, camPosY, camPosZ] = GetOffsetFromEntityInWorldCoords(ped, -0.12, 0.75, 0.6);
 
@@ -78,7 +78,7 @@ export const pages: Record<string, NuiPageData> = {
     setupCamera: () => {
       const camera = CreateCam("DEFAULT_SCRIPTED_CAMERA", true);
 
-      const ped = GetPlayerPed(-1);
+      const ped = PlayerPedId();
       const [pedRotX, pedRotY, pedRotZ] = GetEntityRotation(ped, 2);
       const [camPosX, camPosY, camPosZ] = GetOffsetFromEntityInWorldCoords(ped, -0.12, 1.4, 0.18);
 

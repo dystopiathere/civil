@@ -3,7 +3,7 @@ import { random } from "~/helpers";
 
 export function onEntityDamage(args: any[]) {
   const victim = args[0];
-  const ped = GetPlayerPed(-1);
+  const ped = PlayerPedId();
 
   if (victim !== ped) {
     return;
