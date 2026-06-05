@@ -1,11 +1,12 @@
+import { useContext, useEffect } from "react";
 import { CELL_SIZE, CELL_SPACING } from "~/shared/constants";
+import { InventoryContext } from "~/shared/contexts";
 import "./styles.scss";
 
 export type ItemData = {
   id: number;
   hash: string;
   name: string;
-  place: string;
   count: number;
   maxCount: number;
   size: {
@@ -23,21 +24,21 @@ type InventoryItemProps = {
 };
 
 export function InventoryItem({ item }: InventoryItemProps) {
+  const { blocks, onMoveStart, initItemPosition } = useContext(InventoryContext);
+
+  useEffect(() => {
+    initItemPosition(blocks, item.id);
+  }, [item.id]);
+
   return (
     <div
+      data-item-id={item.id}
       className="inventory-item"
       style={{
         width: CELL_SIZE * item.size.x + CELL_SPACING * (item.size.x - 1) + "rem",
         height: CELL_SIZE * item.size.y + CELL_SPACING * (item.size.y - 1) + "rem",
       }}
-      data-hash={item.hash}
-      data-place={item.place}
-      data-count={item.count}
-      data-max-count={item.maxCount}
-      data-size-x={item.size.x}
-      data-size-y={item.size.y}
-      data-position-x={item.position.x}
-      data-position-y={item.position.y}
+      onMouseDown={(event) => onMoveStart(event, item.id)}
     >
       <div className="inventory-item__content">
         {item.name} ({item.count}/{item.maxCount})

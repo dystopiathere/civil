@@ -1,202 +1,168 @@
 import { useCallback, useEffect, useRef, useState, type RefObject } from "react";
+import type { BlockData, ItemData } from "~/widgets";
 import { CELL_SIZE, CELL_SPACING } from "../constants";
 
-type BlockData = {
-  element: HTMLElement;
-  size: {
-    x: number;
-    y: number;
-  };
-};
+type CollisionType = "block" | "item";
+type CellCollisionData = { blockId: number; x: number; y: number };
+type CollisionData<T extends CollisionType> = { type: T; id: number };
+export type Collisions<T extends CollisionType = CollisionType> = (CollisionData<T> | CellCollisionData)[];
 
-type CellData = {
-  element: HTMLElement;
-  position: {
-    x: number;
-    y: number;
-  };
-};
+export function isCellCollision(value: any): value is CellCollisionData {
+  return value && value.blockId;
+}
+export function isCollisionType<T extends CollisionType>(value: any): value is CollisionData<T> {
+  return value && value.type;
+}
 
-type ItemData = {
-  element: HTMLElement;
-  hash: string;
-  count: number;
-  maxCount: number;
-  size: {
-    x: number;
-    y: number;
-  };
-  position: {
-    x: number;
-    y: number;
-  };
-};
+const MARKERS_GAP = 40;
+const DEV = false;
 
-type CollisionGroup = "blocks" | "cells" | "items";
+export function useInventoryDrag(inventoryRef: RefObject<HTMLElement | null>, inventory: Record<string, BlockData>) {
+  const [blocks, setBlocks] = useState<BlockData[]>([]);
+  const [collisions, setCollisions] = useState<Collisions>([]);
 
-type CollisionData = Record<string, Partial<Record<CollisionGroup, (ItemData | CellData | BlockData)[]>>>;
+  const movingItemRef = useRef<number>(null);
+  const movingItemOffsetRef = useRef<{ x: number; y: number }>(null);
 
-const MARKERS_GAP = 20;
+  const askTimeout = useRef<number>(null);
 
-const BLOCK_CLASSNAME = "inventory-block__container";
-const CELL_CLASSNAME = "inventory-cell";
-const ITEM_CLASSNAME = "inventory-item";
-
-export function useInventoryDrag(inventoryRef: RefObject<HTMLElement | null>) {
-  const [highlightCells, setHighlightCells] = useState<(CellData & { place: string })[]>([]);
-
-  const blocksRef = useRef<Record<string, BlockData>>({});
-  const cellsRef = useRef<Record<string, CellData[]>>({});
-  const itemsRef = useRef<Record<string, ItemData[]>>({});
-
-  const movingItemRef = useRef<ItemData>(null);
-
-  const askTimeoutRef = useRef<number>(null);
-
-  const getBlockDataFromElement = useCallback((element: HTMLElement): [string, BlockData | null] => {
-    const { place, sizeX, sizeY } = element.dataset;
-    if (!place) return ["", null];
-
-    return [place, { element, size: { x: Number(sizeX), y: Number(sizeY) } }];
-  }, []);
-
-  const getItemDataFromElement = useCallback((element: HTMLElement): [string, ItemData | null] => {
-    const { hash, place, count, maxCount, sizeX, sizeY, positionX, positionY } = element.dataset;
-    if (!place) return ["", null];
-
-    return [
-      place,
-      {
-        element,
-        hash: hash ?? "",
-        count: Number(count),
-        maxCount: Number(maxCount),
-        size: { x: Number(sizeX), y: Number(sizeY) },
-        position: { x: Number(positionX), y: Number(positionY) },
-      },
-    ];
-  }, []);
-
-  const getCellDataFromElement = useCallback((element: HTMLElement): [string, CellData | null] => {
-    const { place, positionX, positionY } = element.dataset;
-    if (!place) return ["", null];
-
-    return [place, { element, position: { x: Number(positionX), y: Number(positionY) } }];
-  }, []);
+  const devMarkers = useRef<HTMLElement[]>([]);
 
   const getCollisionDataFromElement = useCallback(
-    (element: HTMLElement): [CollisionGroup | null, string, (BlockData | ItemData | CellData) | null] => {
-      if (element.classList.contains(BLOCK_CLASSNAME)) return ["blocks", ...getBlockDataFromElement(element)];
-      if (element.classList.contains(CELL_CLASSNAME)) return ["cells", ...getCellDataFromElement(element)];
-      if (element.classList.contains(ITEM_CLASSNAME)) return ["items", ...getItemDataFromElement(element)];
+    (element: HTMLElement): CollisionData<CollisionType> | CellCollisionData | null => {
+      const { blockId, itemId, cellBlockId, x, y } = element.dataset;
 
-      return [null, "", null];
+      if (itemId) {
+        return { type: "item", id: Number(itemId) };
+      }
+
+      if (blockId) {
+        return { type: "block", id: Number(blockId) };
+      }
+
+      if (cellBlockId && x && y) {
+        return { blockId: Number(cellBlockId), x: Number(x), y: Number(y) };
+      }
+
+      return null;
     },
     [],
   );
 
-  const getCollisions = useCallback((item: ItemData): CollisionData => {
-    const rect = item.element.getBoundingClientRect();
+  const getCollisions = useCallback(() => {
+    setCollisions([]);
 
-    const markersCountX = rect.width / MARKERS_GAP;
+    if (!inventoryRef.current || !movingItemRef.current) return [];
+
+    const item = inventoryRef.current.querySelector(`[data-item-id="${movingItemRef.current}"]`);
+    if (!item) return [];
+
+    const rect = item.getBoundingClientRect();
+
     const markersCountY = rect.height / MARKERS_GAP;
+    const markersCountX = rect.width / MARKERS_GAP;
 
     const markersCoords = [];
 
+    if (devMarkers.current.length) {
+      devMarkers.current.forEach((marker) => marker.remove());
+      devMarkers.current = [];
+    }
+
     for (let i = 0; i < markersCountY; i++) {
-      const y = rect.top + MARKERS_GAP * i;
+      let y = rect.top + MARKERS_GAP * i;
 
       for (let j = 0; j < markersCountX; j++) {
         const x = rect.left + MARKERS_GAP * j;
+
+        if (DEV) {
+          const marker = document.createElement("div");
+          marker.style.position = "absolute";
+          marker.style.top = `${y}px`;
+          marker.style.left = `${x}px`;
+          marker.style.width = ".5rem";
+          marker.style.height = ".5rem";
+          marker.style.borderRadius = "100%";
+          marker.style.backgroundColor = "red";
+          document.documentElement.appendChild(marker);
+          devMarkers.current.push(marker);
+        }
 
         markersCoords.push({ x, y });
       }
     }
 
-    const collisions: CollisionData = {};
-
+    const collideElements: HTMLElement[] = [];
     markersCoords.forEach(({ x, y }) => {
-      const collideElements = document.elementsFromPoint(x, y) as HTMLElement[];
-
-      collideElements.forEach((collideElement) => {
-        const [name, place, data] = getCollisionDataFromElement(collideElement);
-        if (!name || !place || !data) return;
-
-        if (!collisions[place]) collisions[place] = {};
-        if (!collisions[place][name]) collisions[place][name] = [];
-        collisions[place][name].push(data);
-      });
+      collideElements.push(...(document.elementsFromPoint(x, y) as HTMLElement[]));
     });
 
-    return collisions;
+    const collisions: Collisions = [];
+    const uniqueCollideElements = [...new Set(collideElements)];
+    uniqueCollideElements.forEach((collideElement) => {
+      const data = getCollisionDataFromElement(collideElement);
+      if (!data) return;
+
+      collisions.push(data);
+    });
+
+    setCollisions(collisions);
+  }, [getCollisionDataFromElement]);
+
+  const searchItem = useCallback((blocks: BlockData[], id: number): Partial<{ block: BlockData; item: ItemData }> => {
+    const block = blocks.find((block) => block.items.findIndex((item) => item.id === id) >= 0);
+    if (!block) return {};
+
+    return { block, item: block.items.find((item) => item.id === id) };
   }, []);
 
-  useEffect(() => {
-    if (!inventoryRef.current) return;
+  const updateItem = useCallback(
+    (blocks: BlockData[], targetItem: Partial<ItemData>) => {
+      const { id } = targetItem;
+      if (!id) return;
 
-    const inventoryRect = inventoryRef.current.getBoundingClientRect();
+      const { item } = searchItem(blocks, id);
+      if (!item) return;
 
-    inventoryRef.current.onmouseup = () => (movingItemRef.current = null);
-    inventoryRef.current.onmouseleave = () => (movingItemRef.current = null);
-    inventoryRef.current.onmousemove = (event) => {
-      if (!movingItemRef.current) return;
+      Object.assign(item, targetItem);
+    },
+    [searchItem],
+  );
 
-      if (!askTimeoutRef.current) {
-        askTimeoutRef.current = setTimeout(() => {
-          askTimeoutRef.current = null;
-
-          const collisions = getCollisions(movingItemRef.current!);
-
-          const cells: (CellData & { place: string })[] = [];
-          Object.values(collisions).forEach((collisionData) => {
-            if (!collisionData.cells) return;
-            cells.push(
-              ...collisionData.cells.map((cell) => {
-                const place = cell.element.dataset.place;
-
-                return { place, ...cell } as CellData & { place: string };
-              }),
-            );
-          });
-
-          setHighlightCells(cells);
-        }, 50);
-      }
-
-      movingItemRef.current.element.style.left = `${event.screenX - inventoryRect.left}px`;
-      movingItemRef.current.element.style.top = `${event.screenY - inventoryRect.top}px`;
-    };
-
-    const blocks = inventoryRef.current.querySelectorAll<HTMLElement>(`.${BLOCK_CLASSNAME}`);
-    const cells = inventoryRef.current.querySelectorAll<HTMLElement>(`.${CELL_CLASSNAME}`);
-    const items = inventoryRef.current.querySelectorAll<HTMLElement>(`.${ITEM_CLASSNAME}`);
-
-    blocks.forEach((element) => {
-      const [place, block] = getBlockDataFromElement(element);
-      if (!place || !block) return;
-
-      blocksRef.current[place] = block;
-    });
-
-    cells.forEach((element) => {
-      const [place, cell] = getCellDataFromElement(element);
-      if (!place || !cell) return;
-
-      if (!cellsRef.current[place]) cellsRef.current[place] = [];
-      cellsRef.current[place].push(cell);
-    });
-
-    items.forEach((element) => {
-      const [place, item] = getItemDataFromElement(element);
-      if (!place || !item) return;
-
-      if (!itemsRef.current[place]) itemsRef.current[place] = [];
-      itemsRef.current[place].push(item);
-
-      const block = blocksRef.current[place];
+  const deleteItem = useCallback(
+    (blocks: BlockData[], id: number) => {
+      const { block } = searchItem(blocks, id);
       if (!block) return;
 
-      const blockRect = block.element.getBoundingClientRect();
+      const itemIdx = block.items.findIndex((item) => item.id === id);
+      if (itemIdx < 0) return;
+
+      block.items.splice(itemIdx, 1);
+      return blocks;
+    },
+    [searchItem],
+  );
+
+  const addItem = useCallback((blocks: BlockData[], blockId: number, item: ItemData) => {
+    const block = blocks.find((block) => block.id === blockId);
+    if (!block) return;
+
+    block.items.push(item);
+  }, []);
+
+  const initItemPosition = useCallback(
+    (blocks: BlockData[], id: number) => {
+      if (!inventoryRef.current) return;
+
+      const { block, item } = searchItem(blocks, id);
+      if (!block || !item) return;
+
+      const blockElement = inventoryRef.current.querySelector<HTMLElement>(`[data-block-id="${block.id}"]`);
+      const itemElement = inventoryRef.current.querySelector<HTMLElement>(`[data-item-id="${item.id}"]`);
+      if (!blockElement || !itemElement) return;
+
+      const inventoryRect = inventoryRef.current.getBoundingClientRect();
+      const blockRect = blockElement.getBoundingClientRect();
 
       const itemStartPointOffsetLeft = blockRect.left - inventoryRect.left;
       const itemStartPointOffsetTop = blockRect.top - inventoryRect.top;
@@ -204,30 +170,170 @@ export function useInventoryDrag(inventoryRef: RefObject<HTMLElement | null>) {
       const offsetLeft = item.position.x * CELL_SIZE + item.position.x * CELL_SPACING;
       const offsetTop = item.position.y * CELL_SIZE + item.position.y * CELL_SPACING;
 
-      element.style.left = `calc(${itemStartPointOffsetLeft}px + ${offsetLeft}rem)`;
-      element.style.top = `calc(${itemStartPointOffsetTop}px + ${offsetTop}rem)`;
+      itemElement.style.left = `calc(${itemStartPointOffsetLeft}px + ${offsetLeft}rem)`;
+      itemElement.style.top = `calc(${itemStartPointOffsetTop}px + ${offsetTop}rem)`;
+    },
+    [searchItem],
+  );
 
-      element.onmousedown = () => (movingItemRef.current = item);
-    });
+  const updateItemPosition = useCallback((id: number, x: number, y: number) => {
+    if (!inventoryRef.current || !movingItemOffsetRef.current) return;
 
-    return () => {
-      if (!inventoryRef.current || !itemsRef.current) return;
+    const inventoryRect = inventoryRef.current.getBoundingClientRect();
 
-      if (askTimeoutRef.current) {
-        clearTimeout(askTimeoutRef.current);
+    const item = inventoryRef.current.querySelector(`[data-item-id="${id}"]`) as HTMLElement | null;
+    if (!item) return;
+
+    item.style.left = `${x - movingItemOffsetRef.current.x - inventoryRect.left}px`;
+    item.style.top = `${y - movingItemOffsetRef.current.y - inventoryRect.top}px`;
+    item.style.zIndex = "999";
+  }, []);
+
+  const placeItem = useCallback(() => {
+    setBlocks((prevBlocks) => {
+      if (!movingItemRef.current) return prevBlocks;
+
+      const sourceItemId = movingItemRef.current;
+
+      movingItemRef.current = null;
+      movingItemOffsetRef.current = null;
+
+      const blocks = [...prevBlocks];
+
+      const { block: sourceBlock, item: sourceItem } = searchItem(blocks, sourceItemId);
+      if (!sourceBlock || !sourceItem) return prevBlocks;
+
+      const itemCollisions: ItemData[] = [];
+      const blockCollisions: CollisionData<"block">[] = [];
+      const cellCollisions: CellCollisionData[] = [];
+
+      collisions.forEach((collision) => {
+        if (isCellCollision(collision)) cellCollisions.push(collision);
+        if (isCollisionType<"block">(collision) && collision.type === "block") blockCollisions.push(collision);
+
+        if (isCollisionType<"item">(collision) && collision.type === "item") {
+          const { block, item } = searchItem(blocks, collision.id);
+          if (!block || !item || item.id === sourceItem.id) return;
+          itemCollisions.push(item);
+        }
+      });
+
+      if (itemCollisions.length) {
+        const targetItems = itemCollisions.filter(
+          (item) => item.hash === sourceItem.hash && item.count !== item.maxCount,
+        );
+
+        if (targetItems.length) {
+          const targetItem = targetItems[0];
+          if (targetItem.count + sourceItem.count > targetItem.maxCount) {
+            updateItem(blocks, {
+              id: sourceItem.id,
+              count: sourceItem.count - (targetItem.maxCount - targetItem.count),
+            });
+            updateItem(blocks, { id: targetItem.id, count: targetItem.maxCount });
+            initItemPosition(blocks, sourceItem.id);
+            return blocks;
+          } else {
+            updateItem(blocks, { id: targetItem.id, count: targetItem.count + sourceItem.count });
+            deleteItem(blocks, sourceItem.id);
+            return blocks;
+          }
+        } else {
+          initItemPosition(blocks, sourceItem.id);
+          return blocks;
+        }
       }
 
-      inventoryRef.current.onmouseup = null;
-      inventoryRef.current.onmouseleave = null;
-      inventoryRef.current.onmousemove = null;
+      if (!cellCollisions.length) {
+        initItemPosition(blocks, sourceItem.id);
+        return blocks;
+      }
 
-      Object.entries(itemsRef.current).forEach(([_, items]) => {
-        items.forEach((item) => {
-          item.element.onmousedown = null;
-        });
-      });
+      const blockCells = cellCollisions.reduce(
+        (acc, { blockId, x, y }) => {
+          if (!acc[blockId]) acc[blockId] = [];
+          acc[blockId].push({ x, y });
+          return acc;
+        },
+        {} as Record<number, { x: number; y: number }[]>,
+      );
+
+      const sortedBlockCells = Object.entries(blockCells).sort(
+        ([_aBlock, aCells], [_bBlock, bCells]) => bCells.length - aCells.length,
+      );
+      const [closestBlock, cells] = sortedBlockCells[0];
+      const { x, y } = cells[0];
+
+      if (sourceBlock.id === Number(closestBlock)) {
+        updateItem(blocks, { id: sourceItem.id, position: { x, y } });
+      } else {
+        const itemCopy: ItemData = { ...sourceItem, position: { x, y } };
+        deleteItem(blocks, sourceItem.id);
+        addItem(blocks, Number(closestBlock), itemCopy);
+      }
+
+      initItemPosition(blocks, sourceItem.id);
+
+      return blocks;
+    });
+
+    setCollisions([]);
+  }, [collisions, searchItem, updateItem, deleteItem, addItem, initItemPosition]);
+
+  const onMoveStart = useCallback((event: React.MouseEvent<HTMLElement>, id: number) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+
+    movingItemRef.current = id;
+    movingItemOffsetRef.current = {
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top,
     };
   }, []);
 
-  return { highlightCells };
+  const onMove = useCallback(
+    (event: MouseEvent) => {
+      if (!movingItemRef.current) return;
+
+      updateItemPosition(movingItemRef.current, event.screenX, event.screenY);
+
+      if (!askTimeout.current) {
+        getCollisions();
+        askTimeout.current = setTimeout(() => (askTimeout.current = null), 50);
+      }
+    },
+    [updateItemPosition, getCollisions],
+  );
+
+  const onMoveEnd = useCallback(() => {
+    placeItem();
+
+    if (inventoryRef.current && movingItemRef.current) {
+      const item = inventoryRef.current.querySelector(
+        `[data-item-id="${movingItemRef.current}"]`,
+      ) as HTMLElement | null;
+
+      if (item) {
+        item.style.zIndex = "1";
+      }
+    }
+
+    if (askTimeout.current) {
+      clearTimeout(askTimeout.current);
+      askTimeout.current = null;
+    }
+  }, [placeItem]);
+
+  useEffect(() => {
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup", onMoveEnd);
+
+    setBlocks(Object.values(inventory));
+
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseup", onMoveEnd);
+    };
+  }, [onMove, onMoveEnd]);
+
+  return { collisions, blocks, onMoveStart, initItemPosition };
 }
